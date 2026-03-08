@@ -392,6 +392,50 @@ header {
   width: 100%; height: 100%;
   border: none;
 }
+.cam-fallback {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #0a0c10;
+  gap: 8px;
+  z-index: 1;
+}
+.cam-fallback img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+  position: absolute;
+  top: 0; left: 0;
+}
+.cam-fallback-text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: var(--dim2);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px;
+  padding: 4px 8px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 4px;
+}
+.cam-fallback-link {
+  position: relative;
+  z-index: 2;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  background: rgba(0,0,0,0.6);
+}
+.cam-fallback-link:hover { background: var(--accent); color: #000; }
 .cam-name {
   font-family: 'Rajdhani', sans-serif;
   font-size: 11px;
@@ -1418,6 +1462,16 @@ function ytSrc(id) {
          '?autoplay=1&mute=1&loop=1&playlist=' + id + '&controls=0&modestbranding=1';
 }
 
+function checkVideoAvailability(ytId, cellIdx) {
+  var fb = document.getElementById('fb-' + cellIdx);
+  if (!fb) return;
+  fetch('https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=' + ytId + '&format=json')
+    .then(function(r) {
+      if (r.ok) { fb.style.display = 'none'; }
+    })
+    .catch(function() { /* keep fallback visible */ });
+}
+
 function renderGrid(indices) {
   GRID_STATE = indices.slice(0, 6);
   var grid = document.getElementById('cam-grid');
@@ -1432,10 +1486,16 @@ function renderGrid(indices) {
         '<button class="cam-change-btn" onclick="openModal(' + cellIdx + ')">✏ CHANGE</button>' +
       '</div>' +
       '<div class="cam-frame-wrap">' +
-        '<iframe src="' + ytSrc(cam.yt) + '" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>' +
+        '<div class="cam-fallback" id="fb-' + cellIdx + '">' +
+          '<img src="https://img.youtube.com/vi/' + cam.yt + '/hqdefault.jpg" alt="">' +
+          '<span class="cam-fallback-text">STREAM UNAVAILABLE</span>' +
+          '<a class="cam-fallback-link" href="https://www.youtube.com/watch?v=' + cam.yt + '" target="_blank" rel="noopener">▶ OPEN ON YOUTUBE</a>' +
+        '</div>' +
+        '<iframe src="' + ytSrc(cam.yt) + '" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' +
       '</div>' +
       '<div class="cam-name">' + cam.n + '</div>';
     grid.appendChild(cell);
+    checkVideoAvailability(cam.yt, cellIdx);
   });
 }
 
