@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SENTINEL // OSINT Global Monitor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root {
+  --bg:      #030a0f;
+  --surface: #050f18;
+  --panel:   #06111c;
+  --border:  #0d3348;
+  --accent:  #00d4ff;
+  --red:     #ff4d00;
+  --green:   #00ff88;
+  --yellow:  #ffcc00;
+  --purple:  #cc44ff;
+  --orange:  #ff8800;
+  --text:    #b0cedd;
+  --dim:     #2e5265;
+  --dim2:    #4a7a8e;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* ── BREAKING NEWS BAR ── */
+#breaking-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #ff1a00;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  gap: 12px;
+  min-height: 36px;
+}
+#breaking-badge {
+  background: #8b0000;
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 1px;
+}
+#breaking-text {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── WRAPPER ── */
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 36px);
+  overflow: hidden;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  height: 56px;
+  flex-shrink: 0;
+  gap: 16px;
+  overflow: hidden;
+}
+#logo-block {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+#logo-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1;
+  letter-spacing: 2px;
+}
+#logo-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--dim2);
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+#ticker {
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.ticker-inner {
+  display: flex;
+  white-space: nowrap;
+  animation: tickscroll 40s linear infinite;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  color: var(--text);
+}
+.ticker-inner span {
+  padding-right: 16px;
+  color: var(--accent);
+}
+.ticker-inner span::first-letter { color: var(--yellow); }
+@keyframes tickscroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+#clock-block {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+#clock-time {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 2px;
+}
+#clock-date {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--dim2);
+}
+#live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--green);
+  margin-top: 1px;
+}
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.3; transform: scale(0.7); }
+}
+
+/* ── MAIN LAYOUT ── */
+#main {
+  display: grid;
+  grid-template-columns: 262px 1fr 262px;
+  flex: 1;
+  overflow: hidden;
+}
+#left, #right {
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0;
+}
+#right {
+  border-right: none;
+  border-left: 1px solid var(--border);
+}
+#left::-webkit-scrollbar, #right::-webkit-scrollbar { width: 4px; }
+#left::-webkit-scrollbar-track, #right::-webkit-scrollbar-track { background: var(--panel); }
+#left::-webkit-scrollbar-thumb, #right::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 2px; }
+
+/* ── SIDEBAR SECTIONS ── */
+.sb-section { padding: 12px; border-bottom: 1px solid var(--border); }
+.sb-header {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--dim);
+}
+.asset-item {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 8px;
+  margin-bottom: 4px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.asset-item:hover { background: #0a1f30; border-color: var(--accent); }
+.asset-item.selected { background: #0d2a3f; border-color: var(--accent); }
+.asset-name {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+}
+.asset-loc {
+  font-size: 11px;
+  color: var(--dim2);
+  margin-top: 1px;
+}
+.fleet-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 8px;
+  margin-bottom: 3px;
+  border-left: 2px solid var(--accent);
+  background: rgba(0,212,255,0.04);
+  font-size: 12px;
+}
+.fleet-name { font-family: 'Share Tech Mono', monospace; color: var(--text); font-size: 11px; }
+.fleet-zone { color: var(--dim2); font-size: 10px; }
+.src-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.src-tag {
+  background: rgba(0,212,255,0.08);
+  border: 1px solid var(--border);
+  color: var(--dim2);
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+/* ── CENTER ── */
+#center {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── TAB BAR ── */
+.tab-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  flex-shrink: 0;
+  height: 40px;
+  gap: 4px;
+}
+.tab-btn {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--dim2);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.tab-btn:hover { border-color: var(--accent); color: var(--text); }
+.tab-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+/* ── CONTENT ── */
+#content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+.tab-pane {
+  display: none;
+  height: 100%;
+  overflow: hidden;
+}
+.tab-pane.active { display: flex; flex-direction: column; }
+
+/* ── CAMERA GRID ── */
+.cam-filter-bar {
+  display: flex;
+  gap: 6px;
+  padding: 8px 10px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.filter-btn {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--dim2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+.filter-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+.cam-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+.cam-scroll::-webkit-scrollbar { width: 4px; }
+.cam-scroll::-webkit-scrollbar-track { background: var(--bg); }
+.cam-scroll::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 2px; }
+.cam-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.cam-cell {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.cam-cell:hover { border-color: var(--dim2); }
+.cam-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 8px;
+  background: rgba(0,0,0,0.5);
+  height: 28px;
+}
+.cam-loc {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cam-change-btn {
+  font-size: 10px;
+  color: var(--dim2);
+  background: rgba(0,0,0,0.6);
+  border: 1px solid var(--dim);
+  border-radius: 2px;
+  padding: 1px 5px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  font-family: 'Share Tech Mono', monospace;
+}
+.cam-cell:hover .cam-change-btn { opacity: 1; }
+.cam-frame-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+}
+.cam-frame-wrap iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
+.cam-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px;
+  color: var(--dim2);
+  padding: 3px 8px 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── MAPS ── */
+#news-map-container, #mil-map-container {
+  width: 100%;
+  height: 100%;
+}
+.map-filter-bar {
+  display: flex;
+  gap: 6px;
+  padding: 8px 10px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.mf-btn {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--dim2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.mf-btn:hover { border-color: var(--accent); color: var(--accent); }
+.mf-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+.map-wrap {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+#news-map, #mil-map {
+  width: 100%;
+  height: 100%;
+}
+.leaflet-container {
+  background: #030a0f !important;
+}
+.map-legend {
+  position: absolute;
+  bottom: 24px;
+  right: 10px;
+  background: rgba(5,15,24,0.92);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px 12px;
+  z-index: 1000;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  pointer-events: none;
+}
+.map-legend-title {
+  color: var(--accent);
+  font-size: 10px;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  font-family: 'Orbitron', sans-serif;
+}
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── STATUS BAR ── */
+#status-bar {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  height: 32px;
+  flex-shrink: 0;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--dim2);
+}
+#status-left { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#status-center {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--green);
+  flex-shrink: 0;
+}
+#status-right {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--dim2);
+}
+#status-right span { color: var(--text); }
+
+/* ── SITUATION FEED ── */
+.feed-item {
+  padding: 6px 12px;
+  border-bottom: 1px solid rgba(13,51,72,0.5);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--text);
+  line-height: 1.5;
+}
+.feed-time { color: var(--dim2); }
+
+/* ── CAMERA DIRECTORY ── */
+.cam-dir-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-bottom: 1px solid rgba(13,51,72,0.3);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.cam-dir-item:hover { background: #0a1f30; }
+.cam-dir-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+}
+.cam-dir-name {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+.cam-dir-loc {
+  font-size: 10px;
+  color: var(--dim2);
+  white-space: nowrap;
+}
+
+/* ── MODAL ── */
+#cam-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#cam-modal-box {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: min(680px, 95vw);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+#cam-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+#cam-modal-close {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--dim2);
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 2px;
+  font-size: 14px;
+}
+#cam-modal-close:hover { color: var(--red); border-color: var(--red); }
+#cam-modal-body {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+}
+#cam-modal-body::-webkit-scrollbar { width: 4px; }
+#cam-modal-body::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 2px; }
+.modal-section-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+#cam-url-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  padding: 8px 10px;
+  border-radius: 3px;
+  margin-bottom: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+#cam-url-input:focus { border-color: var(--accent); }
+#cam-modal-confirm {
+  background: var(--accent);
+  color: #000;
+  border: none;
+  padding: 7px 20px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+#cam-modal-confirm:hover { opacity: 0.85; }
+.preset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 6px;
+  margin-top: 4px;
+}
+.preset-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 7px 9px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.preset-item:hover { border-color: var(--accent); background: #0a1f30; }
+.preset-item-name {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.preset-item-loc {
+  font-size: 10px;
+  color: var(--dim2);
+  margin-top: 2px;
+}
+
+/* ── CUSTOM MAP POPUP ── */
+.leaflet-popup-content-wrapper {
+  background: var(--panel) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.7) !important;
+  color: var(--text) !important;
+  font-family: 'Rajdhani', sans-serif !important;
+}
+.leaflet-popup-tip { background: var(--panel) !important; }
+.leaflet-popup-content { margin: 10px 14px !important; }
+.popup-cat {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 9px;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.popup-title {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+.popup-body { font-size: 12px; color: var(--text); margin-bottom: 5px; line-height: 1.4; }
+.popup-src { font-size: 10px; color: var(--dim2); font-family: 'Share Tech Mono', monospace; }
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  #wrapper { height: auto; overflow: auto; }
+  #main {
+    display: flex;
+    flex-direction: column;
+  }
+  #left, #right {
+    width: 100%;
+    max-height: none;
+  }
+  #left { border-right: none; border-bottom: 1px solid var(--border); }
+  #right { border-left: none; border-top: 1px solid var(--border); }
+  .cam-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .tab-bar {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    height: auto;
+    padding: 6px 8px;
+  }
+  .tab-btn {
+    display: inline-block;
+  }
+  #content { height: 80vh; }
+  header { flex-wrap: wrap; height: auto; padding: 8px 12px; gap: 8px; }
+  #ticker { width: 100%; order: 3; }
+  #status-bar { flex-wrap: wrap; height: auto; padding: 6px 10px; gap: 4px; }
+}
+</style>
+</head>
+<body>
+
+<!-- BREAKING NEWS BAR -->
+<div id="breaking-bar">
+  <div id="breaking-badge">⚡ BREAKING</div>
+  <div id="breaking-text">Loading...</div>
+</div>
+
+<!-- WRAPPER -->
+<div id="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div id="logo-block">
+      <div id="logo-title">SENTINEL</div>
+      <div id="logo-sub">// OSINT GLOBAL MONITOR</div>
+    </div>
+
+    <div id="ticker">
+      <div class="ticker-inner">
+        <span>UKRAINE: Heavy fighting reported near Kharkiv — Russian forces attempt renewed push ◆ </span>
+        <span>SOUTH CHINA SEA: USS Theodore Roosevelt CSG conducts freedom of navigation operation ◆ </span>
+        <span>IRAN: Ballistic missile test detected by satellite imagery — Pentagon monitoring ◆ </span>
+        <span>TAIWAN STRAIT: PLA Navy increases patrols — 12 warships tracked ◆ </span>
+        <span>NORTH KOREA: Multiple missile launches detected off eastern coast ◆ </span>
+        <span>GAZA: Ceasefire negotiations ongoing — humanitarian corridor opened ◆ </span>
+        <span>NATO: Emergency consultations following Baltic Sea cable incident ◆ </span>
+        <span>RED SEA: Houthi drone attack on commercial vessel — USN responds ◆ </span>
+        <!-- DUPLICATE for seamless loop -->
+        <span>UKRAINE: Heavy fighting reported near Kharkiv — Russian forces attempt renewed push ◆ </span>
+        <span>SOUTH CHINA SEA: USS Theodore Roosevelt CSG conducts freedom of navigation operation ◆ </span>
+        <span>IRAN: Ballistic missile test detected by satellite imagery — Pentagon monitoring ◆ </span>
+        <span>TAIWAN STRAIT: PLA Navy increases patrols — 12 warships tracked ◆ </span>
+        <span>NORTH KOREA: Multiple missile launches detected off eastern coast ◆ </span>
+        <span>GAZA: Ceasefire negotiations ongoing — humanitarian corridor opened ◆ </span>
+        <span>NATO: Emergency consultations following Baltic Sea cable incident ◆ </span>
+        <span>RED SEA: Houthi drone attack on commercial vessel — USN responds ◆ </span>
+      </div>
+    </div>
+
+    <div id="clock-block">
+      <div id="clock-time">00:00:00</div>
+      <div id="clock-date">--</div>
+      <div id="live-indicator"><span class="pulse-dot"></span>LIVE</div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <div id="main">
+
+    <!-- LEFT SIDEBAR -->
+    <div id="left">
+
+      <!-- Naval Assets -->
+      <div class="sb-section">
+        <div class="sb-header">NAVAL ASSETS</div>
+        <div class="asset-item" onclick="selectAsset(this)">
+          <span class="asset-name">CVN-68 USS Nimitz</span>
+          <span class="asset-loc">WESTPAC</span>
+        </div>
+        <div class="asset-item" onclick="selectAsset(this)">
+          <span class="asset-name">CVN-69 USS Dwight D. Eisenhower</span>
+          <span class="asset-loc">5TH FLEET</span>
+        </div>
+        <div class="asset-item" onclick="selectAsset(this)">
+          <span class="asset-name">CVN-70 USS Carl Vinson</span>
+          <span class="asset-loc">PACIFIC</span>
+        </div>
+        <div class="asset-item" onclick="selectAsset(this)">
+          <span class="asset-name">CVN-71 USS Theodore Roosevelt</span>
+          <span class="asset-loc">7TH FLEET</span>
+        </div>
+        <div class="asset-item" onclick="selectAsset(this)">
+          <span class="asset-name">CVN-72 USS Abraham Lincoln</span>
+          <span class="asset-loc">INDO-PACIFIC</span>
+        </div>
+        <div class="asset-item" onclick="selectAsset(this)">
+          <span class="asset-name">CVN-73 USS George Washington</span>
+          <span class="asset-loc">TRAINING</span>
+        </div>
+      </div>
+
+      <!-- Active Fleets -->
+      <div class="sb-section">
+        <div class="sb-header">ACTIVE FLEETS</div>
+        <div class="fleet-item">
+          <span class="fleet-name">2nd Fleet</span>
+          <span class="fleet-zone">North Atlantic</span>
+        </div>
+        <div class="fleet-item">
+          <span class="fleet-name">5th Fleet</span>
+          <span class="fleet-zone">Persian Gulf / Indian Ocean</span>
+        </div>
+        <div class="fleet-item">
+          <span class="fleet-name">6th Fleet</span>
+          <span class="fleet-zone">Mediterranean</span>
+        </div>
+        <div class="fleet-item">
+          <span class="fleet-name">7th Fleet</span>
+          <span class="fleet-zone">W. Pacific (largest)</span>
+        </div>
+      </div>
+
+      <!-- Intelligence Sources -->
+      <div class="sb-section">
+        <div class="sb-header">INTELLIGENCE SOURCES</div>
+        <div class="src-list">
+          <span class="src-tag">Reuters</span>
+          <span class="src-tag">AP</span>
+          <span class="src-tag">BBC</span>
+          <span class="src-tag">Al Jazeera</span>
+          <span class="src-tag">Pentagon</span>
+          <span class="src-tag">OSINT Community</span>
+          <span class="src-tag">MarineTraffic</span>
+          <span class="src-tag">FlightRadar24</span>
+          <span class="src-tag">Bellingcat</span>
+          <span class="src-tag">ISW</span>
+        </div>
+      </div>
+
+    </div><!-- /left -->
+
+    <!-- CENTER -->
+    <div id="center">
+
+      <!-- Tab Bar -->
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="setTab('cameras')">CAMERAS</button>
+        <button class="tab-btn" onclick="setTab('newsmap')">NEWS MAP</button>
+        <button class="tab-btn" onclick="setTab('worldmap')">WORLD MAP</button>
+        <button class="tab-btn" onclick="setTab('usa')">USA</button>
+        <button class="tab-btn" onclick="setTab('fleets')">FLEETS</button>
+        <button class="tab-btn" onclick="setTab('hotspots')">HOTSPOTS</button>
+      </div>
+
+      <!-- Content Area -->
+      <div id="content">
+
+        <!-- CAMERAS TAB -->
+        <div id="tab-cameras" class="tab-pane active">
+          <div class="cam-filter-bar">
+            <button class="filter-btn active" onclick="setCamSet('world',this)">WORLD</button>
+            <button class="filter-btn" onclick="setCamSet('usa',this)">USA</button>
+            <button class="filter-btn" onclick="setCamSet('europe',this)">EUROPE</button>
+            <button class="filter-btn" onclick="setCamSet('asia',this)">ASIA</button>
+            <button class="filter-btn" onclick="setCamSet('mideast',this)">MID EAST</button>
+          </div>
+          <div class="cam-scroll">
+            <div class="cam-grid" id="cam-grid"></div>
+          </div>
+        </div>
+
+        <!-- NEWS MAP TAB -->
+        <div id="tab-newsmap" class="tab-pane">
+          <div class="map-filter-bar" id="news-filter-bar">
+            <button class="mf-btn active" data-cat="ALL" onclick="filterNews('ALL',this)">ALL</button>
+            <button class="mf-btn" data-cat="CONFLICT" onclick="filterNews('CONFLICT',this)">CONFLICT</button>
+            <button class="mf-btn" data-cat="POLITICAL" onclick="filterNews('POLITICAL',this)">POLITICAL</button>
+            <button class="mf-btn" data-cat="DIPLOMACY" onclick="filterNews('DIPLOMACY',this)">DIPLOMACY</button>
+            <button class="mf-btn" data-cat="DISASTER" onclick="filterNews('DISASTER',this)">DISASTER</button>
+            <button class="mf-btn" data-cat="SECURITY" onclick="filterNews('SECURITY',this)">SECURITY</button>
+            <button class="mf-btn" data-cat="ECONOMIC" onclick="filterNews('ECONOMIC',this)">ECONOMIC</button>
+          </div>
+          <div class="map-wrap">
+            <div id="news-map"></div>
+            <div class="map-legend" id="news-legend">
+              <div class="map-legend-title">LEGEND</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#ff4d00"></span>CONFLICT</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#ffcc00"></span>POLITICAL</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#00d4ff"></span>DIPLOMACY</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#ff8800"></span>DISASTER</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#cc44ff"></span>SECURITY</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#00ff88"></span>ECONOMIC</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WORLD MAP TAB -->
+        <div id="tab-worldmap" class="tab-pane">
+          <div class="map-wrap" style="height:100%">
+            <div id="mil-map"></div>
+            <div class="map-legend" id="mil-legend">
+              <div class="map-legend-title">BASES</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#ff4d00"></span>HQ</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#00aaff"></span>Navy</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#cc4400"></span>Marine</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#cc8800"></span>Army</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#cc44ff"></span>Air Force</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#ff0066"></span>Classified</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#ff8800"></span>Overseas</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- USA TAB -->
+        <div id="tab-usa" class="tab-pane">
+          <div class="map-wrap" style="height:100%">
+            <div id="mil-map-usa-placeholder" style="width:100%;height:100%;"></div>
+          </div>
+        </div>
+
+        <!-- FLEETS TAB -->
+        <div id="tab-fleets" class="tab-pane">
+          <div class="map-wrap" style="height:100%">
+            <div id="mil-map-fleets-placeholder" style="width:100%;height:100%;"></div>
+          </div>
+        </div>
+
+        <!-- HOTSPOTS TAB -->
+        <div id="tab-hotspots" class="tab-pane">
+          <div class="map-wrap" style="height:100%">
+            <div id="mil-map-hotspots-placeholder" style="width:100%;height:100%;"></div>
+          </div>
+        </div>
+
+      </div><!-- /content -->
+
+      <!-- Status Bar -->
+      <div id="status-bar">
+        <div id="status-left">SENTINEL OSINT v2.0 // All data open-source // Not affiliated with any government</div>
+        <div id="status-center">
+          <span class="pulse-dot"></span>
+          <span>LIVE</span>
+          <span style="color:var(--dim2)">|</span>
+          <span>CONNECTED</span>
+        </div>
+        <div id="status-right">
+          <span>GRID: 3×2</span>
+          <span id="status-tab">CAMERAS</span>
+          <span id="status-utc">--:--:--</span>
+        </div>
+      </div>
+
+    </div><!-- /center -->
+
+    <!-- RIGHT SIDEBAR -->
+    <div id="right">
+
+      <!-- Situation Feed -->
+      <div class="sb-section" style="padding:0">
+        <div class="sb-header" style="padding:12px 12px 4px; margin-bottom:0;">SITUATION FEED</div>
+        <div id="situation-feed">
+          <div class="feed-item"><span class="feed-time">[03:47 UTC]</span> ⚡ FLASH — Missile launch detected DPRK East Coast</div>
+          <div class="feed-item"><span class="feed-time">[03:31 UTC]</span> 🔴 CONFLICT — Artillery exchange Zaporizhzhia front</div>
+          <div class="feed-item"><span class="feed-time">[03:15 UTC]</span> ⚠️ ALERT — PLA warships cross Taiwan median line</div>
+          <div class="feed-item"><span class="feed-time">[02:58 UTC]</span> 🟡 INTEL — Submarine activity Baltic elevated</div>
+          <div class="feed-item"><span class="feed-time">[02:44 UTC]</span> ✅ CLEARED — False alarm Strait of Hormuz incident</div>
+          <div class="feed-item"><span class="feed-time">[02:30 UTC]</span> 🌐 DIPLOMATIC — NATO emergency consultation ongoing</div>
+          <div class="feed-item"><span class="feed-time">[02:17 UTC]</span> ⚡ FLASH — Houthi drone launch detected Red Sea</div>
+          <div class="feed-item"><span class="feed-time">[01:55 UTC]</span> 🔴 CONFLICT — Kharkiv shelling reported by ISW</div>
+          <div class="feed-item"><span class="feed-time">[01:33 UTC]</span> 🟡 INTEL — Iranian IRGCN vessels trailing USN ship</div>
+          <div class="feed-item"><span class="feed-time">[01:12 UTC]</span> ✅ STATUS — 7th Fleet CSG position updated</div>
+        </div>
+      </div>
+
+      <!-- Camera Directory -->
+      <div class="sb-section" style="padding:0">
+        <div class="sb-header" style="padding:12px 12px 4px; margin-bottom:0;">CAMERA DIRECTORY</div>
+        <div id="cam-directory"></div>
+      </div>
+
+    </div><!-- /right -->
+
+  </div><!-- /main -->
+
+</div><!-- /wrapper -->
+
+<!-- CAMERA CHANGE MODAL -->
+<div id="cam-modal" style="display:none">
+  <div id="cam-modal-box">
+    <div id="cam-modal-header">
+      <span>CHANGE CAMERA FEED</span>
+      <button id="cam-modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div id="cam-modal-body">
+      <div class="modal-section-title">YOUTUBE URL OR VIDEO ID</div>
+      <input type="text" id="cam-url-input" placeholder="https://www.youtube.com/watch?v=... or 11-char ID">
+      <button id="cam-modal-confirm" onclick="confirmCamChange()">APPLY FEED</button>
+      <div class="modal-section-title">PRESET LIBRARY</div>
+      <div class="preset-grid" id="preset-grid"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+
+var BREAKING = [
+  "UKRAINE: Russian forces launch largest missile barrage in months — Kyiv air defenses engaged",
+  "TAIWAN: PLA conducts surprise naval exercise — US 7th Fleet on heightened alert",
+  "IRAN NUCLEAR: IAEA inspectors denied access to Fordow facility — Security Council emergency session called",
+  "RED SEA: Three Houthi anti-ship missiles intercepted by USS Gravely — commercial shipping diverted",
+  "NORTH KOREA: Kim Jong Un oversees ICBM engine test — analysts warn of imminent launch"
+];
+
+var CAMS = [
+  { n: 'Times Square NYC',        loc: '🇺🇸 New York',     yt: '1-iZDMFP9c0' },
+  { n: 'Chicago Magnificent Mile',loc: '🇺🇸 Chicago',      yt: 'EKWsXosMAnE' },
+  { n: 'Las Vegas Strip',         loc: '🇺🇸 Las Vegas',    yt: 'dMbTM6OPJGU' },
+  { n: 'Los Angeles Downtown',    loc: '🇺🇸 Los Angeles',  yt: 'NpnSq-HCkQg' },
+  { n: 'Washington DC Capitol',   loc: '🇺🇸 Washington',   yt: 'NMGMjMxnyEo' },
+  { n: 'Miami Beach',             loc: '🇺🇸 Miami',        yt: 'QMM_gKrV6lc' },
+  { n: 'London Trafalgar Square', loc: '🇬🇧 London',       yt: 'Fz9EkOAQjGM' },
+  { n: 'Paris Eiffel Tower',      loc: '🇫🇷 Paris',        yt: 'ByXys4TM_r0' },
+  { n: 'Berlin Brandenburg Gate', loc: '🇩🇪 Berlin',       yt: 'rXTYKMaIYeA' },
+  { n: 'Rome Colosseum',          loc: '🇮🇹 Rome',         yt: '3MFMsHEpKtw' },
+  { n: 'Amsterdam Canals',        loc: '🇳🇱 Amsterdam',    yt: 'EjKFWPgjt8E' },
+  { n: 'Barcelona La Rambla',     loc: '🇪🇸 Barcelona',    yt: 'pcEfFAyc3MA' },
+  { n: 'Tokyo Shibuya Crossing',  loc: '🇯🇵 Tokyo',        yt: '3mNp_Ux8sFY' },
+  { n: 'Seoul Gangnam',           loc: '🇰🇷 Seoul',        yt: 'EwbBdTPUVeE' },
+  { n: 'Singapore Marina Bay',    loc: '🇸🇬 Singapore',    yt: 'oOcvIeMLSKI' },
+  { n: 'Bangkok City Center',     loc: '🇹🇭 Bangkok',      yt: 'fcf5Rh6Ynts' },
+  { n: 'Shanghai Bund',           loc: '🇨🇳 Shanghai',     yt: 'p_E2nBnLjq0' },
+  { n: 'Mumbai Gateway',          loc: '🇮🇳 Mumbai',       yt: 'hM6J8QU9EcI' },
+  { n: 'Tel Aviv Beachfront',     loc: '🇮🇱 Tel Aviv',     yt: 'Xjs_eKA1uss' },
+  { n: 'Istanbul Bosphorus',      loc: '🇹🇷 Istanbul',     yt: 'uM8LWlCTyio' },
+  { n: 'Dubai Downtown',          loc: '🇦🇪 Dubai',        yt: 'e3aWFyDmsiA' },
+  { n: 'Cairo Tahrir Square',     loc: '🇪🇬 Cairo',        yt: 'iLXSa3RD3H4' },
+];
+
+var CAM_SETS = {
+  world:   [0, 12, 6, 18, 15, 13],
+  usa:     [0, 1, 2, 3, 4, 5],
+  europe:  [6, 7, 8, 9, 10, 11],
+  asia:    [12, 13, 14, 15, 16, 17],
+  mideast: [18, 19, 20, 21, 6, 0],
+};
+
+var GRID_STATE = [0, 12, 6, 18, 15, 13];
+
+var NEWS = [
+  { cat:'CONFLICT',  color:'#ff4d00', lat:48.5, lng:35.0,  title:'Ukraine — Russo-Ukrainian War',        body:'Heavy fighting across eastern front. Russian forces pushing near Kharkiv and Zaporizhzhia.',   src:'ISW / Reuters' },
+  { cat:'CONFLICT',  color:'#ff4d00', lat:31.5, lng:34.5,  title:'Gaza — Israel-Hamas Conflict',         body:'Ongoing military operations in Gaza Strip. Ceasefire negotiations in Doha.',                   src:'Reuters / Al Jazeera' },
+  { cat:'CONFLICT',  color:'#ff4d00', lat:15.5, lng:32.5,  title:'Sudan — Civil War',                    body:'SAF and RSF forces engaged across Khartoum and Darfur regions.',                             src:'Reuters / BBC' },
+  { cat:'CONFLICT',  color:'#ff4d00', lat:34.5, lng:69.2,  title:'Afghanistan — Taliban Operations',     body:'Sporadic fighting in northeastern provinces. Humanitarian situation deteriorating.',           src:'AP / UN OCHA' },
+  { cat:'CONFLICT',  color:'#ff4d00', lat:9.0,  lng:7.5,   title:'Nigeria — Boko Haram / ISWAP',         body:'Continued insurgent activity in northeast Nigeria and Lake Chad basin.',                      src:'Reuters / AFP' },
+  { cat:'POLITICAL', color:'#ffcc00', lat:25.0, lng:121.5, title:'Taiwan Strait Tensions',                body:'PLA Navy conducting large-scale exercises near median line. US 7th Fleet monitoring.',        src:'Pentagon / CSIS' },
+  { cat:'POLITICAL', color:'#ffcc00', lat:38.0, lng:128.0, title:'Korean Peninsula',                     body:'North Korea tests ballistic missiles. US-ROK joint exercises underway.',                     src:'38North / Pentagon' },
+  { cat:'POLITICAL', color:'#ffcc00', lat:55.8, lng:37.6,  title:'Russia — Moscow',                      body:'Kremlin announces mobilization expansion. Western sanctions escalating.',                    src:'Reuters / TASS' },
+  { cat:'POLITICAL', color:'#ffcc00', lat:35.7, lng:51.4,  title:'Iran — Tehran',                        body:'Nuclear negotiations stalled. IRGC conducts regional proxy operations.',                    src:'Reuters / IAEA' },
+  { cat:'DIPLOMACY', color:'#00d4ff', lat:48.9, lng:2.3,   title:'NATO Headquarters — Brussels',         body:'Emergency consultations on Baltic security following cable sabotage incidents.',               src:'NATO / Reuters' },
+  { cat:'DIPLOMACY', color:'#00d4ff', lat:40.7, lng:-74.0, title:'UN Security Council — New York',       body:'Emergency session called on Middle East situation. Veto standoff continues.',                 src:'UN / Reuters' },
+  { cat:'DIPLOMACY', color:'#00d4ff', lat:46.9, lng:7.5,   title:'G7 Summit Talks — Bern',               body:'Western leaders coordinate sanctions and military aid packages.',                            src:'Reuters / AFP' },
+  { cat:'DISASTER',  color:'#ff8800', lat:35.7, lng:139.7, title:'Japan — Seismic Activity',              body:'Magnitude 6.2 earthquake off Tohoku coast. Tsunami advisory issued.',                       src:'USGS / JMA' },
+  { cat:'DISASTER',  color:'#ff8800', lat:-8.3, lng:115.1, title:'Indonesia — Volcanic Activity',        body:'Mt. Agung elevated alert. Ash plume reaching 4,000m. Aviation warnings issued.',             src:'PVMBG / VAAC' },
+  { cat:'DISASTER',  color:'#ff8800', lat:27.7, lng:85.3,  title:'Nepal — Monsoon Flooding',             body:'Severe flooding in Kathmandu Valley. Hundreds displaced, relief operations ongoing.',        src:'ReliefWeb / AP' },
+  { cat:'SECURITY',  color:'#cc44ff', lat:51.5, lng:-0.1,  title:'UK — Cyber Threat Elevated',           body:'NCSC raises cyber threat level. State-sponsored attacks on critical infrastructure detected.',src:'NCSC / GCHQ' },
+  { cat:'SECURITY',  color:'#cc44ff', lat:38.9, lng:-77.0, title:'US — Homeland Security Alert',         body:'DHS issues infrastructure protection bulletin. Increased monitoring of power grid.',          src:'DHS / CISA' },
+  { cat:'ECONOMIC',  color:'#00ff88', lat:1.3,  lng:103.8, title:'Strait of Malacca — Shipping',         body:'Record throughput disrupted by Houthi Red Sea attacks rerouting traffic.',                   src:"Lloyd's / Reuters" },
+  { cat:'ECONOMIC',  color:'#00ff88', lat:29.9, lng:32.6,  title:'Suez Canal — Traffic Disruption',      body:'40% reduction in canal traffic as shipping avoids Red Sea routes.',                          src:'SCA / Reuters' },
+  { cat:'ECONOMIC',  color:'#00ff88', lat:22.3, lng:114.2, title:'Hong Kong — Financial Markets',        body:'Hang Seng volatile amid US-China trade tensions and tech sector controls.',                  src:'Bloomberg / Reuters' },
+];
+
+var TC = {
+  HQ: '#ff4d00', Navy: '#00aaff', Marine: '#cc4400',
+  Army: '#cc8800', AirForce: '#cc44ff', Classified: '#ff0066', Overseas: '#ff8800'
+};
+
+var BASES = [
+  { n:'Pentagon (DoD HQ)',        lat:38.87,  lng:-77.06,  t:'HQ',         e:'🔴', d:'Department of Defense Headquarters — 26,000 personnel' },
+  { n:'NSA Fort Meade',           lat:39.11,  lng:-76.77,  t:'Classified', e:'⬛', d:'National Security Agency headquarters — SIGINT operations' },
+  { n:'CIA Langley',              lat:38.95,  lng:-77.15,  t:'Classified', e:'⬛', d:'Central Intelligence Agency headquarters' },
+  { n:'Norfolk Naval Station',    lat:36.94,  lng:-76.30,  t:'Navy',       e:'⚓', d:'Largest naval station in the world — 75 ships, 134 aircraft' },
+  { n:'Pearl Harbor',             lat:21.36,  lng:-157.96, t:'Navy',       e:'⚓', d:'INDOPACOM HQ — Pacific Fleet flagship base' },
+  { n:'San Diego Naval Base',     lat:32.68,  lng:-117.14, t:'Navy',       e:'⚓', d:'Home of Pacific Fleet surface forces' },
+  { n:'Bremerton (Puget Sound)',  lat:47.56,  lng:-122.62, t:'Navy',       e:'⚓', d:'Carrier maintenance and repair facility' },
+  { n:'Yokosuka Naval Base',      lat:35.28,  lng:139.67,  t:'Overseas',   e:'🟠', d:'7th Fleet HQ — forward deployed carrier group' },
+  { n:'Rota Naval Station',       lat:36.64,  lng:-6.35,   t:'Overseas',   e:'🟠', d:'NSA Rota — US Navy in Spain, 6th Fleet support' },
+  { n:'Diego Garcia (BIOT)',      lat:-7.31,  lng:72.42,   t:'Overseas',   e:'🟠', d:'Joint UK-US base — B-2 staging, submarine support' },
+  { n:'Camp Lemonnier (Djibouti)',lat:11.55,  lng:43.15,   t:'Overseas',   e:'🟠', d:'CJTF-HOA HQ — drone operations, counter-terrorism' },
+  { n:'Al Udeid Air Base',        lat:25.12,  lng:51.31,   t:'Overseas',   e:'🟠', d:'CENTCOM FWD HQ — largest US air base in Middle East' },
+  { n:'Ramstein Air Base',        lat:49.44,  lng:7.60,    t:'Overseas',   e:'🟠', d:'USAFE-AFAFRICA HQ — largest US overseas air base' },
+  { n:'Kadena Air Base',          lat:26.36,  lng:127.77,  t:'Overseas',   e:'🟠', d:'Largest USAF base in Asia Pacific' },
+  { n:'Guam (Andersen AFB)',      lat:13.58,  lng:144.93,  t:'AirForce',   e:'✈', d:'Strategic bomber hub — B-52, B-1 deployments' },
+  { n:'Fort Liberty (Bragg)',     lat:35.14,  lng:-79.00,  t:'Army',       e:'🟡', d:'XVIII Airborne Corps HQ — 82nd Airborne' },
+  { n:'Fort Campbell',            lat:36.67,  lng:-87.47,  t:'Army',       e:'🟡', d:'101st Airborne Division (Air Assault)' },
+  { n:'Fort Wainwright',          lat:64.83,  lng:-147.72, t:'Army',       e:'🟡', d:'US Army Alaska — Arctic warfare operations' },
+  { n:'Camp Humphreys',           lat:36.96,  lng:127.04,  t:'Overseas',   e:'🟠', d:'Largest US overseas military base — USFK HQ' },
+  { n:'Incirlik Air Base',        lat:37.00,  lng:35.43,   t:'Overseas',   e:'🟠', d:'NATO base in Turkey — nuclear weapons storage site' },
+  { n:'RAF Lakenheath',           lat:52.41,  lng:0.56,    t:'Overseas',   e:'🟠', d:'USAF in UK — F-35A wing, NATO nuclear role' },
+  { n:'MCAS Kaneohe Bay',         lat:21.45,  lng:-157.77, t:'Marine',     e:'🔴', d:'III Marine Expeditionary Force forward element' },
+  { n:'Vandenberg SFB',           lat:34.74,  lng:-120.57, t:'AirForce',   e:'✈', d:'USSF Western Range — ICBM testing, satellite launches' },
+  { n:'Cheyenne Mountain',        lat:38.74,  lng:-104.85, t:'Classified', e:'⬛', d:'NORAD/USNORTHCOM alternate command center' },
+];
+
+var FLEETS = [
+  { n:'2nd Fleet', lat:45,  lng:-40,  d:'North Atlantic — reformed 2018, NATO high north operations' },
+  { n:'5th Fleet', lat:26,  lng:56,   d:'Persian Gulf / Arabian Sea / Indian Ocean — Bahrain HQ' },
+  { n:'6th Fleet', lat:40,  lng:15,   d:'Mediterranean Sea — Naples HQ, NATO maritime operations' },
+  { n:'7th Fleet', lat:18,  lng:130,  d:'W. Pacific — largest forward-deployed fleet, Yokosuka HQ' },
+  { n:'3rd Fleet', lat:30,  lng:-130, d:'Eastern Pacific — San Diego HQ, homeland defense' },
+  { n:'4th Fleet', lat:15,  lng:-75,  d:'Caribbean and South America — Mayport FL HQ' },
+];
+
+var HOTS = [
+  { n:'Taiwan Strait',           lat:24,  lng:120, d:'PLA military exercises — highest naval tension zone' },
+  { n:'South China Sea',         lat:12,  lng:115, d:'Competing territorial claims — FONOPS ongoing' },
+  { n:'Korean Peninsula',        lat:38,  lng:128, d:'North Korean missile threat — US-ROK readiness' },
+  { n:'Eastern Ukraine Front',   lat:48,  lng:37,  d:'Active conflict zone — Russo-Ukrainian War' },
+  { n:'Baltic Sea',              lat:58,  lng:20,  d:'NATO-Russia tension — submarine activity elevated' },
+  { n:'Strait of Hormuz',        lat:26.5,lng:56.5,d:'Iranian threat to oil shipping — IRGCN activity' },
+  { n:'Red Sea / Bab el-Mandeb', lat:13,  lng:43,  d:'Houthi anti-ship missiles — USN escort operations' },
+  { n:'Black Sea',               lat:43,  lng:34,  d:'Russian naval operations — grain corridor disputes' },
+  { n:'Arctic (High North)',     lat:78,  lng:15,  d:'Russian Arctic militarization — NATO monitoring' },
+  { n:'Sahel Region',            lat:14,  lng:5,   d:'Jihadist insurgency expansion — French forces withdrawing' },
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+
+var currentTab     = 'cameras';
+var breakingIdx    = 0;
+var modalCell      = -1;
+var newsMapInited  = false;
+var milMapInited   = false;
+var newsMap        = null;
+var milMap         = null;
+var newsMarkers    = [];
+var baseLayer      = null;
+var fleetLayer     = null;
+var hotLayer       = null;
+
+// ── BREAKING NEWS ─────────────────────────────────────────────────────────
+
+function cycleBraking() {
+  document.getElementById('breaking-text').textContent = BREAKING[breakingIdx];
+  breakingIdx = (breakingIdx + 1) % BREAKING.length;
+}
+cycleBraking();
+setInterval(cycleBraking, 5000);
+
+// ── CLOCK ─────────────────────────────────────────────────────────────────
+
+function updateClock() {
+  var now  = new Date();
+  var hh   = String(now.getUTCHours()).padStart(2,'0');
+  var mm   = String(now.getUTCMinutes()).padStart(2,'0');
+  var ss   = String(now.getUTCSeconds()).padStart(2,'0');
+  var time = hh + ':' + mm + ':' + ss;
+  var days = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  var months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  var dateStr = days[now.getUTCDay()] + ' ' +
+                String(now.getUTCDate()).padStart(2,'0') + ' ' +
+                months[now.getUTCMonth()] + ' ' +
+                now.getUTCFullYear() + ' UTC';
+  document.getElementById('clock-time').textContent = time;
+  document.getElementById('clock-date').textContent = dateStr;
+  document.getElementById('status-utc').textContent = time;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ── TAB SWITCHING ─────────────────────────────────────────────────────────
+
+function setTab(mode) {
+  currentTab = mode;
+  // Hide all panes
+  document.querySelectorAll('.tab-pane').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+
+  // Show selected pane
+  var pane = document.getElementById('tab-' + mode);
+  if (pane) pane.classList.add('active');
+
+  // Activate button
+  document.querySelectorAll('.tab-btn').forEach(function(b){
+    if (b.textContent.toLowerCase().replace(/ /g,'') === mode.replace(/ /g,'') ||
+        (mode === 'newsmap' && b.textContent === 'NEWS MAP') ||
+        (mode === 'worldmap' && b.textContent === 'WORLD MAP') ||
+        (mode === 'hotspots' && b.textContent === 'HOTSPOTS') ||
+        b.getAttribute('onclick') && b.getAttribute('onclick').indexOf("'"+mode+"'") > -1) {
+      b.classList.add('active');
+    }
+  });
+
+  document.getElementById('status-tab').textContent = mode.toUpperCase();
+
+  // Init maps lazily
+  if (mode === 'newsmap' && !newsMapInited) {
+    setTimeout(initNewsMap, 100);
+  }
+  if ((mode === 'worldmap' || mode === 'usa' || mode === 'fleets' || mode === 'hotspots') && !milMapInited) {
+    setTimeout(initMilMap, 100);
+  }
+
+  // Place mil-map div in correct tab
+  if (milMapInited && (mode === 'worldmap' || mode === 'usa' || mode === 'fleets' || mode === 'hotspots')) {
+    setTimeout(function(){ placeMilMap(mode); }, 50);
+  }
+
+  // invalidateSize
+  setTimeout(function(){
+    if (newsMap && mode === 'newsmap') newsMap.invalidateSize();
+    if (milMap && (mode === 'worldmap' || mode === 'usa' || mode === 'fleets' || mode === 'hotspots')) milMap.invalidateSize();
+  }, 200);
+}
+
+// ── NEWS MAP ──────────────────────────────────────────────────────────────
+
+function initNewsMap() {
+  if (newsMapInited) return;
+  newsMapInited = true;
+
+  newsMap = L.map('news-map', {
+    center: [20, 10],
+    zoom: 2,
+    zoomControl: true,
+    attributionControl: false
+  });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(newsMap);
+
+  NEWS.forEach(function(ev, i) {
+    var marker = L.circleMarker([ev.lat, ev.lng], {
+      radius: 9,
+      fillColor: ev.color,
+      color: ev.color,
+      weight: 2,
+      opacity: 0.9,
+      fillOpacity: 0.7
+    });
+    marker.bindPopup(
+      '<div class="popup-cat" style="color:'+ev.color+'">'+ev.cat+'</div>' +
+      '<div class="popup-title">'+ev.title+'</div>' +
+      '<div class="popup-body">'+ev.body+'</div>' +
+      '<div class="popup-src">SRC: '+ev.src+'</div>'
+    );
+    marker._newscat = ev.cat;
+    marker.addTo(newsMap);
+    newsMarkers.push(marker);
+  });
+
+  newsMap.invalidateSize();
+}
+
+function filterNews(cat, btn) {
+  document.querySelectorAll('#news-filter-bar .mf-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  newsMarkers.forEach(function(m){
+    if (cat === 'ALL' || m._newscat === cat) {
+      if (!newsMap.hasLayer(m)) m.addTo(newsMap);
+    } else {
+      if (newsMap.hasLayer(m)) newsMap.removeLayer(m);
+    }
+  });
+}
+
+// ── MILITARY MAP ──────────────────────────────────────────────────────────
+
+var milMapEl = null;
+
+function initMilMap() {
+  if (milMapInited) return;
+  milMapInited = true;
+
+  // Move the map element into the worldmap tab
+  milMapEl = document.getElementById('mil-map');
+  var worldWrap = document.querySelector('#tab-worldmap .map-wrap');
+  worldWrap.insertBefore(milMapEl, worldWrap.querySelector('.map-legend'));
+
+  milMap = L.map('mil-map', {
+    center: [20, 10],
+    zoom: 2,
+    zoomControl: true,
+    attributionControl: false
+  });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(milMap);
+
+  // Bases layer
+  baseLayer = L.layerGroup();
+  BASES.forEach(function(b){
+    var col = TC[b.t] || '#ffffff';
+    var marker = L.circleMarker([b.lat, b.lng], {
+      radius: 7,
+      fillColor: col,
+      color: col,
+      weight: 2,
+      opacity: 1,
+      fillOpacity: 0.8
+    });
+    marker.bindPopup(
+      '<div class="popup-title">'+b.e+' '+b.n+'</div>' +
+      '<div class="popup-cat" style="color:'+col+'">'+b.t+'</div>' +
+      '<div class="popup-body">'+b.d+'</div>'
+    );
+    marker.addTo(baseLayer);
+  });
+
+  // Fleets layer
+  fleetLayer = L.layerGroup();
+  FLEETS.forEach(function(f){
+    var marker = L.circleMarker([f.lat, f.lng], {
+      radius: 18,
+      fillColor: '#00aaff',
+      color: '#00aaff',
+      weight: 2,
+      opacity: 0.8,
+      fillOpacity: 0.15,
+      dashArray: '5,5'
+    });
+    var label = L.marker([f.lat, f.lng], {
+      icon: L.divIcon({
+        className: '',
+        html: '<div style="font-family:Share Tech Mono,monospace;font-size:10px;color:#00aaff;text-shadow:0 0 6px #000;white-space:nowrap;transform:translateX(-50%);padding-top:22px;">'+f.n+'</div>',
+        iconSize: [0,0]
+      })
+    });
+    marker.bindPopup('<div class="popup-title">'+f.n+'</div><div class="popup-body">'+f.d+'</div>');
+    marker.addTo(fleetLayer);
+    label.addTo(fleetLayer);
+  });
+
+  // Hotspots layer
+  hotLayer = L.layerGroup();
+  HOTS.forEach(function(h){
+    var marker = L.circleMarker([h.lat, h.lng], {
+      radius: 22,
+      fillColor: '#ff4d00',
+      color: '#ff4d00',
+      weight: 2,
+      opacity: 0.7,
+      fillOpacity: 0.12,
+      dashArray: '4,4'
+    });
+    var label = L.marker([h.lat, h.lng], {
+      icon: L.divIcon({
+        className: '',
+        html: '<div style="font-family:Share Tech Mono,monospace;font-size:9px;color:#ff4d00;text-shadow:0 0 6px #000;white-space:nowrap;transform:translateX(-50%);padding-top:26px;">'+h.n+'</div>',
+        iconSize: [0,0]
+      })
+    });
+    marker.bindPopup('<div class="popup-title" style="color:#ff4d00">'+h.n+'</div><div class="popup-body">'+h.d+'</div>');
+    marker.addTo(hotLayer);
+    label.addTo(hotLayer);
+  });
+
+  // Default: show all
+  baseLayer.addTo(milMap);
+  fleetLayer.addTo(milMap);
+  hotLayer.addTo(milMap);
+
+  milMap.invalidateSize();
+}
+
+function placeMilMap(mode) {
+  if (!milMapEl) return;
+  var targets = {
+    worldmap: '#tab-worldmap .map-wrap',
+    usa:      '#tab-usa .map-wrap',
+    fleets:   '#tab-fleets .map-wrap',
+    hotspots: '#tab-hotspots .map-wrap'
+  };
+  var wrap = document.querySelector(targets[mode]);
+  if (!wrap) return;
+  if (!wrap.contains(milMapEl)) {
+    wrap.insertBefore(milMapEl, wrap.firstChild);
+  }
+
+  // Adjust layers and zoom
+  if (mode === 'worldmap') {
+    baseLayer.addTo(milMap); fleetLayer.addTo(milMap); hotLayer.addTo(milMap);
+    milMap.setView([20, 10], 2);
+  } else if (mode === 'usa') {
+    baseLayer.addTo(milMap);
+    if (milMap.hasLayer(fleetLayer)) milMap.removeLayer(fleetLayer);
+    if (milMap.hasLayer(hotLayer)) milMap.removeLayer(hotLayer);
+    milMap.setView([38, -97], 4);
+  } else if (mode === 'fleets') {
+    if (milMap.hasLayer(baseLayer)) milMap.removeLayer(baseLayer);
+    fleetLayer.addTo(milMap);
+    if (milMap.hasLayer(hotLayer)) milMap.removeLayer(hotLayer);
+    milMap.setView([20, 10], 2);
+  } else if (mode === 'hotspots') {
+    if (milMap.hasLayer(baseLayer)) milMap.removeLayer(baseLayer);
+    if (milMap.hasLayer(fleetLayer)) milMap.removeLayer(fleetLayer);
+    hotLayer.addTo(milMap);
+    milMap.setView([20, 10], 2);
+  }
+
+  setTimeout(function(){ milMap.invalidateSize(); }, 200);
+}
+
+// ── CAMERA GRID ───────────────────────────────────────────────────────────
+
+function ytSrc(id) {
+  return 'https://www.youtube.com/embed/' + id +
+         '?autoplay=1&mute=1&loop=1&playlist=' + id + '&controls=0&modestbranding=1';
+}
+
+function renderGrid(indices) {
+  GRID_STATE = indices.slice(0, 6);
+  var grid = document.getElementById('cam-grid');
+  grid.innerHTML = '';
+  GRID_STATE.forEach(function(idx, cellIdx) {
+    var cam = CAMS[idx];
+    var cell = document.createElement('div');
+    cell.className = 'cam-cell';
+    cell.innerHTML =
+      '<div class="cam-header">' +
+        '<span class="cam-loc">' + cam.loc + '</span>' +
+        '<button class="cam-change-btn" onclick="openModal(' + cellIdx + ')">✏ CHANGE</button>' +
+      '</div>' +
+      '<div class="cam-frame-wrap">' +
+        '<iframe src="' + ytSrc(cam.yt) + '" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>' +
+      '</div>' +
+      '<div class="cam-name">' + cam.n + '</div>';
+    grid.appendChild(cell);
+  });
+}
+
+function setCamSet(setKey, btn) {
+  document.querySelectorAll('.cam-filter-bar .filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  renderGrid(CAM_SETS[setKey] || CAM_SETS.world);
+}
+
+// Initial render
+renderGrid(GRID_STATE);
+
+// ── CAMERA MODAL ──────────────────────────────────────────────────────────
+
+function openModal(cellIdx) {
+  modalCell = cellIdx;
+  document.getElementById('cam-url-input').value = '';
+  buildPresetGrid();
+  document.getElementById('cam-modal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('cam-modal').style.display = 'none';
+  modalCell = -1;
+}
+
+function extractVideoId(input) {
+  input = input.trim();
+  // Try URL patterns
+  var m = input.match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  if (m) return m[1];
+  // Try direct 11-char ID
+  if (/^[A-Za-z0-9_-]{11}$/.test(input)) return input;
+  return null;
+}
+
+function confirmCamChange() {
+  var input = document.getElementById('cam-url-input').value;
+  var vid = extractVideoId(input);
+  if (!vid) { alert('Invalid YouTube URL or video ID.'); return; }
+  updateCell(modalCell, vid, input || vid, input || vid);
+  closeModal();
+}
+
+function updateCell(cellIdx, ytId, name, loc) {
+  GRID_STATE[cellIdx] = -1; // custom
+  // Update iframe in grid
+  var cells = document.querySelectorAll('.cam-cell');
+  if (cells[cellIdx]) {
+    var iframe = cells[cellIdx].querySelector('iframe');
+    if (iframe) iframe.src = ytSrc(ytId);
+    var locEl = cells[cellIdx].querySelector('.cam-loc');
+    if (locEl) locEl.textContent = loc || name || ytId;
+    var nameEl = cells[cellIdx].querySelector('.cam-name');
+    if (nameEl) nameEl.textContent = name || ytId;
+  }
+  closeModal();
+}
+
+function selectPreset(camIdx) {
+  if (modalCell < 0) return;
+  var cam = CAMS[camIdx];
+  GRID_STATE[modalCell] = camIdx;
+  var cells = document.querySelectorAll('.cam-cell');
+  if (cells[modalCell]) {
+    var iframe = cells[modalCell].querySelector('iframe');
+    if (iframe) iframe.src = ytSrc(cam.yt);
+    var locEl = cells[modalCell].querySelector('.cam-loc');
+    if (locEl) locEl.textContent = cam.loc;
+    var nameEl = cells[modalCell].querySelector('.cam-name');
+    if (nameEl) nameEl.textContent = cam.n;
+  }
+  closeModal();
+}
+
+function buildPresetGrid() {
+  var pg = document.getElementById('preset-grid');
+  pg.innerHTML = '';
+  CAMS.forEach(function(cam, i){
+    var item = document.createElement('div');
+    item.className = 'preset-item';
+    item.innerHTML =
+      '<div class="preset-item-name">' + cam.n + '</div>' +
+      '<div class="preset-item-loc">' + cam.loc + '</div>';
+    item.onclick = function(){ selectPreset(i); };
+    pg.appendChild(item);
+  });
+}
+
+// Close modal on background click
+document.getElementById('cam-modal').addEventListener('click', function(e){
+  if (e.target === this) closeModal();
+});
+
+// ── CAMERA DIRECTORY ──────────────────────────────────────────────────────
+
+function buildCamDirectory() {
+  var dir = document.getElementById('cam-directory');
+  dir.innerHTML = '';
+  CAMS.forEach(function(cam, i){
+    var item = document.createElement('div');
+    item.className = 'cam-dir-item';
+    item.innerHTML =
+      '<span class="cam-dir-dot"></span>' +
+      '<span class="cam-dir-name">' + cam.n + '</span>' +
+      '<span class="cam-dir-loc">' + cam.loc + '</span>';
+    item.onclick = function(){
+      GRID_STATE[0] = i;
+      var cells = document.querySelectorAll('.cam-cell');
+      if (cells[0]) {
+        var iframe = cells[0].querySelector('iframe');
+        if (iframe) iframe.src = ytSrc(cam.yt);
+        var locEl = cells[0].querySelector('.cam-loc');
+        if (locEl) locEl.textContent = cam.loc;
+        var nameEl = cells[0].querySelector('.cam-name');
+        if (nameEl) nameEl.textContent = cam.n;
+      }
+      if (currentTab !== 'cameras') setTab('cameras');
+    };
+    dir.appendChild(item);
+  });
+}
+buildCamDirectory();
+
+// ── ASSET SELECT ──────────────────────────────────────────────────────────
+
+function selectAsset(el) {
+  document.querySelectorAll('.asset-item').forEach(function(a){ a.classList.remove('selected'); });
+  el.classList.add('selected');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+
+// Ensure cameras tab active button is correct on load
+(function(){
+  document.querySelectorAll('.tab-btn').forEach(function(b){
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').indexOf("'cameras'") > -1) {
+      b.classList.add('active');
+    }
+  });
+})();
+
+</script>
+</body>
+</html>
