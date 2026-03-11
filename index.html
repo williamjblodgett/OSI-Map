@@ -1570,17 +1570,18 @@ function placeMilMap(mode) {
 
 function ytSrc(id) {
   return 'https://www.youtube.com/embed/' + id +
-         '?autoplay=1&mute=1&loop=1&playlist=' + id + '&controls=0&modestbranding=1';
+         '?autoplay=1&mute=1&controls=1&modestbranding=1&rel=0';
 }
 
 function checkVideoAvailability(ytId, cellIdx) {
   var fb = document.getElementById('fb-' + cellIdx);
   if (!fb) return;
+  fb.style.display = 'none'; // hide by default; show only if confirmed unavailable
   fetch('https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=' + ytId + '&format=json')
     .then(function(r) {
-      if (r.ok) { fb.style.display = 'none'; }
+      if (!r.ok) { fb.style.display = 'flex'; }
     })
-    .catch(function() { /* keep fallback visible */ });
+    .catch(function() { /* CORS or network — leave iframe visible */ });
 }
 
 function renderGrid(indices) {
@@ -1602,7 +1603,7 @@ function renderGrid(indices) {
           '<span class="cam-fallback-text">STREAM UNAVAILABLE</span>' +
           '<a class="cam-fallback-link" href="https://www.youtube.com/results?search_query=' + (cam.q || (cam.n.replace(/ /g,'+') + '+live+cam+24/7')) + '&sp=EgJAAQ%253D%253D" target="_blank" rel="noopener">🔍 SEARCH LIVE ON YOUTUBE</a>' +
         '</div>' +
-        '<iframe src="' + ytSrc(cam.yt) + '" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' +
+        '<iframe src="' + ytSrc(cam.yt) + '" allow="autoplay; fullscreen; encrypted-media; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' +
       '</div>' +
       '<div class="cam-name">' + cam.n + '</div>';
     grid.appendChild(cell);
