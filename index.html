@@ -392,6 +392,50 @@ header {
   width: 100%; height: 100%;
   border: none;
 }
+.cam-fallback {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #0a0c10;
+  gap: 8px;
+  z-index: 1;
+}
+.cam-fallback img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+  position: absolute;
+  top: 0; left: 0;
+}
+.cam-fallback-text {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: var(--dim2);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px;
+  padding: 4px 8px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 4px;
+}
+.cam-fallback-link {
+  position: relative;
+  z-index: 2;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  background: rgba(0,0,0,0.6);
+}
+.cam-fallback-link:hover { background: var(--accent); color: #000; }
 .cam-name {
   font-family: 'Rajdhani', sans-serif;
   font-size: 11px;
@@ -688,6 +732,71 @@ header {
 }
 .popup-body { font-size: 12px; color: var(--text); margin-bottom: 5px; line-height: 1.4; }
 .popup-src { font-size: 10px; color: var(--dim2); font-family: 'Share Tech Mono', monospace; }
+.popup-cas {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: #ff4d00;
+  background: rgba(255,77,0,0.1);
+  border: 1px solid rgba(255,77,0,0.3);
+  border-radius: 3px;
+  padding: 4px 7px;
+  margin: 5px 0;
+}
+.popup-cas-icon { margin-right: 4px; }
+.popup-cas-note { color: var(--dim2); font-size: 10px; }
+
+/* ── CASUALTY SUMMARY ── */
+.cas-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 4px 8px;
+  border-bottom: 1px solid rgba(13,51,72,0.4);
+  font-size: 11px;
+}
+.cas-row:last-child { border-bottom: none; }
+.cas-conflict { font-family: 'Share Tech Mono', monospace; color: var(--text); font-size: 10px; }
+.cas-count { font-family: 'Orbitron', sans-serif; font-size: 11px; color: #ff4d00; font-weight: 700; }
+.cas-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 8px;
+  background: rgba(255,77,0,0.07);
+  border-top: 1px solid rgba(255,77,0,0.3);
+}
+.cas-total-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--dim2); }
+.cas-total-count { font-family: 'Orbitron', sans-serif; font-size: 12px; color: #ff4d00; font-weight: 700; }
+
+/* ── MULLAH / IRAN LEADERSHIP ── */
+.mullah-item {
+  padding: 6px 8px;
+  margin-bottom: 3px;
+  border: 1px solid var(--border);
+  border-left: 3px solid #cc44ff;
+  border-radius: 2px;
+  background: rgba(204,68,255,0.04);
+}
+.mullah-name {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: #cc44ff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mullah-role { font-size: 10px; color: var(--dim2); margin-top: 1px; }
+.mullah-status {
+  display: inline-block;
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  margin-top: 3px;
+  font-family: 'Share Tech Mono', monospace;
+}
+.mullah-status.active   { background: rgba(0,255,136,0.15); color: var(--green); border: 1px solid rgba(0,255,136,0.3); }
+.mullah-status.elevated { background: rgba(255,204,0,0.15); color: var(--yellow); border: 1px solid rgba(255,204,0,0.3); }
+.mullah-status.deceased { background: rgba(100,100,100,0.2); color: #888; border: 1px solid #444; }
 
 /* ── MOBILE ── */
 @media (max-width: 768px) {
@@ -822,6 +931,47 @@ header {
         <div class="fleet-item">
           <span class="fleet-name">7th Fleet</span>
           <span class="fleet-zone">W. Pacific (largest)</span>
+        </div>
+      </div>
+
+      <!-- Civilian Casualties -->
+      <div class="sb-section">
+        <div class="sb-header">CIV. CASUALTIES (ACTIVE CONFLICTS)</div>
+        <div id="cas-summary"></div>
+      </div>
+
+      <!-- Iran / Clerical Leadership -->
+      <div class="sb-section">
+        <div class="sb-header">IRAN CLERICAL LEADERSHIP</div>
+        <div class="mullah-item">
+          <div class="mullah-name">Ayatollah Ali Khamenei</div>
+          <div class="mullah-role">Supreme Leader (Vali-ye Faqih)</div>
+          <span class="mullah-status elevated">⬆ ELEVATED ACTIVITY</span>
+        </div>
+        <div class="mullah-item">
+          <div class="mullah-name">Masoud Pezeshkian</div>
+          <div class="mullah-role">President (since Aug 2024)</div>
+          <span class="mullah-status active">● ACTIVE</span>
+        </div>
+        <div class="mullah-item">
+          <div class="mullah-name">Gen. Hossein Salami</div>
+          <div class="mullah-role">IRGC Commander-in-Chief</div>
+          <span class="mullah-status elevated">⬆ IRGC OPS ELEVATED</span>
+        </div>
+        <div class="mullah-item">
+          <div class="mullah-name">Gen. Esmail Qaani</div>
+          <div class="mullah-role">Quds Force Commander</div>
+          <span class="mullah-status active">● PROXY NET ACTIVE</span>
+        </div>
+        <div class="mullah-item">
+          <div class="mullah-name">Abbas Araghchi</div>
+          <div class="mullah-role">Foreign Minister</div>
+          <span class="mullah-status active">● ACTIVE — Nuclear talks</span>
+        </div>
+        <div class="mullah-item">
+          <div class="mullah-name">Ebrahim Raisi</div>
+          <div class="mullah-role">Former President</div>
+          <span class="mullah-status deceased">✕ KIA — Helo crash May 2024</span>
         </div>
       </div>
 
@@ -1019,28 +1169,28 @@ var BREAKING = [
 ];
 
 var CAMS = [
-  { n: 'Times Square NYC',        loc: '🇺🇸 New York',     yt: '1-iZDMFP9c0' },
-  { n: 'Chicago Magnificent Mile',loc: '🇺🇸 Chicago',      yt: 'EKWsXosMAnE' },
-  { n: 'Las Vegas Strip',         loc: '🇺🇸 Las Vegas',    yt: 'dMbTM6OPJGU' },
-  { n: 'Los Angeles Downtown',    loc: '🇺🇸 Los Angeles',  yt: 'NpnSq-HCkQg' },
-  { n: 'Washington DC Capitol',   loc: '🇺🇸 Washington',   yt: 'NMGMjMxnyEo' },
-  { n: 'Miami Beach',             loc: '🇺🇸 Miami',        yt: 'QMM_gKrV6lc' },
-  { n: 'London Trafalgar Square', loc: '🇬🇧 London',       yt: 'Fz9EkOAQjGM' },
-  { n: 'Paris Eiffel Tower',      loc: '🇫🇷 Paris',        yt: 'ByXys4TM_r0' },
-  { n: 'Berlin Brandenburg Gate', loc: '🇩🇪 Berlin',       yt: 'rXTYKMaIYeA' },
-  { n: 'Rome Colosseum',          loc: '🇮🇹 Rome',         yt: '3MFMsHEpKtw' },
-  { n: 'Amsterdam Canals',        loc: '🇳🇱 Amsterdam',    yt: 'EjKFWPgjt8E' },
-  { n: 'Barcelona La Rambla',     loc: '🇪🇸 Barcelona',    yt: 'pcEfFAyc3MA' },
-  { n: 'Tokyo Shibuya Crossing',  loc: '🇯🇵 Tokyo',        yt: '3mNp_Ux8sFY' },
-  { n: 'Seoul Gangnam',           loc: '🇰🇷 Seoul',        yt: 'EwbBdTPUVeE' },
-  { n: 'Singapore Marina Bay',    loc: '🇸🇬 Singapore',    yt: 'oOcvIeMLSKI' },
-  { n: 'Bangkok City Center',     loc: '🇹🇭 Bangkok',      yt: 'fcf5Rh6Ynts' },
-  { n: 'Shanghai Bund',           loc: '🇨🇳 Shanghai',     yt: 'p_E2nBnLjq0' },
-  { n: 'Mumbai Gateway',          loc: '🇮🇳 Mumbai',       yt: 'hM6J8QU9EcI' },
-  { n: 'Tel Aviv Beachfront',     loc: '🇮🇱 Tel Aviv',     yt: 'Xjs_eKA1uss' },
-  { n: 'Istanbul Bosphorus',      loc: '🇹🇷 Istanbul',     yt: 'uM8LWlCTyio' },
-  { n: 'Dubai Downtown',          loc: '🇦🇪 Dubai',        yt: 'e3aWFyDmsiA' },
-  { n: 'Cairo Tahrir Square',     loc: '🇪🇬 Cairo',        yt: 'iLXSa3RD3H4' },
+  { n: 'Times Square NYC',        loc: '🇺🇸 New York',     yt: 'xmqtXkCLCf4', q: 'Times+Square+NYC+live+cam+24/7' },
+  { n: 'Chicago Magnificent Mile',loc: '🇺🇸 Chicago',      yt: 'MNn9qKG2UFI', q: 'Downtown+Chicago+live+cam+24/7' },
+  { n: 'Las Vegas Strip',         loc: '🇺🇸 Las Vegas',    yt: 'rnkjcuFhVyQ', q: 'Las+Vegas+Strip+live+cam+24/7' },
+  { n: 'Los Angeles Downtown',    loc: '🇺🇸 Los Angeles',  yt: 'NpnSq-HCkQg', q: 'Los+Angeles+downtown+live+cam+24/7' },
+  { n: 'Washington DC Capitol',   loc: '🇺🇸 Washington',   yt: 'NMGMjMxnyEo', q: 'Washington+DC+Capitol+live+cam+24/7' },
+  { n: 'Miami Beach',             loc: '🇺🇸 Miami',        yt: 'QMM_gKrV6lc', q: 'Miami+Beach+live+cam+24/7' },
+  { n: 'London Trafalgar Square', loc: '🇬🇧 London',       yt: 'Fz9EkOAQjGM', q: 'London+Trafalgar+Square+live+cam+24/7' },
+  { n: 'Paris Eiffel Tower',      loc: '🇫🇷 Paris',        yt: 'ByXys4TM_r0', q: 'Paris+Eiffel+Tower+live+cam+24/7' },
+  { n: 'Berlin Brandenburg Gate', loc: '🇩🇪 Berlin',       yt: 'rXTYKMaIYeA', q: 'Berlin+Brandenburg+Gate+live+cam+24/7' },
+  { n: 'Rome Colosseum',          loc: '🇮🇹 Rome',         yt: '3MFMsHEpKtw', q: 'Rome+Colosseum+live+cam+24/7' },
+  { n: 'Amsterdam Canals',        loc: '🇳🇱 Amsterdam',    yt: 'EjKFWPgjt8E', q: 'Amsterdam+canals+live+cam+24/7' },
+  { n: 'Barcelona La Rambla',     loc: '🇪🇸 Barcelona',    yt: 'pcEfFAyc3MA', q: 'Barcelona+La+Rambla+live+cam+24/7' },
+  { n: 'Tokyo Shibuya Crossing',  loc: '🇯🇵 Tokyo',        yt: '3kPH7kTphnE', q: 'Tokyo+Shibuya+crossing+live+cam+24/7' },
+  { n: 'Seoul Gangnam',           loc: '🇰🇷 Seoul',        yt: 'EwbBdTPUVeE', q: 'Seoul+Gangnam+live+cam+24/7' },
+  { n: 'Singapore Marina Bay',    loc: '🇸🇬 Singapore',    yt: 'oOcvIeMLSKI', q: 'Singapore+Marina+Bay+live+cam+24/7' },
+  { n: 'Bangkok City Center',     loc: '🇹🇭 Bangkok',      yt: 'fcf5Rh6Ynts', q: 'Bangkok+city+live+cam+24/7' },
+  { n: 'Shanghai Bund',           loc: '🇨🇳 Shanghai',     yt: 'p_E2nBnLjq0', q: 'Shanghai+Bund+live+cam+24/7' },
+  { n: 'Mumbai Gateway',          loc: '🇮🇳 Mumbai',       yt: 'hM6J8QU9EcI', q: 'Mumbai+Gateway+India+live+cam+24/7' },
+  { n: 'Tel Aviv Beachfront',     loc: '🇮🇱 Tel Aviv',     yt: 'Xjs_eKA1uss', q: 'Tel+Aviv+beachfront+live+cam+24/7' },
+  { n: 'Istanbul Bosphorus',      loc: '🇹🇷 Istanbul',     yt: 'uM8LWlCTyio', q: 'Istanbul+Bosphorus+live+cam+24/7' },
+  { n: 'Dubai Downtown',          loc: '🇦🇪 Dubai',        yt: 'e3aWFyDmsiA', q: 'Dubai+Downtown+Burj+Khalifa+live+cam+24/7' },
+  { n: 'Cairo Tahrir Square',     loc: '🇪🇬 Cairo',        yt: 'iLXSa3RD3H4', q: 'Cairo+Egypt+live+cam+24/7' },
 ];
 
 var CAM_SETS = {
@@ -1054,11 +1204,11 @@ var CAM_SETS = {
 var GRID_STATE = [0, 12, 6, 18, 15, 13];
 
 var NEWS = [
-  { cat:'CONFLICT',  color:'#ff4d00', lat:48.5, lng:35.0,  title:'Ukraine — Russo-Ukrainian War',        body:'Heavy fighting across eastern front. Russian forces pushing near Kharkiv and Zaporizhzhia.',   src:'ISW / Reuters' },
-  { cat:'CONFLICT',  color:'#ff4d00', lat:31.5, lng:34.5,  title:'Gaza — Israel-Hamas Conflict',         body:'Ongoing military operations in Gaza Strip. Ceasefire negotiations in Doha.',                   src:'Reuters / Al Jazeera' },
-  { cat:'CONFLICT',  color:'#ff4d00', lat:15.5, lng:32.5,  title:'Sudan — Civil War',                    body:'SAF and RSF forces engaged across Khartoum and Darfur regions.',                             src:'Reuters / BBC' },
-  { cat:'CONFLICT',  color:'#ff4d00', lat:34.5, lng:69.2,  title:'Afghanistan — Taliban Operations',     body:'Sporadic fighting in northeastern provinces. Humanitarian situation deteriorating.',           src:'AP / UN OCHA' },
-  { cat:'CONFLICT',  color:'#ff4d00', lat:9.0,  lng:7.5,   title:'Nigeria — Boko Haram / ISWAP',         body:'Continued insurgent activity in northeast Nigeria and Lake Chad basin.',                      src:'Reuters / AFP' },
+  { cat:'CONFLICT',  color:'#ff4d00', lat:48.5, lng:35.0,  title:'Ukraine — Russo-Ukrainian War',        body:'Heavy fighting across eastern front. Russian forces pushing near Kharkiv and Zaporizhzhia.',   src:'ISW / Reuters',       cas: 12654,  casNote:'OHCHR verified; est. total 30,000+' },
+  { cat:'CONFLICT',  color:'#ff4d00', lat:31.5, lng:34.5,  title:'Gaza — Israel-Hamas Conflict',         body:'Ongoing military operations in Gaza Strip. Ceasefire negotiations in Doha.',                   src:'Reuters / Al Jazeera', cas: 46899, casNote:'Gaza MoH / UNOCHA; ~70% women & children' },
+  { cat:'CONFLICT',  color:'#ff4d00', lat:15.5, lng:32.5,  title:'Sudan — Civil War',                    body:'SAF and RSF forces engaged across Khartoum and Darfur regions.',                             src:'Reuters / BBC',        cas: 14000,  casNote:'ACLED estimate; Darfur figures incomplete' },
+  { cat:'CONFLICT',  color:'#ff4d00', lat:34.5, lng:69.2,  title:'Afghanistan — Taliban Operations',     body:'Sporadic fighting in northeastern provinces. Humanitarian situation deteriorating.',           src:'AP / UN OCHA',         cas: 3200,   casNote:'UNAMA annual figure; underreported' },
+  { cat:'CONFLICT',  color:'#ff4d00', lat:9.0,  lng:7.5,   title:'Nigeria — Boko Haram / ISWAP',         body:'Continued insurgent activity in northeast Nigeria and Lake Chad basin.',                      src:'Reuters / AFP',        cas: 4100,   casNote:'ACLED 2024 est.; includes displacement deaths' },
   { cat:'POLITICAL', color:'#ffcc00', lat:25.0, lng:121.5, title:'Taiwan Strait Tensions',                body:'PLA Navy conducting large-scale exercises near median line. US 7th Fleet monitoring.',        src:'Pentagon / CSIS' },
   { cat:'POLITICAL', color:'#ffcc00', lat:38.0, lng:128.0, title:'Korean Peninsula',                     body:'North Korea tests ballistic missiles. US-ROK joint exercises underway.',                     src:'38North / Pentagon' },
   { cat:'POLITICAL', color:'#ffcc00', lat:55.8, lng:37.6,  title:'Russia — Moscow',                      body:'Kremlin announces mobilization expansion. Western sanctions escalating.',                    src:'Reuters / TASS' },
@@ -1246,10 +1396,15 @@ function initNewsMap() {
       opacity: 0.9,
       fillOpacity: 0.7
     });
+    var casHtml = ev.cas
+      ? '<div class="popup-cas"><span class="popup-cas-icon">☠</span> CIV. CASUALTIES: <strong>' +
+        ev.cas.toLocaleString() + '+</strong><span class="popup-cas-note"> ' + (ev.casNote||'') + '</span></div>'
+      : '';
     marker.bindPopup(
       '<div class="popup-cat" style="color:'+ev.color+'">'+ev.cat+'</div>' +
       '<div class="popup-title">'+ev.title+'</div>' +
       '<div class="popup-body">'+ev.body+'</div>' +
+      casHtml +
       '<div class="popup-src">SRC: '+ev.src+'</div>'
     );
     marker._newscat = ev.cat;
@@ -1418,6 +1573,16 @@ function ytSrc(id) {
          '?autoplay=1&mute=1&loop=1&playlist=' + id + '&controls=0&modestbranding=1';
 }
 
+function checkVideoAvailability(ytId, cellIdx) {
+  var fb = document.getElementById('fb-' + cellIdx);
+  if (!fb) return;
+  fetch('https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=' + ytId + '&format=json')
+    .then(function(r) {
+      if (r.ok) { fb.style.display = 'none'; }
+    })
+    .catch(function() { /* keep fallback visible */ });
+}
+
 function renderGrid(indices) {
   GRID_STATE = indices.slice(0, 6);
   var grid = document.getElementById('cam-grid');
@@ -1432,10 +1597,16 @@ function renderGrid(indices) {
         '<button class="cam-change-btn" onclick="openModal(' + cellIdx + ')">✏ CHANGE</button>' +
       '</div>' +
       '<div class="cam-frame-wrap">' +
-        '<iframe src="' + ytSrc(cam.yt) + '" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>' +
+        '<div class="cam-fallback" id="fb-' + cellIdx + '">' +
+          '<img src="https://img.youtube.com/vi/' + cam.yt + '/hqdefault.jpg" alt="">' +
+          '<span class="cam-fallback-text">STREAM UNAVAILABLE</span>' +
+          '<a class="cam-fallback-link" href="https://www.youtube.com/results?search_query=' + (cam.q || (cam.n.replace(/ /g,'+') + '+live+cam+24/7')) + '&sp=EgJAAQ%253D%253D" target="_blank" rel="noopener">🔍 SEARCH LIVE ON YOUTUBE</a>' +
+        '</div>' +
+        '<iframe src="' + ytSrc(cam.yt) + '" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' +
       '</div>' +
       '<div class="cam-name">' + cam.n + '</div>';
     grid.appendChild(cell);
+    checkVideoAvailability(cam.yt, cellIdx);
   });
 }
 
@@ -1530,6 +1701,28 @@ document.getElementById('cam-modal').addEventListener('click', function(e){
   if (e.target === this) closeModal();
 });
 
+// ── CASUALTY SUMMARY ──────────────────────────────────────────────────────
+
+function buildCasSummary() {
+  var el = document.getElementById('cas-summary');
+  if (!el) return;
+  var conflicts = NEWS.filter(function(e){ return e.cas; });
+  var total = conflicts.reduce(function(s,e){ return s + e.cas; }, 0);
+  var html = '';
+  conflicts.forEach(function(e){
+    var short = e.title.replace(/ — .+/, '');
+    html += '<div class="cas-row">' +
+      '<span class="cas-conflict">' + short + '</span>' +
+      '<span class="cas-count">' + e.cas.toLocaleString() + '+</span>' +
+    '</div>';
+  });
+  html += '<div class="cas-total-row">' +
+    '<span class="cas-total-label">☠ TOTAL VERIFIED</span>' +
+    '<span class="cas-total-count">' + total.toLocaleString() + '+</span>' +
+  '</div>';
+  el.innerHTML = html;
+}
+
 // ── CAMERA DIRECTORY ──────────────────────────────────────────────────────
 
 function buildCamDirectory() {
@@ -1559,6 +1752,7 @@ function buildCamDirectory() {
   });
 }
 buildCamDirectory();
+buildCasSummary();
 
 // ── ASSET SELECT ──────────────────────────────────────────────────────────
 
