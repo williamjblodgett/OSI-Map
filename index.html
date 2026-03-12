@@ -1168,40 +1168,47 @@ var BREAKING = [
   "NORTH KOREA: Kim Jong Un oversees ICBM engine test — analysts warn of imminent launch"
 ];
 
+// src: 'ec'   = EarthCam professional 24/7 webcam (embed/?cid=ID)
+// src: 'ytch' = YouTube channel live stream (always shows current live broadcast)
+// src: 'yt'   = YouTube specific video ID (use for manual/custom entries)
 var CAMS = [
-  { n: 'Times Square NYC',        loc: '🇺🇸 New York',     yt: 'xmqtXkCLCf4', q: 'Times+Square+NYC+live+cam+24/7' },
-  { n: 'Chicago Magnificent Mile',loc: '🇺🇸 Chicago',      yt: 'MNn9qKG2UFI', q: 'Downtown+Chicago+live+cam+24/7' },
-  { n: 'Las Vegas Strip',         loc: '🇺🇸 Las Vegas',    yt: 'rnkjcuFhVyQ', q: 'Las+Vegas+Strip+live+cam+24/7' },
-  { n: 'Los Angeles Downtown',    loc: '🇺🇸 Los Angeles',  yt: 'NpnSq-HCkQg', q: 'Los+Angeles+downtown+live+cam+24/7' },
-  { n: 'Washington DC Capitol',   loc: '🇺🇸 Washington',   yt: 'NMGMjMxnyEo', q: 'Washington+DC+Capitol+live+cam+24/7' },
-  { n: 'Miami Beach',             loc: '🇺🇸 Miami',        yt: 'QMM_gKrV6lc', q: 'Miami+Beach+live+cam+24/7' },
-  { n: 'London Trafalgar Square', loc: '🇬🇧 London',       yt: 'Fz9EkOAQjGM', q: 'London+Trafalgar+Square+live+cam+24/7' },
-  { n: 'Paris Eiffel Tower',      loc: '🇫🇷 Paris',        yt: 'ByXys4TM_r0', q: 'Paris+Eiffel+Tower+live+cam+24/7' },
-  { n: 'Berlin Brandenburg Gate', loc: '🇩🇪 Berlin',       yt: 'rXTYKMaIYeA', q: 'Berlin+Brandenburg+Gate+live+cam+24/7' },
-  { n: 'Rome Colosseum',          loc: '🇮🇹 Rome',         yt: '3MFMsHEpKtw', q: 'Rome+Colosseum+live+cam+24/7' },
-  { n: 'Amsterdam Canals',        loc: '🇳🇱 Amsterdam',    yt: 'EjKFWPgjt8E', q: 'Amsterdam+canals+live+cam+24/7' },
-  { n: 'Barcelona La Rambla',     loc: '🇪🇸 Barcelona',    yt: 'pcEfFAyc3MA', q: 'Barcelona+La+Rambla+live+cam+24/7' },
-  { n: 'Tokyo Shibuya Crossing',  loc: '🇯🇵 Tokyo',        yt: '3kPH7kTphnE', q: 'Tokyo+Shibuya+crossing+live+cam+24/7' },
-  { n: 'Seoul Gangnam',           loc: '🇰🇷 Seoul',        yt: 'EwbBdTPUVeE', q: 'Seoul+Gangnam+live+cam+24/7' },
-  { n: 'Singapore Marina Bay',    loc: '🇸🇬 Singapore',    yt: 'oOcvIeMLSKI', q: 'Singapore+Marina+Bay+live+cam+24/7' },
-  { n: 'Bangkok City Center',     loc: '🇹🇭 Bangkok',      yt: 'fcf5Rh6Ynts', q: 'Bangkok+city+live+cam+24/7' },
-  { n: 'Shanghai Bund',           loc: '🇨🇳 Shanghai',     yt: 'p_E2nBnLjq0', q: 'Shanghai+Bund+live+cam+24/7' },
-  { n: 'Mumbai Gateway',          loc: '🇮🇳 Mumbai',       yt: 'hM6J8QU9EcI', q: 'Mumbai+Gateway+India+live+cam+24/7' },
-  { n: 'Tel Aviv Beachfront',     loc: '🇮🇱 Tel Aviv',     yt: 'Xjs_eKA1uss', q: 'Tel+Aviv+beachfront+live+cam+24/7' },
-  { n: 'Istanbul Bosphorus',      loc: '🇹🇷 Istanbul',     yt: 'uM8LWlCTyio', q: 'Istanbul+Bosphorus+live+cam+24/7' },
-  { n: 'Dubai Downtown',          loc: '🇦🇪 Dubai',        yt: 'e3aWFyDmsiA', q: 'Dubai+Downtown+Burj+Khalifa+live+cam+24/7' },
-  { n: 'Cairo Tahrir Square',     loc: '🇪🇬 Cairo',        yt: 'iLXSa3RD3H4', q: 'Cairo+Egypt+live+cam+24/7' },
+  // 0-5: USA — EarthCam (professional 24/7, always live)
+  { n: 'Times Square NYC',       loc: '🇺🇸 New York',    src: 'ec',   id: 'tsrobo1',                    q: 'Times+Square+NYC+live+cam+24/7' },
+  { n: 'Chicago Navy Pier',      loc: '🇺🇸 Chicago',     src: 'ec',   id: 'navypier',                   q: 'Downtown+Chicago+live+cam+24/7' },
+  { n: 'Las Vegas Strip',        loc: '🇺🇸 Las Vegas',   src: 'ec',   id: 'lasvegasblvd',               q: 'Las+Vegas+Strip+live+cam+24/7' },
+  { n: 'Hollywood Blvd',         loc: '🇺🇸 Los Angeles', src: 'ec',   id: 'hollywoodblvd',              q: 'Los+Angeles+Hollywood+live+cam+24/7' },
+  { n: 'Washington DC Mall',     loc: '🇺🇸 Washington',  src: 'ec',   id: 'washington',                 q: 'Washington+DC+Capitol+live+cam+24/7' },
+  { n: 'Nashville Broadway',     loc: '🇺🇸 Nashville',   src: 'ec',   id: 'nashville',                  q: 'Nashville+Broadway+live+cam+24/7' },
+  // 6-11: Europe — YouTube 24/7 live channels
+  { n: 'London — Sky News',      loc: '🇬🇧 London',      src: 'ytch', id: 'UCoMdktPbSTixAyNGwb-UYkQ',  q: 'London+Trafalgar+Square+live+cam+24/7' },
+  { n: 'Paris — France 24',      loc: '🇫🇷 Paris',       src: 'ytch', id: 'UCQfwfsi5VrQ8yKZ-UWmAEFg',  q: 'Paris+Eiffel+Tower+live+cam+24/7' },
+  { n: 'Berlin — DW News',       loc: '🇩🇪 Berlin',      src: 'ytch', id: 'UCknLrEdhRCp1aegoMqRaCZg',  q: 'Berlin+Brandenburg+Gate+live+cam+24/7' },
+  { n: 'Rome — Euronews',        loc: '🇮🇹 Rome',        src: 'ytch', id: 'UCg4QX32-YMRiGFiELrXTPig',  q: 'Rome+Colosseum+live+cam+24/7' },
+  { n: 'Amsterdam — Euronews',   loc: '🇳🇱 Amsterdam',   src: 'ytch', id: 'UCg4QX32-YMRiGFiELrXTPig',  q: 'Amsterdam+canals+live+cam+24/7' },
+  { n: 'Barcelona — Euronews',   loc: '🇪🇸 Barcelona',   src: 'ytch', id: 'UCg4QX32-YMRiGFiELrXTPig',  q: 'Barcelona+La+Rambla+live+cam+24/7' },
+  // 12-17: Asia — YouTube 24/7 live channels
+  { n: 'Tokyo — NHK World',      loc: '🇯🇵 Tokyo',       src: 'ytch', id: 'UCCi7sAyBMx3h_7NVMOmMzLg',  q: 'Tokyo+Shibuya+crossing+live+cam+24/7' },
+  { n: 'Seoul — Arirang TV',     loc: '🇰🇷 Seoul',       src: 'ytch', id: 'UC8wYSoW7kNhVQH0xftmG_xA',  q: 'Seoul+Gangnam+live+cam+24/7' },
+  { n: 'Singapore — CNA',        loc: '🇸🇬 Singapore',   src: 'ytch', id: 'UCkAovMFkTyLWHRg_e8ZvpGQ',  q: 'Singapore+Marina+Bay+live+cam+24/7' },
+  { n: 'Bangkok — Thai PBS',     loc: '🇹🇭 Bangkok',     src: 'ytch', id: 'UCCi7sAyBMx3h_7NVMOmMzLg',  q: 'Bangkok+city+live+cam+24/7' },
+  { n: 'Shanghai — CGTN',        loc: '🇨🇳 Shanghai',    src: 'ytch', id: 'UCkE_2_5AxhSumfYgWfSMU0g',  q: 'Shanghai+Bund+live+cam+24/7' },
+  { n: 'Mumbai — NDTV',          loc: '🇮🇳 Mumbai',      src: 'ytch', id: 'UCZFMm1mMw0F81Z37aaEzTUA',  q: 'Mumbai+Gateway+India+live+cam+24/7' },
+  // 18-21: Mid East — YouTube 24/7 live channels
+  { n: 'Tel Aviv — i24 News',    loc: '🇮🇱 Tel Aviv',    src: 'ytch', id: 'UCLqGsl50qCZD2t_aMuEXCOQ',  q: 'Tel+Aviv+beachfront+live+cam+24/7' },
+  { n: 'Istanbul — TRT World',   loc: '🇹🇷 Istanbul',    src: 'ytch', id: 'UCFCnxKmx5T4E7cliYZQDKmA',  q: 'Istanbul+Bosphorus+live+cam+24/7' },
+  { n: 'Dubai — Al Arabiya EN',  loc: '🇦🇪 Dubai',       src: 'ytch', id: 'UCVFQPbWPCddsVXKqiKWcJbA',  q: 'Dubai+Downtown+Burj+Khalifa+live+cam+24/7' },
+  { n: 'Cairo — Al Jazeera',     loc: '🇪🇬 Cairo',       src: 'ytch', id: 'UCNye-wNBqNL5ZzHSJdse68g',  q: 'Cairo+Egypt+live+cam+24/7' },
 ];
 
 var CAM_SETS = {
-  world:   [0, 12, 6, 18, 15, 13],
+  world:   [0, 6, 12, 18, 1, 7],
   usa:     [0, 1, 2, 3, 4, 5],
   europe:  [6, 7, 8, 9, 10, 11],
   asia:    [12, 13, 14, 15, 16, 17],
-  mideast: [18, 19, 20, 21, 6, 0],
+  mideast: [18, 19, 20, 21, 0, 6],
 };
 
-var GRID_STATE = [0, 12, 6, 18, 15, 13];
+var GRID_STATE = [0, 6, 12, 18, 1, 7];
 
 var NEWS = [
   { cat:'CONFLICT',  color:'#ff4d00', lat:48.5, lng:35.0,  title:'Ukraine — Russo-Ukrainian War',        body:'Heavy fighting across eastern front. Russian forces pushing near Kharkiv and Zaporizhzhia.',   src:'ISW / Reuters',       cas: 12654,  casNote:'OHCHR verified; est. total 30,000+' },
@@ -1568,20 +1575,29 @@ function placeMilMap(mode) {
 
 // ── CAMERA GRID ───────────────────────────────────────────────────────────
 
-function ytSrc(id) {
-  return 'https://www.youtube.com/embed/' + id +
+function camSrc(cam) {
+  if (cam.src === 'ec') {
+    return 'https://www.earthcam.com/embed/?cid=' + cam.id;
+  }
+  if (cam.src === 'ytch') {
+    return 'https://www.youtube.com/embed/live_stream?channel=' + cam.id +
+           '&autoplay=1&mute=1&controls=1&modestbranding=1';
+  }
+  return 'https://www.youtube.com/embed/' + cam.id +
          '?autoplay=1&mute=1&controls=1&modestbranding=1&rel=0';
 }
 
-function checkVideoAvailability(ytId, cellIdx) {
+// Kept for manual YouTube entry (updateCell / confirmCamChange)
+function ytSrc(id) { return camSrc({ src: 'yt', id: id }); }
+
+function checkVideoAvailability(cam, cellIdx) {
   var fb = document.getElementById('fb-' + cellIdx);
   if (!fb) return;
-  fb.style.display = 'none'; // hide by default; show only if confirmed unavailable
-  fetch('https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=' + ytId + '&format=json')
-    .then(function(r) {
-      if (!r.ok) { fb.style.display = 'flex'; }
-    })
-    .catch(function() { /* CORS or network — leave iframe visible */ });
+  fb.style.display = 'none'; // always hide fallback by default
+  if (cam.src !== 'yt') return; // EarthCam and channel embeds are always live; skip check
+  fetch('https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=' + cam.id + '&format=json')
+    .then(function(r) { if (!r.ok) { fb.style.display = 'flex'; } })
+    .catch(function() { /* network error — leave iframe visible */ });
 }
 
 function renderGrid(indices) {
@@ -1599,15 +1615,15 @@ function renderGrid(indices) {
       '</div>' +
       '<div class="cam-frame-wrap">' +
         '<div class="cam-fallback" id="fb-' + cellIdx + '">' +
-          '<img src="https://img.youtube.com/vi/' + cam.yt + '/hqdefault.jpg" alt="">' +
+          (cam.src === 'yt' ? '<img src="https://img.youtube.com/vi/' + cam.id + '/hqdefault.jpg" alt="">' : '') +
           '<span class="cam-fallback-text">STREAM UNAVAILABLE</span>' +
           '<a class="cam-fallback-link" href="https://www.youtube.com/results?search_query=' + (cam.q || (cam.n.replace(/ /g,'+') + '+live+cam+24/7')) + '&sp=EgJAAQ%253D%253D" target="_blank" rel="noopener">🔍 SEARCH LIVE ON YOUTUBE</a>' +
         '</div>' +
-        '<iframe src="' + ytSrc(cam.yt) + '" allow="autoplay; fullscreen; encrypted-media; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' +
+        '<iframe src="' + camSrc(cam) + '" allow="autoplay; fullscreen; encrypted-media; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' +
       '</div>' +
       '<div class="cam-name">' + cam.n + '</div>';
     grid.appendChild(cell);
-    checkVideoAvailability(cam.yt, cellIdx);
+    checkVideoAvailability(cam, cellIdx);
   });
 }
 
@@ -1674,7 +1690,7 @@ function selectPreset(camIdx) {
   var cells = document.querySelectorAll('.cam-cell');
   if (cells[modalCell]) {
     var iframe = cells[modalCell].querySelector('iframe');
-    if (iframe) iframe.src = ytSrc(cam.yt);
+    if (iframe) iframe.src = camSrc(cam);
     var locEl = cells[modalCell].querySelector('.cam-loc');
     if (locEl) locEl.textContent = cam.loc;
     var nameEl = cells[modalCell].querySelector('.cam-name');
@@ -1741,7 +1757,7 @@ function buildCamDirectory() {
       var cells = document.querySelectorAll('.cam-cell');
       if (cells[0]) {
         var iframe = cells[0].querySelector('iframe');
-        if (iframe) iframe.src = ytSrc(cam.yt);
+        if (iframe) iframe.src = camSrc(cam);
         var locEl = cells[0].querySelector('.cam-loc');
         if (locEl) locEl.textContent = cam.loc;
         var nameEl = cells[0].querySelector('.cam-name');
