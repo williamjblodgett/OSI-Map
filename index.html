@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
 <style>
 :root {
   --bg:      #030a0f;
@@ -392,6 +393,13 @@ header {
   width: 100%; height: 100%;
   border: none;
 }
+.cam-frame-wrap video {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: #000;
+  object-fit: contain;
+}
 .cam-fallback {
   position: absolute;
   top: 0; left: 0;
@@ -707,6 +715,135 @@ header {
   margin-top: 2px;
 }
 
+/* ── CONFLICT DETAIL MODAL ── */
+#conflict-modal { display: flex; }
+#conflict-modal[style*="display:none"] { display: none !important; }
+#conflict-modal-box {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: min(680px, 95vw);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.8);
+}
+#cm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  flex-shrink: 0;
+}
+.cm-title-text {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+  color: var(--accent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cm-cat {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 9px;
+  letter-spacing: 1px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cm-close-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--dim2);
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 2px;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.cm-close-btn:hover { color: var(--red); border-color: var(--red); }
+#cm-body-inner {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+}
+#cm-body-inner::-webkit-scrollbar { width: 4px; }
+#cm-body-inner::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 2px; }
+.cm-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+}
+.cm-label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--dim2);
+  white-space: nowrap;
+  padding-top: 2px;
+  min-width: 68px;
+}
+.cm-value {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.45;
+}
+.cm-section {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+.cm-bl-text {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.55;
+  margin-top: 7px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 400;
+}
+.cm-status-val { color: var(--dim2); }
+.cm-cas-block {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: #ff4d00;
+  background: rgba(255,77,0,0.08);
+  border: 1px solid rgba(255,77,0,0.3);
+  border-radius: 3px;
+  padding: 7px 10px;
+  margin: 4px 0 12px;
+}
+.cm-cas-note { color: var(--dim2); font-size: 10px; margin-left: 6px; }
+.cm-links-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.cm-link-btn {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  padding: 5px 10px;
+  text-decoration: none;
+  background: rgba(0,212,255,0.05);
+  transition: background 0.15s, color 0.15s;
+}
+.cm-link-btn:hover { background: var(--accent); color: #000; }
+.cas-row.has-detail { cursor: pointer; }
+.cas-row.has-detail:hover { background: rgba(0,212,255,0.06); }
+.cas-row.has-detail:hover .cas-conflict { color: var(--accent); }
+
 /* ── CUSTOM MAP POPUP ── */
 .leaflet-popup-content-wrapper {
   background: var(--panel) !important;
@@ -1014,9 +1151,9 @@ header {
         <div id="tab-cameras" class="tab-pane active">
           <div class="cam-filter-bar">
             <button class="filter-btn active" onclick="setCamSet('world',this)">WORLD</button>
-            <button class="filter-btn" onclick="setCamSet('usa',this)">USA</button>
-            <button class="filter-btn" onclick="setCamSet('europe',this)">EUROPE</button>
+            <button class="filter-btn" onclick="setCamSet('news',this)">NEWS EN</button>
             <button class="filter-btn" onclick="setCamSet('asia',this)">ASIA</button>
+            <button class="filter-btn" onclick="setCamSet('us',this)">US</button>
             <button class="filter-btn" onclick="setCamSet('mideast',this)">MID EAST</button>
           </div>
           <div class="cam-scroll">
@@ -1156,6 +1293,33 @@ header {
   </div>
 </div>
 
+<!-- CONFLICT DETAIL MODAL -->
+<div id="conflict-modal" style="display:none; position:fixed; inset:0; z-index:10000; background:rgba(0,0,0,0.88); align-items:center; justify-content:center;">
+  <div id="conflict-modal-box">
+    <div id="cm-header">
+      <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+        <span id="cm-cat-badge" class="cm-cat"></span>
+        <span id="cm-title-text" class="cm-title-text"></span>
+      </div>
+      <button class="cm-close-btn" onclick="closeConflictModal()">✕</button>
+    </div>
+    <div id="cm-body-inner">
+      <div class="cm-row"><span class="cm-label">SINCE</span><span id="cm-date" class="cm-value"></span></div>
+      <div class="cm-row" id="cm-parties-row"><span class="cm-label">PARTIES</span><span id="cm-parties" class="cm-value"></span></div>
+      <div id="cm-bl-wrap" class="cm-section">
+        <div class="cm-label">BATTLE LINES / SITUATION</div>
+        <div id="cm-battlelines" class="cm-bl-text"></div>
+      </div>
+      <div class="cm-row"><span class="cm-label">LATEST</span><span id="cm-status" class="cm-value cm-status-val"></span></div>
+      <div id="cm-cas-wrap" class="cm-cas-block">
+        <span>☠ CIV. CASUALTIES: </span><strong id="cm-cas"></strong><span id="cm-casnote" class="cm-cas-note"></span>
+      </div>
+      <div class="cm-label" style="margin-top:14px;margin-bottom:7px;letter-spacing:1px;">QUICK LINKS</div>
+      <div id="cm-links" class="cm-links-grid"></div>
+    </div>
+  </div>
+</div>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 // ── DATA ──────────────────────────────────────────────────────────────────
@@ -1168,58 +1332,161 @@ var BREAKING = [
   "NORTH KOREA: Kim Jong Un oversees ICBM engine test — analysts warn of imminent launch"
 ];
 
-// src: 'ec'   = EarthCam professional 24/7 webcam (embed/?cid=ID)
-// src: 'ytch' = YouTube channel live stream (always shows current live broadcast)
-// src: 'yt'   = YouTube specific video ID (use for manual/custom entries)
+// src: 'hls' = HLS M3U8 live stream (played via HLS.js directly in <video> — no iframe, no X-Frame-Options issues)
+// src: 'yt'  = YouTube video ID (manual user custom override only)
 var CAMS = [
-  // 0-5: USA — EarthCam (professional 24/7, always live)
-  { n: 'Times Square NYC',       loc: '🇺🇸 New York',    src: 'ec',   id: 'tsrobo1',                    q: 'Times+Square+NYC+live+cam+24/7' },
-  { n: 'Chicago Navy Pier',      loc: '🇺🇸 Chicago',     src: 'ec',   id: 'navypier',                   q: 'Downtown+Chicago+live+cam+24/7' },
-  { n: 'Las Vegas Strip',        loc: '🇺🇸 Las Vegas',   src: 'ec',   id: 'lasvegasblvd',               q: 'Las+Vegas+Strip+live+cam+24/7' },
-  { n: 'Hollywood Blvd',         loc: '🇺🇸 Los Angeles', src: 'ec',   id: 'hollywoodblvd',              q: 'Los+Angeles+Hollywood+live+cam+24/7' },
-  { n: 'Washington DC Mall',     loc: '🇺🇸 Washington',  src: 'ec',   id: 'washington',                 q: 'Washington+DC+Capitol+live+cam+24/7' },
-  { n: 'Nashville Broadway',     loc: '🇺🇸 Nashville',   src: 'ec',   id: 'nashville',                  q: 'Nashville+Broadway+live+cam+24/7' },
-  // 6-11: Europe — YouTube 24/7 live channels
-  { n: 'London — Sky News',      loc: '🇬🇧 London',      src: 'ytch', id: 'UCoMdktPbSTixAyNGwb-UYkQ',  q: 'London+Trafalgar+Square+live+cam+24/7' },
-  { n: 'Paris — France 24',      loc: '🇫🇷 Paris',       src: 'ytch', id: 'UCQfwfsi5VrQ8yKZ-UWmAEFg',  q: 'Paris+Eiffel+Tower+live+cam+24/7' },
-  { n: 'Berlin — DW News',       loc: '🇩🇪 Berlin',      src: 'ytch', id: 'UCknLrEdhRCp1aegoMqRaCZg',  q: 'Berlin+Brandenburg+Gate+live+cam+24/7' },
-  { n: 'Rome — Euronews',        loc: '🇮🇹 Rome',        src: 'ytch', id: 'UCg4QX32-YMRiGFiELrXTPig',  q: 'Rome+Colosseum+live+cam+24/7' },
-  { n: 'Amsterdam — Euronews',   loc: '🇳🇱 Amsterdam',   src: 'ytch', id: 'UCg4QX32-YMRiGFiELrXTPig',  q: 'Amsterdam+canals+live+cam+24/7' },
-  { n: 'Barcelona — Euronews',   loc: '🇪🇸 Barcelona',   src: 'ytch', id: 'UCg4QX32-YMRiGFiELrXTPig',  q: 'Barcelona+La+Rambla+live+cam+24/7' },
-  // 12-17: Asia — YouTube 24/7 live channels
-  { n: 'Tokyo — NHK World',      loc: '🇯🇵 Tokyo',       src: 'ytch', id: 'UCCi7sAyBMx3h_7NVMOmMzLg',  q: 'Tokyo+Shibuya+crossing+live+cam+24/7' },
-  { n: 'Seoul — Arirang TV',     loc: '🇰🇷 Seoul',       src: 'ytch', id: 'UC8wYSoW7kNhVQH0xftmG_xA',  q: 'Seoul+Gangnam+live+cam+24/7' },
-  { n: 'Singapore — CNA',        loc: '🇸🇬 Singapore',   src: 'ytch', id: 'UCkAovMFkTyLWHRg_e8ZvpGQ',  q: 'Singapore+Marina+Bay+live+cam+24/7' },
-  { n: 'Bangkok — Thai PBS',     loc: '🇹🇭 Bangkok',     src: 'ytch', id: 'UCCi7sAyBMx3h_7NVMOmMzLg',  q: 'Bangkok+city+live+cam+24/7' },
-  { n: 'Shanghai — CGTN',        loc: '🇨🇳 Shanghai',    src: 'ytch', id: 'UCkE_2_5AxhSumfYgWfSMU0g',  q: 'Shanghai+Bund+live+cam+24/7' },
-  { n: 'Mumbai — NDTV',          loc: '🇮🇳 Mumbai',      src: 'ytch', id: 'UCZFMm1mMw0F81Z37aaEzTUA',  q: 'Mumbai+Gateway+India+live+cam+24/7' },
-  // 18-21: Mid East — YouTube 24/7 live channels
-  { n: 'Tel Aviv — i24 News',    loc: '🇮🇱 Tel Aviv',    src: 'ytch', id: 'UCLqGsl50qCZD2t_aMuEXCOQ',  q: 'Tel+Aviv+beachfront+live+cam+24/7' },
-  { n: 'Istanbul — TRT World',   loc: '🇹🇷 Istanbul',    src: 'ytch', id: 'UCFCnxKmx5T4E7cliYZQDKmA',  q: 'Istanbul+Bosphorus+live+cam+24/7' },
-  { n: 'Dubai — Al Arabiya EN',  loc: '🇦🇪 Dubai',       src: 'ytch', id: 'UCVFQPbWPCddsVXKqiKWcJbA',  q: 'Dubai+Downtown+Burj+Khalifa+live+cam+24/7' },
-  { n: 'Cairo — Al Jazeera',     loc: '🇪🇬 Cairo',       src: 'ytch', id: 'UCNye-wNBqNL5ZzHSJdse68g',  q: 'Cairo+Egypt+live+cam+24/7' },
+  // 0 — Al Jazeera English
+  { n: 'Al Jazeera English', loc: '🌍 Global / Doha',   src: 'hls', id: 'https://live-hls-web-aje.getmesomejo.com/AJE/index.m3u8',                                                        site: 'https://www.aljazeera.com/live/' },
+  // 1 — France 24 EN (official Akamai CDN, CORS-enabled)
+  { n: 'France 24 English',  loc: '🇫🇷 Paris',          src: 'hls', id: 'https://static.france24.com/live/F24_EN_HI_HLS/live_web.m3u8',                                                   site: 'https://www.france24.com/en/live-news-stream/' },
+  // 2 — DW News (Deutsche Welle official Akamai CDN, CORS-enabled)
+  { n: 'DW News',            loc: '🇩🇪 Berlin',          src: 'hls', id: 'https://dwamdstream102.akamaized.net/hls/live/2015529/dwstream102/index.m3u8',                                    site: 'https://www.dw.com/en/media-center/live-tv/s-100825' },
+  // 3 — Sky News
+  { n: 'Sky News',           loc: '🇬🇧 London',          src: 'hls', id: 'https://skynews-i.akamaihd.net/hls/live/584520/skynewsdef/playlist.m3u8',                                        site: 'https://news.sky.com/watch-sky-news-live' },
+  // 4 — Euronews EN
+  { n: 'Euronews English',   loc: '🇪🇺 Europe',          src: 'hls', id: 'https://euronews-wrappers-prod.akamaized.net/hls/live/2076273/euronews/en/master.m3u8',                          site: 'https://www.euronews.com/live' },
+  // 5 — TRT World
+  { n: 'TRT World',          loc: '🇹🇷 Istanbul',        src: 'hls', id: 'https://trtworld.live.trt.com.tr/master.m3u8',                                                                   site: 'https://www.trtworld.com/watch' },
+  // 6 — NHK World English (Akamai)
+  { n: 'NHK World English',  loc: '🇯🇵 Tokyo',           src: 'hls', id: 'https://nhkworldlive-i.akamaihd.net/hls/live/511929/nhkworld/index.m3u8',                                        site: 'https://www3.nhk.or.jp/nhkworld/en/live/' },
+  // 7 — Arirang TV South Korea (Samsung TV Plus CDN)
+  { n: 'Arirang TV',         loc: '🇰🇷 Seoul',           src: 'hls', id: 'https://amdlive-ch01-samsungtvplus.akamaized.net/hls/live/2093402/ch01_live_samsungtvplus/master.m3u8',          site: 'https://www.arirang.com/live/' },
+  // 8 — CGTN English
+  { n: 'CGTN English',       loc: '🇨🇳 Beijing',         src: 'hls', id: 'https://news.cgtn.com/resource/live/english/cgtn-news.m3u8',                                                    site: 'https://www.cgtn.com/live/' },
+  // 9 — i24 News English
+  { n: 'i24 News English',   loc: '🇮🇱 Tel Aviv',        src: 'hls', id: 'https://bcovlive-a.akamaihd.net/live002/na-northeast-1/6057955885001/playlist.m3u8',                             site: 'https://www.i24news.tv/en/tv/live' },
+  // 10 — ABC News Live
+  { n: 'ABC News Live',      loc: '🇺🇸 New York',        src: 'hls', id: 'https://abclive2-lh.akamaihd.net/i/abc_live05@590326/master.m3u8',                                              site: 'https://abcnews.go.com/Live' },
+  // 11 — Al Jazeera Arabic
+  { n: 'Al Jazeera Arabic',  loc: '🌍 Arabic / Doha',    src: 'hls', id: 'https://live-hls-web-aja.getmesomejo.com/AJA/index.m3u8',                                                        site: 'https://www.aljazeera.net/live/' },
 ];
 
 var CAM_SETS = {
-  world:   [0, 6, 12, 18, 1, 7],
-  usa:     [0, 1, 2, 3, 4, 5],
-  europe:  [6, 7, 8, 9, 10, 11],
-  asia:    [12, 13, 14, 15, 16, 17],
-  mideast: [18, 19, 20, 21, 0, 6],
+  world:   [0, 1, 2, 6, 7, 9],
+  news:    [0, 1, 2, 3, 4, 5],
+  asia:    [6, 7, 8, 9, 0, 5],
+  us:      [10, 0, 1, 2, 3, 4],
+  mideast: [9, 11, 0, 5, 6, 2],
 };
 
-var GRID_STATE = [0, 6, 12, 18, 1, 7];
+var GRID_STATE = [0, 1, 2, 6, 7, 9];
 
 var NEWS = [
-  { cat:'CONFLICT',  color:'#ff4d00', lat:48.5, lng:35.0,  title:'Ukraine — Russo-Ukrainian War',        body:'Heavy fighting across eastern front. Russian forces pushing near Kharkiv and Zaporizhzhia.',   src:'ISW / Reuters',       cas: 12654,  casNote:'OHCHR verified; est. total 30,000+' },
-  { cat:'CONFLICT',  color:'#ff4d00', lat:31.5, lng:34.5,  title:'Gaza — Israel-Hamas Conflict',         body:'Ongoing military operations in Gaza Strip. Ceasefire negotiations in Doha.',                   src:'Reuters / Al Jazeera', cas: 46899, casNote:'Gaza MoH / UNOCHA; ~70% women & children' },
-  { cat:'CONFLICT',  color:'#ff4d00', lat:15.5, lng:32.5,  title:'Sudan — Civil War',                    body:'SAF and RSF forces engaged across Khartoum and Darfur regions.',                             src:'Reuters / BBC',        cas: 14000,  casNote:'ACLED estimate; Darfur figures incomplete' },
-  { cat:'CONFLICT',  color:'#ff4d00', lat:34.5, lng:69.2,  title:'Afghanistan — Taliban Operations',     body:'Sporadic fighting in northeastern provinces. Humanitarian situation deteriorating.',           src:'AP / UN OCHA',         cas: 3200,   casNote:'UNAMA annual figure; underreported' },
-  { cat:'CONFLICT',  color:'#ff4d00', lat:9.0,  lng:7.5,   title:'Nigeria — Boko Haram / ISWAP',         body:'Continued insurgent activity in northeast Nigeria and Lake Chad basin.',                      src:'Reuters / AFP',        cas: 4100,   casNote:'ACLED 2024 est.; includes displacement deaths' },
-  { cat:'POLITICAL', color:'#ffcc00', lat:25.0, lng:121.5, title:'Taiwan Strait Tensions',                body:'PLA Navy conducting large-scale exercises near median line. US 7th Fleet monitoring.',        src:'Pentagon / CSIS' },
-  { cat:'POLITICAL', color:'#ffcc00', lat:38.0, lng:128.0, title:'Korean Peninsula',                     body:'North Korea tests ballistic missiles. US-ROK joint exercises underway.',                     src:'38North / Pentagon' },
-  { cat:'POLITICAL', color:'#ffcc00', lat:55.8, lng:37.6,  title:'Russia — Moscow',                      body:'Kremlin announces mobilization expansion. Western sanctions escalating.',                    src:'Reuters / TASS' },
-  { cat:'POLITICAL', color:'#ffcc00', lat:35.7, lng:51.4,  title:'Iran — Tehran',                        body:'Nuclear negotiations stalled. IRGC conducts regional proxy operations.',                    src:'Reuters / IAEA' },
+  { cat:'CONFLICT',  color:'#ff4d00', lat:48.5, lng:35.0,
+    title:'Ukraine — Russo-Ukrainian War',
+    body:'Heavy fighting across eastern front. Russian forces pushing near Kharkiv and Zaporizhzhia.',
+    src:'ISW / Reuters', cas: 12654, casNote:'OHCHR verified civilian deaths; est. military total 150,000+',
+    startDate: 'Feb 24, 2022 (full-scale invasion; conflict since 2014)',
+    parties: ['Russia', 'Ukraine (NATO/EU-backed)'],
+    battleLines: 'Active front line ~1,200 km from Kharkiv to Kherson. Russia occupies ~18% of Ukrainian territory including Crimea, Donbas, Zaporizhzhia, and Kherson oblasts. Bakhmut–Avdiivka salient heavily contested.',
+    links: [
+      { l:'ISW Daily Update', u:'https://www.understandingwar.org/backgrounder/ukraine-conflict-updates' },
+      { l:'LiveUAMap', u:'https://liveuamap.com/' },
+      { l:'Wikipedia', u:'https://en.wikipedia.org/wiki/Russo-Ukrainian_War' },
+      { l:'UN OCHA Ukraine', u:'https://www.unocha.org/ukraine' },
+      { l:'Reuters Ukraine', u:'https://www.reuters.com/world/europe/ukraine/' },
+    ]},
+  { cat:'CONFLICT',  color:'#ff4d00', lat:31.5, lng:34.5,
+    title:'Gaza — Israel-Hamas Conflict',
+    body:'Ongoing military operations in Gaza Strip. Ceasefire negotiations in Doha.',
+    src:'Reuters / Al Jazeera', cas: 46899, casNote:'Gaza Ministry of Health / UNOCHA; ~70% women & children',
+    startDate: 'Oct 7, 2023',
+    parties: ['Israel (IDF)', 'Hamas / Palestinian Islamic Jihad'],
+    battleLines: 'IDF ground operations throughout Gaza Strip. Northern Gaza largely destroyed. Rafah crossing contested. Tunnel network targeted. Civilian displacement exceeds 1.7 million.',
+    links: [
+      { l:'UN OCHA oPt', u:'https://www.unocha.org/occupied-palestinian-territory' },
+      { l:'Al Jazeera Live', u:'https://www.aljazeera.com/where/israel/' },
+      { l:'Wikipedia', u:'https://en.wikipedia.org/wiki/2023_Israel%E2%80%93Hamas_war' },
+      { l:'ACLED Gaza', u:'https://acleddata.com/israel-and-occupied-palestinian-territory/' },
+      { l:'B\'Tselem', u:'https://www.btselem.org/' },
+    ]},
+  { cat:'CONFLICT',  color:'#ff4d00', lat:15.5, lng:32.5,
+    title:'Sudan — Civil War',
+    body:'SAF and RSF forces engaged across Khartoum and Darfur regions.',
+    src:'Reuters / BBC', cas: 14000, casNote:'ACLED estimate; Darfur figures incomplete',
+    startDate: 'Apr 15, 2023',
+    parties: ['Sudan Armed Forces (SAF)', 'Rapid Support Forces (RSF)'],
+    battleLines: 'RSF controls most of Khartoum and Omdurman. SAF holds northeast and Port Sudan. El Fasher in North Darfur besieged — humanitarian access severely restricted.',
+    links: [
+      { l:'ACLED Sudan', u:'https://acleddata.com/sudan/' },
+      { l:'Crisis Group', u:'https://www.crisisgroup.org/africa/horn-africa/sudan' },
+      { l:'Wikipedia', u:'https://en.wikipedia.org/wiki/Sudanese_civil_war_(2023%E2%80%93present)' },
+      { l:'UNHCR Sudan', u:'https://www.unhcr.org/countries/sudan' },
+    ]},
+  { cat:'CONFLICT',  color:'#ff4d00', lat:34.5, lng:69.2,
+    title:'Afghanistan — Taliban / ISKP',
+    body:'Sporadic fighting in northeastern provinces. Humanitarian situation deteriorating.',
+    src:'AP / UN OCHA', cas: 3200, casNote:'UNAMA annual figure; underreported',
+    startDate: 'Aug 15, 2021 (Taliban takeover; war since 2001)',
+    parties: ['Taliban (ruling authority)', 'ISKP (IS-Khorasan)', 'NRF remnants'],
+    battleLines: 'Taliban controls all 34 provinces. ISKP conducts asymmetric bombings in urban centers. No conventional front lines. NRF resistance minimal, largely in Panjshir Valley.',
+    links: [
+      { l:'UNAMA', u:'https://unama.unmissions.org/' },
+      { l:'Long War Journal', u:'https://www.longwarjournal.org/archives/afghanistan' },
+      { l:'Wikipedia', u:'https://en.wikipedia.org/wiki/Taliban_insurgency_(2021%E2%80%93present)' },
+      { l:'ReliefWeb', u:'https://reliefweb.int/country/afg' },
+    ]},
+  { cat:'CONFLICT',  color:'#ff4d00', lat:9.0,  lng:7.5,
+    title:'Nigeria — Boko Haram / ISWAP',
+    body:'Continued insurgent activity in northeast Nigeria and Lake Chad basin.',
+    src:'Reuters / AFP', cas: 4100, casNote:'ACLED 2024 est.; includes displacement deaths',
+    startDate: 'Jul 2009 (Boko Haram insurgency)',
+    parties: ['Nigerian Armed Forces', 'Boko Haram (JAS)', 'ISWAP', 'MNJTF (multinational)'],
+    battleLines: 'ISWAP controls rural northeast Nigeria and Lake Chad islands. Military operations in Sambisa Forest. Civilian towns in Borno State frequently attacked. No fixed front lines.',
+    links: [
+      { l:'ACLED Nigeria', u:'https://acleddata.com/nigeria/' },
+      { l:'Crisis Group', u:'https://www.crisisgroup.org/africa/west-africa/nigeria' },
+      { l:'Wikipedia', u:'https://en.wikipedia.org/wiki/Boko_Haram_insurgency' },
+      { l:'UNHCR Nigeria', u:'https://www.unhcr.org/countries/nigeria' },
+    ]},
+  { cat:'POLITICAL', color:'#ffcc00', lat:25.0, lng:121.5,
+    title:'Taiwan Strait Tensions',
+    body:'PLA Navy conducting large-scale exercises near median line. US 7th Fleet monitoring.',
+    src:'Pentagon / CSIS',
+    startDate: 'Ongoing (heightened since Aug 2022 Pelosi visit)',
+    parties: ['China (PRC)', 'Taiwan (ROC)', 'USA (7th Fleet)'],
+    battleLines: 'No active conflict. PLA exercises routinely cross median line. Taiwan Strait ~180 km wide. US carrier strike groups conducting FONOPS in region.',
+    links: [
+      { l:'CSIS China Power', u:'https://chinapower.csis.org/taiwan-strait/' },
+      { l:'USNI News', u:'https://news.usni.org/category/fleet-tracker' },
+      { l:'Wikipedia', u:'https://en.wikipedia.org/wiki/Taiwan_Strait_crisis' },
+    ]},
+  { cat:'POLITICAL', color:'#ffcc00', lat:38.0, lng:128.0,
+    title:'Korean Peninsula',
+    body:'North Korea tests ballistic missiles. US-ROK joint exercises underway.',
+    src:'38North / Pentagon',
+    startDate: 'Ongoing (armistice since Jul 1953; technically at war)',
+    parties: ['North Korea (DPRK)', 'South Korea (ROK)', 'USA'],
+    battleLines: 'DMZ — 250 km demilitarized zone along 38th parallel. No active combat. DPRK ICBM and SLBM tests ongoing. US-ROK joint exercises (FREEDOM SHIELD) conducted annually.',
+    links: [
+      { l:'38North', u:'https://www.38north.org/' },
+      { l:'CSIS Korea Chair', u:'https://www.csis.org/programs/korea-chair' },
+      { l:'Wikipedia', u:'https://en.wikipedia.org/wiki/Korean_conflict' },
+    ]},
+  { cat:'POLITICAL', color:'#ffcc00', lat:55.8, lng:37.6,
+    title:'Russia — Moscow',
+    body:'Kremlin announces mobilization expansion. Western sanctions escalating.',
+    src:'Reuters / TASS',
+    startDate: 'Ongoing (Ukraine war since Feb 2022)',
+    parties: ['Russia', 'Western Alliance (sanctions/aid)'],
+    battleLines: 'No direct NATO-Russia combat. Russia under 14+ sanction packages. Partial mobilization ongoing. Wagner Group/Africa Corps expanding in Sahel.',
+    links: [
+      { l:'Reuters Russia', u:'https://www.reuters.com/world/europe/russia/' },
+      { l:'Kyiv Independent', u:'https://kyivindependent.com/' },
+      { l:'Wikipedia', u:'https://en.wikipedia.org/wiki/Russian_invasion_of_Ukraine' },
+    ]},
+  { cat:'POLITICAL', color:'#ffcc00', lat:35.7, lng:51.4,
+    title:'Iran — Tehran',
+    body:'Nuclear negotiations stalled. IRGC conducts regional proxy operations.',
+    src:'Reuters / IAEA',
+    startDate: 'Ongoing (nuclear tensions since ~2002)',
+    parties: ['Iran (IRGC / proxies)', 'USA / Israel / Gulf states'],
+    battleLines: 'No direct conventional war. Iran enriching uranium to 60% purity. IRGC proxies active in Iraq, Syria, Yemen (Houthis), Lebanon (Hezbollah), Gaza (Hamas support).',
+    links: [
+      { l:'IAEA Iran Reports', u:'https://www.iaea.org/newscenter/focus/iran' },
+      { l:'Crisis Group Iran', u:'https://www.crisisgroup.org/middle-east-north-africa/gulf-and-arabian-peninsula/iran' },
+      { l:'Wikipedia', u:'https://en.wikipedia.org/wiki/Iran%E2%80%93United_States_relations' },
+    ]},
   { cat:'DIPLOMACY', color:'#00d4ff', lat:48.9, lng:2.3,   title:'NATO Headquarters — Brussels',         body:'Emergency consultations on Baltic security following cable sabotage incidents.',               src:'NATO / Reuters' },
   { cat:'DIPLOMACY', color:'#00d4ff', lat:40.7, lng:-74.0, title:'UN Security Council — New York',       body:'Emergency session called on Middle East situation. Veto standoff continues.',                 src:'UN / Reuters' },
   { cat:'DIPLOMACY', color:'#00d4ff', lat:46.9, lng:7.5,   title:'G7 Summit Talks — Bern',               body:'Western leaders coordinate sanctions and military aid packages.',                            src:'Reuters / AFP' },
@@ -1407,12 +1674,20 @@ function initNewsMap() {
       ? '<div class="popup-cas"><span class="popup-cas-icon">☠</span> CIV. CASUALTIES: <strong>' +
         ev.cas.toLocaleString() + '+</strong><span class="popup-cas-note"> ' + (ev.casNote||'') + '</span></div>'
       : '';
+    var detailBtn = (ev.links && ev.links.length)
+      ? '<div style="margin-top:8px;"><button onclick="openConflictModal(' + i + ')" ' +
+        'style="font-family:\'Share Tech Mono\',monospace;font-size:11px;color:' + ev.color + ';' +
+        'background:none;border:1px solid ' + ev.color + ';border-radius:3px;padding:3px 10px;cursor:pointer;' +
+        'transition:background 0.15s;" onmouseover="this.style.background=\'' + ev.color + '\';this.style.color=\'#000\';" ' +
+        'onmouseout="this.style.background=\'none\';this.style.color=\'' + ev.color + '\';">DETAILS ▶</button></div>'
+      : '';
     marker.bindPopup(
       '<div class="popup-cat" style="color:'+ev.color+'">'+ev.cat+'</div>' +
       '<div class="popup-title">'+ev.title+'</div>' +
       '<div class="popup-body">'+ev.body+'</div>' +
       casHtml +
-      '<div class="popup-src">SRC: '+ev.src+'</div>'
+      '<div class="popup-src">SRC: '+ev.src+'</div>' +
+      detailBtn
     );
     marker._newscat = ev.cat;
     marker.addTo(newsMap);
@@ -1576,13 +1851,9 @@ function placeMilMap(mode) {
 // ── CAMERA GRID ───────────────────────────────────────────────────────────
 
 function camSrc(cam) {
-  if (cam.src === 'ec') {
-    return 'https://www.earthcam.com/embed/?cid=' + cam.id;
-  }
-  if (cam.src === 'ytch') {
-    return 'https://www.youtube.com/embed/live_stream?channel=' + cam.id +
-           '&autoplay=1&mute=1&controls=1&modestbranding=1';
-  }
+  // For HLS sources, return the M3U8 URL (used by HLS.js, not as iframe src)
+  if (cam.src === 'hls') return cam.id;
+  // YouTube video ID (manual custom override)
   return 'https://www.youtube.com/embed/' + cam.id +
          '?autoplay=1&mute=1&controls=1&modestbranding=1&rel=0';
 }
@@ -1593,11 +1864,7 @@ function ytSrc(id) { return camSrc({ src: 'yt', id: id }); }
 function checkVideoAvailability(cam, cellIdx) {
   var fb = document.getElementById('fb-' + cellIdx);
   if (!fb) return;
-  fb.style.display = 'none'; // always hide fallback by default
-  if (cam.src !== 'yt') return; // EarthCam and channel embeds are always live; skip check
-  fetch('https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=' + cam.id + '&format=json')
-    .then(function(r) { if (!r.ok) { fb.style.display = 'flex'; } })
-    .catch(function() { /* network error — leave iframe visible */ });
+  fb.style.display = 'none'; // HLS.js fatal error handler will show fallback if stream fails
 }
 
 function renderGrid(indices) {
@@ -1608,6 +1875,9 @@ function renderGrid(indices) {
     var cam = CAMS[idx];
     var cell = document.createElement('div');
     cell.className = 'cam-cell';
+    var mediaEl = cam.src === 'hls'
+      ? '<video id="cam-video-' + cellIdx + '" autoplay muted playsinline controls></video>'
+      : '<iframe src="' + camSrc(cam) + '" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
     cell.innerHTML =
       '<div class="cam-header">' +
         '<span class="cam-loc">' + cam.loc + '</span>' +
@@ -1615,16 +1885,63 @@ function renderGrid(indices) {
       '</div>' +
       '<div class="cam-frame-wrap">' +
         '<div class="cam-fallback" id="fb-' + cellIdx + '">' +
-          (cam.src === 'yt' ? '<img src="https://img.youtube.com/vi/' + cam.id + '/hqdefault.jpg" alt="">' : '') +
           '<span class="cam-fallback-text">STREAM UNAVAILABLE</span>' +
-          '<a class="cam-fallback-link" href="https://www.youtube.com/results?search_query=' + (cam.q || (cam.n.replace(/ /g,'+') + '+live+cam+24/7')) + '&sp=EgJAAQ%253D%253D" target="_blank" rel="noopener">🔍 SEARCH LIVE ON YOUTUBE</a>' +
+          '<a class="cam-fallback-link" href="' + (cam.site || '#') + '" target="_blank" rel="noopener">▶ WATCH ON SITE</a>' +
         '</div>' +
-        '<iframe src="' + camSrc(cam) + '" allow="autoplay; fullscreen; encrypted-media; picture-in-picture; web-share" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' +
+        mediaEl +
       '</div>' +
       '<div class="cam-name">' + cam.n + '</div>';
     grid.appendChild(cell);
     checkVideoAvailability(cam, cellIdx);
   });
+  initHlsCells();
+}
+
+function initHlsCells() {
+  if (typeof Hls === 'undefined') return;
+  GRID_STATE.forEach(function(idx, cellIdx) {
+    var cam = CAMS[idx];
+    if (!cam || cam.src !== 'hls') return;
+    var video = document.getElementById('cam-video-' + cellIdx);
+    if (!video) return;
+    var url = cam.id;
+    if (Hls.isSupported()) {
+      var hls = new Hls({ autoStartLoad: true, startLevel: -1, maxBufferLength: 10 });
+      hls.loadSource(url);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.ERROR, function(event, data) {
+        if (data.fatal) {
+          var fb = document.getElementById('fb-' + cellIdx);
+          if (fb) fb.style.display = 'flex';
+          if (video) video.style.display = 'none';
+        }
+      });
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = url; // Safari native HLS
+    } else {
+      var fb = document.getElementById('fb-' + cellIdx);
+      if (fb) fb.style.display = 'flex';
+      if (video) video.style.display = 'none';
+    }
+  });
+}
+
+function attachHls(video, url, cellIdx) {
+  if (typeof Hls === 'undefined') return;
+  if (Hls.isSupported()) {
+    var hls = new Hls({ autoStartLoad: true, startLevel: -1, maxBufferLength: 10 });
+    hls.loadSource(url);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.ERROR, function(event, data) {
+      if (data.fatal) {
+        var fb = document.getElementById('fb-' + cellIdx);
+        if (fb) fb.style.display = 'flex';
+        if (video) video.style.display = 'none';
+      }
+    });
+  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = url;
+  }
 }
 
 function setCamSet(setKey, btn) {
@@ -1689,8 +2006,29 @@ function selectPreset(camIdx) {
   GRID_STATE[modalCell] = camIdx;
   var cells = document.querySelectorAll('.cam-cell');
   if (cells[modalCell]) {
-    var iframe = cells[modalCell].querySelector('iframe');
-    if (iframe) iframe.src = camSrc(cam);
+    var wrap = cells[modalCell].querySelector('.cam-frame-wrap');
+    if (wrap) {
+      var old = wrap.querySelector('iframe, video');
+      if (old) old.remove();
+      if (cam.src === 'hls') {
+        var vid = document.createElement('video');
+        vid.id = 'cam-video-' + modalCell;
+        vid.autoplay = true; vid.muted = true; vid.controls = true;
+        vid.setAttribute('playsinline', '');
+        wrap.appendChild(vid);
+        attachHls(vid, cam.id, modalCell);
+      } else {
+        var fr = document.createElement('iframe');
+        fr.src = camSrc(cam);
+        fr.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
+        fr.allowFullscreen = true;
+        fr.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+        wrap.appendChild(fr);
+      }
+      // reset fallback
+      var fb = document.getElementById('fb-' + modalCell);
+      if (fb) { fb.style.display = 'none'; var lnk = fb.querySelector('.cam-fallback-link'); if (lnk) lnk.href = cam.site || '#'; }
+    }
     var locEl = cells[modalCell].querySelector('.cam-loc');
     if (locEl) locEl.textContent = cam.loc;
     var nameEl = cells[modalCell].querySelector('.cam-name');
@@ -1718,6 +2056,57 @@ document.getElementById('cam-modal').addEventListener('click', function(e){
   if (e.target === this) closeModal();
 });
 
+// ── CONFLICT DETAIL MODAL ─────────────────────────────────────────────────
+
+function openConflictModal(newsIdx) {
+  var ev = NEWS[newsIdx];
+  if (!ev) return;
+  document.getElementById('cm-cat-badge').textContent = ev.cat;
+  document.getElementById('cm-cat-badge').style.color = ev.color;
+  document.getElementById('cm-cat-badge').style.borderColor = ev.color;
+  document.getElementById('cm-title-text').textContent = ev.title;
+  document.getElementById('cm-date').textContent = ev.startDate || 'Unknown';
+  var partiesRow = document.getElementById('cm-parties-row');
+  if (ev.parties && ev.parties.length) {
+    document.getElementById('cm-parties').textContent = ev.parties.join(' vs. ');
+    partiesRow.style.display = 'flex';
+  } else { partiesRow.style.display = 'none'; }
+  var blWrap = document.getElementById('cm-bl-wrap');
+  if (ev.battleLines) {
+    document.getElementById('cm-battlelines').textContent = ev.battleLines;
+    blWrap.style.display = 'block';
+  } else { blWrap.style.display = 'none'; }
+  document.getElementById('cm-status').textContent = ev.body;
+  var casWrap = document.getElementById('cm-cas-wrap');
+  if (ev.cas) {
+    document.getElementById('cm-cas').textContent = ev.cas.toLocaleString() + '+';
+    document.getElementById('cm-casnote').textContent = ev.casNote ? ' — ' + ev.casNote : '';
+    casWrap.style.display = 'block';
+  } else { casWrap.style.display = 'none'; }
+  var linksEl = document.getElementById('cm-links');
+  linksEl.innerHTML = '';
+  if (ev.links && ev.links.length) {
+    ev.links.forEach(function(lk) {
+      var a = document.createElement('a');
+      a.className = 'cm-link-btn';
+      a.textContent = lk.l;
+      a.href = lk.u;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      linksEl.appendChild(a);
+    });
+  }
+  document.getElementById('conflict-modal').style.display = 'flex';
+}
+
+function closeConflictModal() {
+  document.getElementById('conflict-modal').style.display = 'none';
+}
+
+document.getElementById('conflict-modal').addEventListener('click', function(e){
+  if (e.target === this) closeConflictModal();
+});
+
 // ── CASUALTY SUMMARY ──────────────────────────────────────────────────────
 
 function buildCasSummary() {
@@ -1728,8 +2117,11 @@ function buildCasSummary() {
   var html = '';
   conflicts.forEach(function(e){
     var short = e.title.replace(/ — .+/, '');
-    html += '<div class="cas-row">' +
-      '<span class="cas-conflict">' + short + '</span>' +
+    var newsIdx = NEWS.indexOf(e);
+    var hasDetail = !!(e.links && e.links.length);
+    html += '<div class="cas-row' + (hasDetail ? ' has-detail' : '') + '"' +
+      (hasDetail ? ' onclick="openConflictModal(' + newsIdx + ')" title="Click for details"' : '') + '>' +
+      '<span class="cas-conflict">' + short + (hasDetail ? ' ▶' : '') + '</span>' +
       '<span class="cas-count">' + e.cas.toLocaleString() + '+</span>' +
     '</div>';
   });
@@ -1752,19 +2144,41 @@ function buildCamDirectory() {
       '<span class="cam-dir-dot"></span>' +
       '<span class="cam-dir-name">' + cam.n + '</span>' +
       '<span class="cam-dir-loc">' + cam.loc + '</span>';
-    item.onclick = function(){
-      GRID_STATE[0] = i;
-      var cells = document.querySelectorAll('.cam-cell');
-      if (cells[0]) {
-        var iframe = cells[0].querySelector('iframe');
-        if (iframe) iframe.src = camSrc(cam);
-        var locEl = cells[0].querySelector('.cam-loc');
-        if (locEl) locEl.textContent = cam.loc;
-        var nameEl = cells[0].querySelector('.cam-name');
-        if (nameEl) nameEl.textContent = cam.n;
-      }
-      if (currentTab !== 'cameras') setTab('cameras');
-    };
+    item.onclick = (function(theCam, theIdx){
+      return function(){
+        GRID_STATE[0] = theIdx;
+        var cells = document.querySelectorAll('.cam-cell');
+        if (cells[0]) {
+          var wrap = cells[0].querySelector('.cam-frame-wrap');
+          if (wrap) {
+            var old = wrap.querySelector('iframe, video');
+            if (old) old.remove();
+            if (theCam.src === 'hls') {
+              var vid = document.createElement('video');
+              vid.id = 'cam-video-0';
+              vid.autoplay = true; vid.muted = true; vid.controls = true;
+              vid.setAttribute('playsinline', '');
+              wrap.appendChild(vid);
+              attachHls(vid, theCam.id, 0);
+            } else {
+              var fr = document.createElement('iframe');
+              fr.src = camSrc(theCam);
+              fr.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
+              fr.allowFullscreen = true;
+              fr.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+              wrap.appendChild(fr);
+            }
+            var fb = document.getElementById('fb-0');
+            if (fb) { fb.style.display = 'none'; var lnk = fb.querySelector('.cam-fallback-link'); if (lnk) lnk.href = theCam.site || '#'; }
+          }
+          var locEl = cells[0].querySelector('.cam-loc');
+          if (locEl) locEl.textContent = theCam.loc;
+          var nameEl = cells[0].querySelector('.cam-name');
+          if (nameEl) nameEl.textContent = theCam.n;
+        }
+        if (currentTab !== 'cameras') setTab('cameras');
+      };
+    })(cam, i);
     dir.appendChild(item);
   });
 }
