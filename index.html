@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/satellite.js/1.3.0/satellite.min.js"></script>
 <style>
 :root {
   --bg:      #030a0f;
@@ -180,7 +181,7 @@ header {
 /* ── MAIN LAYOUT ── */
 #main {
   display: grid;
-  grid-template-columns: 262px 1fr 262px;
+  grid-template-columns: 52px 262px 1fr 262px;
   flex: 1;
   overflow: hidden;
 }
@@ -966,6 +967,98 @@ header {
   #ticker { width: 100%; order: 3; }
   #status-bar { flex-wrap: wrap; height: auto; padding: 6px 10px; gap: 4px; }
 }
+
+/* ── NAV SIDEBAR ── */
+#nav-sidebar {
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  width: 52px;
+  overflow: hidden;
+  transition: width 0.2s ease;
+  flex-shrink: 0;
+  z-index: 10;
+}
+body.nav-expanded #nav-sidebar { width: 190px; }
+body.nav-expanded #main { grid-template-columns: 190px 262px 1fr 262px; }
+#nav-toggle {
+  height: 48px; min-height: 48px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; border-bottom: 1px solid var(--border);
+  background: var(--surface); font-size: 18px; color: var(--accent);
+  flex-shrink: 0; user-select: none; transition: background 0.15s;
+}
+#nav-toggle:hover { background: #0a1f30; }
+.nav-item {
+  height: 48px; min-height: 48px;
+  display: flex; flex-direction: row; align-items: center;
+  gap: 10px; padding: 0 14px; cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  overflow: hidden; white-space: nowrap; flex-shrink: 0;
+}
+.nav-item:hover { background: rgba(0,212,255,0.04); border-left-color: var(--dim); }
+.nav-item.active { border-left-color: var(--accent); background: rgba(0,212,255,0.06); }
+.nav-icon { font-size: 18px; flex-shrink: 0; width: 22px; text-align: center; }
+.nav-label {
+  font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: 1.5px; color: var(--text);
+  opacity: 0; width: 0; overflow: hidden;
+  transition: opacity 0.15s ease, width 0.2s ease;
+}
+body.nav-expanded .nav-label { opacity: 1; width: auto; }
+.nav-item.active .nav-label { color: var(--accent); }
+
+/* ── SATELLITE / SHIPS TABS ── */
+#tab-satellites, #tab-ships { flex-direction: column; }
+.sat-toolbar {
+  display: flex; gap: 6px; padding: 8px 10px;
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  flex-shrink: 0; flex-wrap: wrap; align-items: center;
+}
+.sat-filter-btn {
+  font-family: 'Share Tech Mono', monospace; font-size: 11px;
+  padding: 4px 10px; border-radius: 2px; background: transparent;
+  cursor: pointer; transition: all 0.15s;
+}
+.sat-filter-btn.off { opacity: 0.3; filter: saturate(0); }
+.sat-overhead-btn {
+  font-family: 'Share Tech Mono', monospace; font-size: 11px;
+  padding: 4px 10px; border: 1px solid var(--dim); border-radius: 2px;
+  background: transparent; color: var(--dim2); cursor: pointer;
+  transition: all 0.15s; margin-left: auto;
+}
+.sat-overhead-btn.active { border-color: var(--green); color: var(--green); background: rgba(0,255,136,0.07); }
+.sat-loc-input {
+  font-family: 'Share Tech Mono', monospace; font-size: 11px;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text); padding: 3px 7px; border-radius: 2px;
+  width: 130px; outline: none; transition: border-color 0.2s;
+}
+.sat-loc-input:focus { border-color: var(--accent); }
+.sat-status-bar {
+  background: var(--bg); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 14px;
+  padding: 4px 12px; height: 28px; flex-shrink: 0;
+  font-family: 'Share Tech Mono', monospace; font-size: 10px;
+}
+#sat-loading { color: var(--yellow); }
+#sat-count { color: var(--accent); }
+#sat-updated { color: var(--dim2); margin-left: auto; }
+.sat-legend {
+  position: absolute; bottom: 24px; right: 10px;
+  background: rgba(5,15,24,0.92); border: 1px solid var(--border);
+  border-radius: 4px; padding: 8px 12px; z-index: 1000;
+  font-family: 'Share Tech Mono', monospace; font-size: 10px;
+  pointer-events: none; min-width: 130px;
+}
+.sat-legend-title { font-family: 'Orbitron', sans-serif; font-size: 9px; color: var(--accent); letter-spacing: 1px; margin-bottom: 6px; }
+.sat-legend-section { font-family: 'Orbitron', sans-serif; font-size: 8px; color: var(--dim2); letter-spacing: 1px; margin: 7px 0 4px; }
+#sat-map { width: 100%; height: 100%; }
+@keyframes sat-pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+.sat-overhead-marker { animation: sat-pulse 1.2s ease-in-out infinite; }
+@media (max-width: 768px) { #nav-sidebar { display: none; } }
 </style>
 </head>
 <body>
@@ -1017,6 +1110,19 @@ header {
 
   <!-- MAIN -->
   <div id="main">
+
+    <!-- NAV SIDEBAR -->
+    <div id="nav-sidebar">
+      <div id="nav-toggle" onclick="toggleNav()" title="Toggle navigation">☰</div>
+      <div class="nav-item active" id="nav-cameras"    onclick="setTab('cameras')"><span class="nav-icon">📹</span><span class="nav-label">CAMERAS</span></div>
+      <div class="nav-item"        id="nav-newsmap"    onclick="setTab('newsmap')"><span class="nav-icon">📰</span><span class="nav-label">NEWS MAP</span></div>
+      <div class="nav-item"        id="nav-worldmap"   onclick="setTab('worldmap')"><span class="nav-icon">🌐</span><span class="nav-label">WORLD MAP</span></div>
+      <div class="nav-item"        id="nav-usa"        onclick="setTab('usa')"><span class="nav-icon">🇺🇸</span><span class="nav-label">USA BASES</span></div>
+      <div class="nav-item"        id="nav-fleets"     onclick="setTab('fleets')"><span class="nav-icon">⚓</span><span class="nav-label">FLEETS</span></div>
+      <div class="nav-item"        id="nav-hotspots"   onclick="setTab('hotspots')"><span class="nav-icon">⚠</span><span class="nav-label">HOTSPOTS</span></div>
+      <div class="nav-item"        id="nav-satellites" onclick="setTab('satellites')"><span class="nav-icon">🛰</span><span class="nav-label">SATELLITES</span></div>
+      <div class="nav-item"        id="nav-ships"      onclick="setTab('ships')"><span class="nav-icon">🚢</span><span class="nav-label">SHIPS / AIS</span></div>
+    </div>
 
     <!-- LEFT SIDEBAR -->
     <div id="left">
@@ -1134,15 +1240,6 @@ header {
     <!-- CENTER -->
     <div id="center">
 
-      <!-- Tab Bar -->
-      <div class="tab-bar">
-        <button class="tab-btn active" onclick="setTab('cameras')">CAMERAS</button>
-        <button class="tab-btn" onclick="setTab('newsmap')">NEWS MAP</button>
-        <button class="tab-btn" onclick="setTab('worldmap')">WORLD MAP</button>
-        <button class="tab-btn" onclick="setTab('usa')">USA</button>
-        <button class="tab-btn" onclick="setTab('fleets')">FLEETS</button>
-        <button class="tab-btn" onclick="setTab('hotspots')">HOTSPOTS</button>
-      </div>
 
       <!-- Content Area -->
       <div id="content">
@@ -1221,6 +1318,64 @@ header {
         <div id="tab-hotspots" class="tab-pane">
           <div class="map-wrap" style="height:100%">
             <div id="mil-map-hotspots-placeholder" style="width:100%;height:100%;"></div>
+          </div>
+        </div>
+
+        <!-- SATELLITES TAB -->
+        <div id="tab-satellites" class="tab-pane">
+          <div class="sat-toolbar">
+            <button id="sfbtn-ISS"      class="sat-filter-btn" style="border:1px solid #00ff88;color:#00ff88;" onclick="toggleSatFilter('ISS',this)">● ISS</button>
+            <button id="sfbtn-GPS"      class="sat-filter-btn" style="border:1px solid #00d4ff;color:#00d4ff;" onclick="toggleSatFilter('GPS',this)">● GPS</button>
+            <button id="sfbtn-GLONASS"  class="sat-filter-btn" style="border:1px solid #ffcc00;color:#ffcc00;" onclick="toggleSatFilter('GLONASS',this)">● GLONASS</button>
+            <button id="sfbtn-MILITARY" class="sat-filter-btn" style="border:1px solid #ff4d00;color:#ff4d00;" onclick="toggleSatFilter('MILITARY',this)">● MILITARY</button>
+            <button id="sfbtn-STARLINK" class="sat-filter-btn" style="border:1px solid #cc44ff;color:#cc44ff;" onclick="toggleSatFilter('STARLINK',this)">● STARLINK</button>
+            <button id="sfbtn-BEIDOU"   class="sat-filter-btn" style="border:1px solid #ff8800;color:#ff8800;" onclick="toggleSatFilter('BEIDOU',this)">● BEIDOU</button>
+            <button id="sat-overhead-toggle" class="sat-overhead-btn" onclick="toggleOverheadMode()">⊙ OVERHEAD NOW</button>
+            <input id="sat-loc-input" class="sat-loc-input" placeholder="38.9,-77.0 (lat,lng)" title="Observer lat,lng for overhead detection" onchange="parseSatLocInput(this.value)">
+          </div>
+          <div class="sat-status-bar">
+            <span id="sat-loading">Waiting...</span>
+            <span id="sat-count">0 satellites tracked</span>
+            <span id="sat-updated">Updated: --:--</span>
+          </div>
+          <div class="map-wrap">
+            <div id="sat-map"></div>
+            <div class="sat-legend">
+              <div class="sat-legend-title">SATELLITES</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#00ff88"></span>ISS / Stations</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#00d4ff"></span>GPS (USA)</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#ffcc00"></span>GLONASS (RUS)</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#ff4d00"></span>Military</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#cc44ff"></span>Starlink</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#ff8800"></span>BeiDou (CHN)</div>
+              <div class="sat-legend-section">ORBIT ALTITUDE</div>
+              <div class="legend-row" style="color:var(--dim2)">LEO &lt; 2,000 km</div>
+              <div class="legend-row" style="color:var(--dim2)">MEO 2k – 35k km</div>
+              <div class="legend-row" style="color:var(--dim2)">GEO ~ 35,786 km</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SHIPS / AIS TAB -->
+        <div id="tab-ships" class="tab-pane">
+          <div class="sat-toolbar">
+            <span style="font-family:'Orbitron',sans-serif;font-size:10px;color:var(--accent);letter-spacing:1px;">AIS VESSEL TRACKING</span>
+            <button class="sat-filter-btn" style="border:1px solid var(--accent);color:var(--accent);" onclick="setShipRegion('global')">GLOBAL</button>
+            <button class="sat-filter-btn" style="border:1px solid var(--dim);color:var(--dim2);" onclick="setShipRegion('hormuz')">HORMUZ</button>
+            <button class="sat-filter-btn" style="border:1px solid var(--dim);color:var(--dim2);" onclick="setShipRegion('redsea')">RED SEA</button>
+            <button class="sat-filter-btn" style="border:1px solid var(--dim);color:var(--dim2);" onclick="setShipRegion('scs')">S. CHINA SEA</button>
+            <button class="sat-filter-btn" style="border:1px solid var(--dim);color:var(--dim2);" onclick="setShipRegion('taiwan')">TAIWAN STR.</button>
+            <button class="sat-filter-btn" style="border:1px solid var(--dim);color:var(--dim2);" onclick="setShipRegion('med')">MEDITERRANEAN</button>
+            <button class="sat-filter-btn" style="border:1px solid var(--dim);color:var(--dim2);" onclick="setShipRegion('blacksea')">BLACK SEA</button>
+            <span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--green);margin-left:auto;">● LIVE AIS</span>
+          </div>
+          <div class="map-wrap" style="flex:1;">
+            <iframe id="ships-iframe"
+              src="https://www.vesselfinder.com/aismap?zoom=3&lat=20&lng=0&width=100%25&height=100%25&names=true&show_track=false"
+              style="width:100%;height:100%;border:none;"
+              allow="fullscreen"
+              title="AIS Live Ship Tracker">
+            </iframe>
           </div>
         </div>
 
@@ -1568,6 +1723,34 @@ var baseLayer      = null;
 var fleetLayer     = null;
 var hotLayer       = null;
 
+// ── SATELLITE STATE ────────────────────────────────────────────────────────
+var satMap          = null;
+var satMapInited    = false;
+var satLayer        = null;
+var satObjects      = {};
+var satFilters      = { ISS:true, GPS:true, GLONASS:true, MILITARY:true, STARLINK:true, BEIDOU:true };
+var satUpdateTimer  = null;
+var satLoadedGroups = 0;
+var satTotalGroups  = 0;
+var overheadLat     = 38.9;
+var overheadLng     = -77.0;
+var overheadMode    = false;
+
+var SAT_SOURCES = [
+  { key:'ISS',      color:'#00ff88', radius:7,  max:5,
+    url:'https://celestrak.org/NORAD/elements/gp.php?GROUP=stations&FORMAT=tle' },
+  { key:'GPS',      color:'#00d4ff', radius:4,  max:35,
+    url:'https://celestrak.org/NORAD/elements/gp.php?GROUP=gps-ops&FORMAT=tle' },
+  { key:'GLONASS',  color:'#ffcc00', radius:4,  max:30,
+    url:'https://celestrak.org/NORAD/elements/gp.php?GROUP=glonass-ops&FORMAT=tle' },
+  { key:'MILITARY', color:'#ff4d00', radius:5,  max:80,
+    url:'https://celestrak.org/NORAD/elements/gp.php?GROUP=military&FORMAT=tle' },
+  { key:'STARLINK', color:'#cc44ff', radius:3,  max:150,
+    url:'https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=tle' },
+  { key:'BEIDOU',   color:'#ff8800', radius:4,  max:50,
+    url:'https://celestrak.org/NORAD/elements/gp.php?GROUP=beidou&FORMAT=tle' },
+];
+
 // ── BREAKING NEWS ─────────────────────────────────────────────────────────
 
 function cycleBraking() {
@@ -1602,45 +1785,47 @@ setInterval(updateClock, 1000);
 
 function setTab(mode) {
   currentTab = mode;
-  // Hide all panes
   document.querySelectorAll('.tab-pane').forEach(function(p){ p.classList.remove('active'); });
-  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
-
-  // Show selected pane
   var pane = document.getElementById('tab-' + mode);
   if (pane) pane.classList.add('active');
 
-  // Activate button
-  document.querySelectorAll('.tab-btn').forEach(function(b){
-    if (b.textContent.toLowerCase().replace(/ /g,'') === mode.replace(/ /g,'') ||
-        (mode === 'newsmap' && b.textContent === 'NEWS MAP') ||
-        (mode === 'worldmap' && b.textContent === 'WORLD MAP') ||
-        (mode === 'hotspots' && b.textContent === 'HOTSPOTS') ||
-        b.getAttribute('onclick') && b.getAttribute('onclick').indexOf("'"+mode+"'") > -1) {
-      b.classList.add('active');
-    }
-  });
+  // Nav sidebar highlight
+  document.querySelectorAll('.nav-item').forEach(function(item){ item.classList.remove('active'); });
+  var navItem = document.getElementById('nav-' + mode);
+  if (navItem) navItem.classList.add('active');
 
   document.getElementById('status-tab').textContent = mode.toUpperCase();
 
-  // Init maps lazily
-  if (mode === 'newsmap' && !newsMapInited) {
-    setTimeout(initNewsMap, 100);
-  }
-  if ((mode === 'worldmap' || mode === 'usa' || mode === 'fleets' || mode === 'hotspots') && !milMapInited) {
-    setTimeout(initMilMap, 100);
-  }
+  if (mode === 'newsmap' && !newsMapInited) { setTimeout(initNewsMap, 100); }
+  if ((mode === 'worldmap' || mode === 'usa' || mode === 'fleets' || mode === 'hotspots') && !milMapInited) { setTimeout(initMilMap, 100); }
+  if (mode === 'satellites' && !satMapInited) { setTimeout(initSatMap, 100); }
 
-  // Place mil-map div in correct tab
   if (milMapInited && (mode === 'worldmap' || mode === 'usa' || mode === 'fleets' || mode === 'hotspots')) {
     setTimeout(function(){ placeMilMap(mode); }, 50);
   }
 
-  // invalidateSize
+  // Satellite timer: only run when tab is active
+  if (mode === 'satellites') {
+    if (satMapInited && !satUpdateTimer) satUpdateTimer = setInterval(updateSatPositions, 30000);
+  } else {
+    if (satUpdateTimer) { clearInterval(satUpdateTimer); satUpdateTimer = null; }
+  }
+
   setTimeout(function(){
     if (newsMap && mode === 'newsmap') newsMap.invalidateSize();
-    if (milMap && (mode === 'worldmap' || mode === 'usa' || mode === 'fleets' || mode === 'hotspots')) milMap.invalidateSize();
+    if (milMap && (mode === 'worldmap'||mode==='usa'||mode==='fleets'||mode==='hotspots')) milMap.invalidateSize();
+    if (satMap && mode === 'satellites') satMap.invalidateSize();
   }, 200);
+}
+
+function toggleNav() {
+  var expanded = document.body.classList.toggle('nav-expanded');
+  document.getElementById('nav-toggle').textContent = expanded ? '✕' : '☰';
+  setTimeout(function(){
+    if (newsMap) newsMap.invalidateSize();
+    if (milMap)  milMap.invalidateSize();
+    if (satMap)  satMap.invalidateSize();
+  }, 250);
 }
 
 // ── NEWS MAP ──────────────────────────────────────────────────────────────
@@ -2192,16 +2377,223 @@ function selectAsset(el) {
   el.classList.add('selected');
 }
 
+// ── SATELLITE TRACKING ────────────────────────────────────────────────────
+
+function initSatMap() {
+  if (satMapInited) return;
+  satMapInited = true;
+  satMap = L.map('sat-map', { center:[20,0], zoom:2, zoomControl:true, attributionControl:false });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { subdomains:'abcd', maxZoom:19 }).addTo(satMap);
+  satLayer = L.layerGroup().addTo(satMap);
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(pos){
+      overheadLat = pos.coords.latitude; overheadLng = pos.coords.longitude;
+      var inp = document.getElementById('sat-loc-input');
+      if (inp) inp.value = overheadLat.toFixed(2) + ',' + overheadLng.toFixed(2);
+    }, function(){});
+  }
+  satTotalGroups = SAT_SOURCES.length; satLoadedGroups = 0;
+  document.getElementById('sat-loading').textContent = 'Loading TLE data (0/' + satTotalGroups + ')...';
+  SAT_SOURCES.forEach(function(src){ loadSatGroup(src); });
+  satMap.invalidateSize();
+}
+
+function loadSatGroup(source) {
+  var url = source.url;
+  var proxy = 'https://corsproxy.io/?' + encodeURIComponent(url);
+  function onSuccess(text) {
+    var parsed = parseTLE(text, source.max);
+    satObjects[source.key] = [];
+    parsed.forEach(function(obj){
+      var pos = getSatPos(obj.satrec);
+      if (!pos) return;
+      var marker = L.circleMarker([pos.lat, pos.lng], {
+        radius: source.radius, fillColor: source.color, color: source.color,
+        weight: 1, opacity: 0.9, fillOpacity: 0.75
+      });
+      var altLabel = pos.alt < 2000 ? 'LEO' : (pos.alt < 35000 ? 'MEO' : 'GEO');
+      var r = 6371 + pos.alt;
+      var vel = Math.sqrt(398600.4418 / r).toFixed(2);
+      marker.bindPopup(
+        '<div class="popup-cat" style="color:' + source.color + '">[' + source.key + ']</div>' +
+        '<div class="popup-title">' + obj.name + '</div>' +
+        '<div class="popup-body" style="font-family:\'Share Tech Mono\',monospace;font-size:11px;line-height:1.7;">' +
+          'NORAD ID: ' + (obj.satrec.satnum || '?') + '<br>' +
+          'ALTITUDE: ' + pos.alt + ' km (' + altLabel + ')<br>' +
+          'VELOCITY: ~' + vel + ' km/s<br>' +
+          'LAT: ' + pos.lat.toFixed(1) + '\xb0 | LNG: ' + pos.lng.toFixed(1) + '\xb0' +
+        '</div>'
+      );
+      marker.addTo(satLayer);
+      satObjects[source.key].push({ name:obj.name, satrec:obj.satrec, marker:marker, color:source.color, key:source.key, radius:source.radius });
+    });
+    satLoadedGroups++;
+    var total = Object.keys(satObjects).reduce(function(n,k){ return n + satObjects[k].length; }, 0);
+    document.getElementById('sat-loading').textContent = 'Loaded ' + satLoadedGroups + '/' + satTotalGroups + ' groups';
+    document.getElementById('sat-count').textContent = total + ' satellites tracked';
+    if (satLoadedGroups === satTotalGroups) {
+      document.getElementById('sat-loading').textContent = 'TLE data current';
+      updateSatPositions();
+      if (currentTab === 'satellites' && !satUpdateTimer) satUpdateTimer = setInterval(updateSatPositions, 30000);
+    }
+  }
+  function onError() {
+    satLoadedGroups++;
+    var el = document.getElementById('sat-loading');
+    el.textContent = source.key + ' TLE unavailable \u2014 click retry';
+    el.style.cursor = 'pointer';
+    el.onclick = function(){ el.textContent='Retrying...'; el.onclick=null; el.style.cursor=''; satLoadedGroups--; loadSatGroup(source); };
+  }
+  fetch(url, { mode:'cors' })
+    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
+    .then(onSuccess)
+    .catch(function(){
+      fetch(proxy)
+        .then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
+        .then(onSuccess).catch(onError);
+    });
+}
+
+function parseTLE(tleText, maxCount) {
+  var lines = tleText.trim().replace(/\r/g,'').split('\n');
+  var result = [], i = 0;
+  while (i < lines.length && result.length < maxCount) {
+    var name = (lines[i]||'').trim();
+    var l1   = (lines[i+1]||'').trim();
+    var l2   = (lines[i+2]||'').trim();
+    if (l1.charAt(0)==='1' && l2.charAt(0)==='2') {
+      try { result.push({ name:name, satrec:satellite.twoline2satrec(l1,l2) }); } catch(e){}
+      i += 3;
+    } else { i += 1; }
+  }
+  return result;
+}
+
+function getSatPos(satrec) {
+  var now = new Date();
+  var pv = satellite.propagate(satrec, now);
+  if (!pv || !pv.position || typeof pv.position === 'boolean') return null;
+  var gmst = satellite.gstime(now);
+  var geo  = satellite.eciToGeodetic(pv.position, gmst);
+  return { lat: satellite.degreesLat(geo.latitude), lng: satellite.degreesLong(geo.longitude), alt: Math.round(geo.height) };
+}
+
+function updateSatPositions() {
+  Object.keys(satObjects).forEach(function(key){
+    if (!satFilters[key]) return;
+    satObjects[key].forEach(function(obj){
+      var pos = getSatPos(obj.satrec);
+      if (!pos) return;
+      obj.marker.setLatLng([pos.lat, pos.lng]);
+      if (overheadMode) {
+        var isOH = checkSingleOverhead(obj.satrec);
+        obj.marker.setStyle({ fillOpacity: isOH ? 1.0 : 0.2, opacity: isOH ? 1.0 : 0.2 });
+        var el = obj.marker.getElement ? obj.marker.getElement() : null;
+        if (el) { if (isOH) el.classList.add('sat-overhead-marker'); else el.classList.remove('sat-overhead-marker'); }
+      } else {
+        obj.marker.setStyle({ fillOpacity: 0.75, opacity: 0.9 });
+        var el2 = obj.marker.getElement ? obj.marker.getElement() : null;
+        if (el2) el2.classList.remove('sat-overhead-marker');
+      }
+    });
+  });
+  var now = new Date();
+  document.getElementById('sat-updated').textContent = 'Updated: ' +
+    String(now.getUTCHours()).padStart(2,'0') + ':' + String(now.getUTCMinutes()).padStart(2,'0') + ' UTC';
+}
+
+function checkSingleOverhead(satrec) {
+  var now = new Date();
+  var pv = satellite.propagate(satrec, now);
+  if (!pv || !pv.position || typeof pv.position === 'boolean') return false;
+  var gmst = satellite.gstime(now);
+  var obs = satellite.geodeticToEcf({
+    longitude: satellite.degreesToRadians(overheadLng),
+    latitude:  satellite.degreesToRadians(overheadLat),
+    height: 0.0
+  });
+  var lookAngles = satellite.ecfToLookAngles(obs, pv.position);
+  return lookAngles && lookAngles.elevation > 0;
+}
+
+function checkOverhead() {
+  Object.keys(satObjects).forEach(function(key){
+    satObjects[key].forEach(function(obj){
+      var isOH = checkSingleOverhead(obj.satrec);
+      obj.marker.setStyle({ fillOpacity: isOH ? 1.0 : 0.2, opacity: isOH ? 1.0 : 0.2 });
+      var el = obj.marker.getElement ? obj.marker.getElement() : null;
+      if (el) { if (isOH) el.classList.add('sat-overhead-marker'); else el.classList.remove('sat-overhead-marker'); }
+    });
+  });
+}
+
+function toggleSatFilter(key, btn) {
+  satFilters[key] = !satFilters[key];
+  if (btn) { if (satFilters[key]) btn.classList.remove('off'); else btn.classList.add('off'); }
+  if (!satObjects[key]) return;
+  satObjects[key].forEach(function(obj){
+    if (satFilters[key]) { if (!satLayer.hasLayer(obj.marker)) obj.marker.addTo(satLayer); }
+    else                 { if (satLayer.hasLayer(obj.marker))  satLayer.removeLayer(obj.marker); }
+  });
+  var total = Object.keys(satObjects).reduce(function(n,k){ return satFilters[k] ? n+satObjects[k].length : n; }, 0);
+  document.getElementById('sat-count').textContent = total + ' satellites tracked';
+}
+
+function toggleOverheadMode() {
+  overheadMode = !overheadMode;
+  var btn = document.getElementById('sat-overhead-toggle');
+  if (btn) {
+    if (overheadMode) { btn.classList.add('active'); btn.textContent='\u2299 OVERHEAD: ON'; }
+    else              { btn.classList.remove('active'); btn.textContent='\u2299 OVERHEAD NOW'; }
+  }
+  if (overheadMode) { checkOverhead(); } else {
+    Object.keys(satObjects).forEach(function(key){
+      satObjects[key].forEach(function(obj){
+        obj.marker.setStyle({ fillOpacity: 0.75, opacity: 0.9 });
+        var el = obj.marker.getElement ? obj.marker.getElement() : null;
+        if (el) el.classList.remove('sat-overhead-marker');
+      });
+    });
+  }
+}
+
+function parseSatLocInput(val) {
+  var parts = val.replace(/\s/g,'').split(',');
+  if (parts.length === 2) {
+    var lat = parseFloat(parts[0]), lng = parseFloat(parts[1]);
+    if (!isNaN(lat) && !isNaN(lng) && lat>=-90 && lat<=90 && lng>=-180 && lng<=180) {
+      overheadLat = lat; overheadLng = lng;
+      if (overheadMode) checkOverhead();
+    }
+  }
+}
+
+// ── SHIPS / AIS ────────────────────────────────────────────────────────────
+
+var SHIP_REGIONS = {
+  global:  { zoom:3,  lat:20,   lng:0    },
+  hormuz:  { zoom:8,  lat:26.5, lng:56.5 },
+  redsea:  { zoom:6,  lat:18,   lng:38   },
+  scs:     { zoom:5,  lat:12,   lng:114  },
+  taiwan:  { zoom:7,  lat:24.5, lng:120  },
+  med:     { zoom:5,  lat:36,   lng:15   },
+  blacksea:{ zoom:6,  lat:43,   lng:33   },
+};
+
+function setShipRegion(key) {
+  var r = SHIP_REGIONS[key]; if (!r) return;
+  var fr = document.getElementById('ships-iframe');
+  if (fr) fr.src = 'https://www.vesselfinder.com/aismap?zoom='+r.zoom+'&lat='+r.lat+'&lng='+r.lng+'&width=100%25&height=100%25&names=true&show_track=false';
+  var btns = document.querySelectorAll('#tab-ships .sat-filter-btn');
+  var keys = Object.keys(SHIP_REGIONS);
+  btns.forEach(function(b){ b.style.borderColor = 'var(--dim)'; b.style.color = 'var(--dim2)'; });
+  var idx = keys.indexOf(key);
+  if (btns[idx]) { btns[idx].style.borderColor = 'var(--accent)'; btns[idx].style.color = 'var(--accent)'; }
+}
+
 // ── INIT ──────────────────────────────────────────────────────────────────
 
-// Ensure cameras tab active button is correct on load
-(function(){
-  document.querySelectorAll('.tab-btn').forEach(function(b){
-    if (b.getAttribute('onclick') && b.getAttribute('onclick').indexOf("'cameras'") > -1) {
-      b.classList.add('active');
-    }
-  });
-})();
+(function(){ var n = document.getElementById('nav-cameras'); if(n) n.classList.add('active'); })();
 
 </script>
 </body>
