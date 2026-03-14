@@ -1095,7 +1095,11 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
   }
   .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent); }
   .nav-label { display: none; }
-  #left, #right { display: none; }
+  #left { display: none; }
+  #right { display: block; grid-column: 1; grid-row: 3; width: 100%; border-left: none; border-top: 1px solid var(--border); max-height: none; overflow: visible; }
+  #right .sb-section { display: none; }
+  #right #news-feed-section { display: block; }
+  #right #news-feed-list { max-height: 240px; }
   #center { grid-column: 1; grid-row: 2; }
 }
 </style>
