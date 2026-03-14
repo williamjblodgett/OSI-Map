@@ -340,6 +340,89 @@ header {
 .cam-scroll::-webkit-scrollbar { width: 4px; }
 .cam-scroll::-webkit-scrollbar-track { background: var(--bg); }
 .cam-scroll::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 2px; }
+
+/* ── INTEL FEED GRID ── */
+.intel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 8px;
+  padding: 8px;
+  height: 100%;
+  box-sizing: border-box;
+}
+.intel-cell {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.intel-cell:hover { border-color: var(--dim2); }
+.intel-body {
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.intel-src {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  color: var(--dim2);
+  white-space: nowrap;
+}
+.intel-src.intel-live { color: var(--green); }
+@keyframes intel-blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+.intel-live { animation: intel-blink 2s ease-in-out infinite; }
+.intel-loading {
+  color: var(--dim2);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  padding: 10px 8px;
+}
+.intel-data-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 0;
+}
+.intel-data-body::-webkit-scrollbar { width: 3px; }
+.intel-data-body::-webkit-scrollbar-track { background: transparent; }
+.intel-data-body::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 2px; }
+.intel-quake {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 5px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+}
+.intel-quake:last-child { border-bottom: none; }
+.quake-mag { font-size: 12px; font-weight: bold; min-width: 38px; }
+.quake-place { color: #ccc; flex: 1; font-size: 9px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.quake-time { color: var(--dim2); font-size: 9px; white-space: nowrap; }
+.sw-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  gap: 6px;
+}
+.sw-row:last-child { border-bottom: none; }
+.sw-label { color: var(--dim2); white-space: nowrap; }
+.sw-val { color: var(--accent); white-space: nowrap; }
+.sw-status { font-size: 9px; padding: 1px 5px; border-radius: 2px; white-space: nowrap; }
+.sw-status.quiet  { background: rgba(0,255,136,0.15);  color: var(--green); }
+.sw-status.mod    { background: rgba(255,204,0,0.15);  color: var(--yellow); }
+.sw-status.high   { background: rgba(255,80,0,0.15);   color: #ff5000; }
+.sw-status.severe { background: rgba(255,30,30,0.2);   color: #ff3030; }
+
 .cam-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -973,6 +1056,13 @@ header {
   .cam-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .intel-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: none;
+    height: auto;
+    min-height: 80vh;
+  }
+  .intel-cell { min-height: 200px; }
   .tab-bar {
     overflow-x: auto;
     white-space: nowrap;
@@ -1157,7 +1247,7 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
     <!-- NAV SIDEBAR -->
     <div id="nav-sidebar">
       <div id="nav-toggle" onclick="toggleNav()" title="Toggle navigation">☰</div>
-      <div class="nav-item active" id="nav-cameras"    onclick="setTab('cameras')"><span class="nav-icon">📹</span><span class="nav-label">CAMERAS</span></div>
+      <div class="nav-item active" id="nav-cameras"    onclick="setTab('cameras')"><span class="nav-icon">📊</span><span class="nav-label">INTEL</span></div>
       <div class="nav-item"        id="nav-newsmap"    onclick="setTab('newsmap')"><span class="nav-icon">📰</span><span class="nav-label">NEWS MAP</span></div>
       <div class="nav-item"        id="nav-worldmap"   onclick="setTab('worldmap')"><span class="nav-icon">🌐</span><span class="nav-label">WORLD MAP</span></div>
       <div class="nav-item"        id="nav-usa"        onclick="setTab('usa')"><span class="nav-icon">🇺🇸</span><span class="nav-label">USA BASES</span></div>
@@ -1287,17 +1377,73 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
       <!-- Content Area -->
       <div id="content">
 
-        <!-- CAMERAS TAB -->
+        <!-- INTEL FEED TAB -->
         <div id="tab-cameras" class="tab-pane active">
-          <div class="cam-filter-bar">
-            <button class="filter-btn active" onclick="setCamSet('world',this)">WORLD</button>
-            <button class="filter-btn" onclick="setCamSet('news',this)">NEWS EN</button>
-            <button class="filter-btn" onclick="setCamSet('asia',this)">ASIA</button>
-            <button class="filter-btn" onclick="setCamSet('us',this)">US</button>
-            <button class="filter-btn" onclick="setCamSet('mideast',this)">MID EAST</button>
-          </div>
-          <div class="cam-scroll">
-            <div class="cam-grid" id="cam-grid"></div>
+          <div class="intel-grid">
+
+            <!-- WTI Crude Oil -->
+            <div class="intel-cell">
+              <div class="cam-header"><span class="cam-loc">WTI CRUDE OIL · USOIL</span><span class="intel-src">TradingView</span></div>
+              <div class="intel-body" style="padding:0">
+                <div class="tradingview-widget-container" style="height:100%;width:100%">
+                  <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+                  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+                  {"symbol":"TVC:USOIL","width":"100%","height":"100%","locale":"en","dateRange":"1D","colorTheme":"dark","trendLineColor":"#00ff88","underLineColor":"rgba(0,255,136,0.08)","isTransparent":true,"autosize":true}
+                  </script>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gold -->
+            <div class="intel-cell">
+              <div class="cam-header"><span class="cam-loc">GOLD · XAU/USD</span><span class="intel-src">TradingView</span></div>
+              <div class="intel-body" style="padding:0">
+                <div class="tradingview-widget-container" style="height:100%;width:100%">
+                  <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+                  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+                  {"symbol":"TVC:GOLD","width":"100%","height":"100%","locale":"en","dateRange":"1D","colorTheme":"dark","trendLineColor":"#ffcc00","underLineColor":"rgba(255,204,0,0.08)","isTransparent":true,"autosize":true}
+                  </script>
+                </div>
+              </div>
+            </div>
+
+            <!-- USD Index -->
+            <div class="intel-cell">
+              <div class="cam-header"><span class="cam-loc">USD INDEX · DXY</span><span class="intel-src">TradingView</span></div>
+              <div class="intel-body" style="padding:0">
+                <div class="tradingview-widget-container" style="height:100%;width:100%">
+                  <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+                  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+                  {"symbol":"TVC:DXY","width":"100%","height":"100%","locale":"en","dateRange":"1D","colorTheme":"dark","trendLineColor":"#00aaff","underLineColor":"rgba(0,170,255,0.08)","isTransparent":true,"autosize":true}
+                  </script>
+                </div>
+              </div>
+            </div>
+
+            <!-- Global Weather -->
+            <div class="intel-cell">
+              <div class="cam-header"><span class="cam-loc">GLOBAL WEATHER · WIND</span><span class="intel-src">Windy</span></div>
+              <div class="intel-body" style="padding:0;overflow:hidden">
+                <iframe src="https://embed.windy.com/embed2.html?lat=30&lon=0&detailLat=30&detailLon=0&width=650&height=450&zoom=2&level=surface&overlay=wind&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1" frameborder="0" style="width:100%;height:100%;border:none;display:block" loading="lazy"></iframe>
+              </div>
+            </div>
+
+            <!-- Seismic Monitor -->
+            <div class="intel-cell">
+              <div class="cam-header"><span class="cam-loc">SEISMIC MONITOR · USGS</span><span class="intel-src intel-live">&#9679; LIVE</span></div>
+              <div class="intel-body intel-data-body" id="seismic-body">
+                <div class="intel-loading">Fetching seismic data&#8230;</div>
+              </div>
+            </div>
+
+            <!-- Space Weather -->
+            <div class="intel-cell">
+              <div class="cam-header"><span class="cam-loc">SPACE WEATHER · NOAA</span><span class="intel-src intel-live">&#9679; LIVE</span></div>
+              <div class="intel-body intel-data-body" id="spacewx-body">
+                <div class="intel-loading">Fetching space weather&#8230;</div>
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -2104,6 +2250,7 @@ function checkVideoAvailability(cam, cellIdx) {
 function renderGrid(indices) {
   GRID_STATE = indices.slice(0, 6);
   var grid = document.getElementById('cam-grid');
+  if (!grid) return;
   grid.innerHTML = '';
   GRID_STATE.forEach(function(idx, cellIdx) {
     var cam = CAMS[idx];
@@ -2644,37 +2791,77 @@ function setShipRegion(key) {
 
 (function loadWorldNews() {
   var feeds = [
-    { url: 'https://feeds.bbci.co.uk/news/world/rss.xml',        label: 'BBC' },
+    { url: 'https://feeds.bbci.co.uk/news/world/rss.xml',            label: 'BBC' },
     { url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml', label: 'NYT' },
-    { url: 'https://www.aljazeera.com/xml/rss/all.xml',           label: 'AJE' },
+    { url: 'https://www.aljazeera.com/xml/rss/all.xml',              label: 'AJE' },
   ];
   var allItems = [];
   var pending = feeds.length;
 
-  feeds.forEach(function(feed) {
-    var api = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feed.url) + '&api_key=&count=6';
-    fetch(api)
-      .then(function(r){ return r.json(); })
-      .then(function(data) {
-        if (data && data.items) {
-          data.items.forEach(function(item) {
-            allItems.push({
-              title: item.title,
-              link:  item.link,
-              date:  new Date(item.pubDate || 0),
-              src:   feed.label,
-            });
-          });
+  // CORS proxy chain — tried in order until one succeeds
+  var PROXIES = [
+    function(u){ return 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u); },
+    function(u){ return 'https://corsproxy.io/?url='          + encodeURIComponent(u); },
+  ];
+
+  function fetchWithTimeout(url, ms) {
+    return new Promise(function(resolve, reject) {
+      var t = setTimeout(function(){ reject(new Error('timeout')); }, ms);
+      fetch(url).then(
+        function(r){ clearTimeout(t); resolve(r); },
+        function(e){ clearTimeout(t); reject(e); }
+      );
+    });
+  }
+
+  function parseRSS(xml, label) {
+    try {
+      var doc = new DOMParser().parseFromString(xml, 'application/xml');
+      // Bail on parse error
+      if (doc.querySelector('parsererror')) return;
+      doc.querySelectorAll('item').forEach(function(item) {
+        var title = (item.querySelector('title') || {}).textContent || '';
+        // <link> in RSS is a text node between tags, not an attribute
+        var linkEl = item.querySelector('link');
+        var link = '';
+        if (linkEl) {
+          link = linkEl.textContent.trim() ||
+                 (linkEl.nextSibling && linkEl.nextSibling.nodeValue
+                   ? linkEl.nextSibling.nodeValue.trim() : '');
         }
+        var pub = (item.querySelector('pubDate') || {}).textContent || '';
+        if (title.trim() && link) {
+          allItems.push({ title: title.trim(), link: link, date: new Date(pub || 0), src: label });
+        }
+      });
+    } catch(e) {}
+  }
+
+  function tryFeed(feed, proxyIdx) {
+    if (proxyIdx >= PROXIES.length) {
+      pending--;
+      if (pending === 0) renderNews();
+      return;
+    }
+    var url = PROXIES[proxyIdx](feed.url);
+    fetchWithTimeout(url, 9000)
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
       })
-      .catch(function(){})
-      .finally(function() {
+      .then(function(text) {
+        parseRSS(text, feed.label);
         pending--;
         if (pending === 0) renderNews();
+      })
+      .catch(function() {
+        tryFeed(feed, proxyIdx + 1);
       });
-  });
+  }
 
-  function renderNews() {
+  feeds.forEach(function(feed) { tryFeed(feed, 0); });
+
+  function renderNewsList() {
     var list = document.getElementById('news-feed-list');
     if (!list) return;
     if (!allItems.length) {
@@ -2682,15 +2869,128 @@ function setShipRegion(key) {
       return;
     }
     allItems.sort(function(a,b){ return b.date - a.date; });
-    var top = allItems.slice(0, 18);
-    list.innerHTML = top.map(function(item) {
-      var title = item.title.length > 80 ? item.title.slice(0, 78) + '…' : item.title;
+    list.innerHTML = allItems.slice(0, 18).map(function(item) {
+      var title = item.title.length > 80 ? item.title.slice(0, 78) + '\u2026' : item.title;
       return '<a class="news-item" href="' + item.link + '" target="_blank" rel="noopener">'
         + title
-        + '<span class="news-src">' + item.src + ' · ' + item.date.toUTCString().slice(0,16) + '</span>'
+        + '<span class="news-src">' + item.src + ' \xb7 ' + item.date.toUTCString().slice(0,16) + '</span>'
         + '</a>';
     }).join('');
   }
+
+  function renderNews() {
+    var list = document.getElementById('news-feed-list');
+    if (!list) return;
+    if (allItems.length) { renderNewsList(); return; }
+
+    // All RSS feeds failed — fall back to HackerNews public API (no key, CORS-enabled)
+    fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
+      .then(function(r){ return r.json(); })
+      .then(function(ids) {
+        var top = (ids || []).slice(0, 10);
+        var done = 0;
+        if (!top.length) { list.innerHTML = '<div id="news-loading">Unable to load news.</div>'; return; }
+        top.forEach(function(id) {
+          fetch('https://hacker-news.firebaseio.com/v0/item/' + id + '.json')
+            .then(function(r){ return r.json(); })
+            .then(function(s) {
+              if (s && s.title) {
+                allItems.push({
+                  title: s.title,
+                  link:  s.url || 'https://news.ycombinator.com/item?id=' + s.id,
+                  date:  new Date((s.time || 0) * 1000),
+                  src:   'HN'
+                });
+              }
+            })
+            .catch(function(){})
+            .finally(function(){
+              done++;
+              if (done === top.length) renderNewsList();
+            });
+        });
+      })
+      .catch(function() {
+        list.innerHTML = '<div id="news-loading">Unable to load news.</div>';
+      });
+  }
+})();
+
+// ── SEISMIC MONITOR (USGS) ────────────────────────────────────────────────
+(function loadSeismic() {
+  var body = document.getElementById('seismic-body');
+  if (!body) return;
+  // M4.5+ earthquakes in past 7 days — no API key, CORS-enabled
+  fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson')
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      var quakes = (data.features || []).slice(0, 15);
+      if (!quakes.length) { body.innerHTML = '<div class="intel-loading">No significant events this week.</div>'; return; }
+      body.innerHTML = quakes.map(function(q) {
+        var mag = parseFloat(q.properties.mag || 0).toFixed(1);
+        var color = mag >= 7 ? '#ff3030' : mag >= 6 ? '#ff8800' : mag >= 5 ? '#ffcc00' : 'var(--dim2)';
+        var place = (q.properties.place || 'Unknown location');
+        var t = new Date(q.properties.time);
+        var ts = t.toUTCString().slice(5, 16);
+        return '<div class="intel-quake">'
+          + '<span class="quake-mag" style="color:' + color + '">M' + mag + '</span>'
+          + '<span class="quake-place">' + place + '</span>'
+          + '<span class="quake-time">' + ts + '</span>'
+          + '</div>';
+      }).join('');
+    })
+    .catch(function() { body.innerHTML = '<div class="intel-loading">Seismic feed unavailable.</div>'; });
+})();
+
+// ── SPACE WEATHER (NOAA SWPC) ─────────────────────────────────────────────
+(function loadSpaceWeather() {
+  var body = document.getElementById('spacewx-body');
+  if (!body) return;
+  function kpInfo(kp) {
+    kp = parseFloat(kp) || 0;
+    if (kp < 1)  return ['Quiet',             'quiet'];
+    if (kp < 4)  return ['Unsettled',          'quiet'];
+    if (kp < 5)  return ['Active',             'mod'];
+    if (kp < 6)  return ['G1 Minor Storm',     'mod'];
+    if (kp < 7)  return ['G2 Moderate Storm',  'high'];
+    if (kp < 8)  return ['G3 Strong Storm',    'high'];
+    if (kp < 9)  return ['G4 Severe Storm',    'severe'];
+    return            ['G5 Extreme Storm',     'severe'];
+  }
+  Promise.all([
+    fetch('https://services.swpc.noaa.gov/json/planetary_k_index_1m.json').then(function(r){ return r.json(); }),
+    fetch('https://services.swpc.noaa.gov/json/solar_wind/mag_1_day.json').then(function(r){ return r.json(); }),
+    fetch('https://services.swpc.noaa.gov/json/goes/primary/xrays-1-day.json').then(function(r){ return r.json(); }),
+  ]).then(function(res) {
+    var kpArr   = res[0] || [];
+    var magArr  = res[1] || [];
+    var xrayArr = res[2] || [];
+
+    var kp    = kpArr.length   ? kpArr[kpArr.length - 1].kp_index   : null;
+    var mag   = magArr.length  ? magArr[magArr.length - 1]           : null;
+    var xray  = xrayArr.length ? xrayArr[xrayArr.length - 1]         : null;
+
+    var ki = kpInfo(kp);
+    var kpStr  = kp !== null ? parseFloat(kp).toFixed(1) : 'N/A';
+    var bzRaw  = mag ? (mag.bz_gsm !== undefined ? mag.bz_gsm : (mag.bz !== undefined ? mag.bz : null)) : null;
+    var bzStr  = bzRaw !== null ? parseFloat(bzRaw).toFixed(1) + ' nT' : 'N/A';
+    var bzDir  = bzRaw !== null && bzRaw < 0 ? ['Southward', 'high'] : ['Northward', 'quiet'];
+    var flux   = xray ? (xray.flux || xray.observed_flux || null) : null;
+    var fluxStr = flux ? flux.toExponential(2) + ' W/m\xb2' : 'N/A';
+
+    var rows = [
+      ['Kp Index',    kpStr,   '<span class="sw-status ' + ki[1]     + '">' + ki[0]      + '</span>'],
+      ['Bz (GSM)',    bzStr,   '<span class="sw-status ' + bzDir[1]   + '">' + bzDir[0]   + '</span>'],
+      ['X-Ray Flux',  fluxStr, ''],
+    ];
+    body.innerHTML = rows.map(function(r) {
+      return '<div class="sw-row"><span class="sw-label">' + r[0] + '</span>'
+        + '<span class="sw-val">' + r[1] + '</span>' + (r[2] || '') + '</div>';
+    }).join('')
+    + '<div class="sw-row" style="border-top:1px solid rgba(255,255,255,0.06);margin-top:4px">'
+    + '<span class="sw-label" style="font-size:9px;color:var(--dim)">NOAA SWPC &mdash; updates ~1 min</span></div>';
+  })
+  .catch(function() { body.innerHTML = '<div class="intel-loading">Space weather feed unavailable.</div>'; });
 })();
 
 // ── INIT ──────────────────────────────────────────────────────────────────
