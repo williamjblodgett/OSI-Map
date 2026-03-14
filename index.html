@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/satellite.js/1.3.0/satellite.min.js"></script>
+<script src="https://unpkg.com/satellite.js@4.1.3/dist/satellite.min.js"></script>
 <style>
 :root {
   --bg:      #030a0f;
@@ -1513,13 +1513,13 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
         <!-- SATELLITES TAB -->
         <div id="tab-satellites" class="tab-pane">
           <div class="sat-toolbar">
-            <button id="sfbtn-ISS"      class="sat-filter-btn" style="border:1px solid #00ff88;color:#00ff88;" onclick="toggleSatFilter('ISS',this)">● ISS</button>
-            <button id="sfbtn-GPS"      class="sat-filter-btn" style="border:1px solid #00d4ff;color:#00d4ff;" onclick="toggleSatFilter('GPS',this)">● GPS</button>
-            <button id="sfbtn-GLONASS"  class="sat-filter-btn" style="border:1px solid #ffcc00;color:#ffcc00;" onclick="toggleSatFilter('GLONASS',this)">● GLONASS</button>
-            <button id="sfbtn-MILITARY" class="sat-filter-btn" style="border:1px solid #ff4d00;color:#ff4d00;" onclick="toggleSatFilter('MILITARY',this)">● MILITARY</button>
-            <button id="sfbtn-STARLINK" class="sat-filter-btn" style="border:1px solid #cc44ff;color:#cc44ff;" onclick="toggleSatFilter('STARLINK',this)">● STARLINK</button>
-            <button id="sfbtn-BEIDOU"   class="sat-filter-btn" style="border:1px solid #ff8800;color:#ff8800;" onclick="toggleSatFilter('BEIDOU',this)">● BEIDOU</button>
-            <button id="sat-overhead-toggle" class="sat-overhead-btn" onclick="toggleOverheadMode()">⊙ OVERHEAD NOW</button>
+            <button id="sfbtn-ISS"       class="sat-filter-btn" style="border:1px solid #00ff88;color:#00ff88;" onclick="toggleSatFilter('ISS',this)">&#9679; ISS</button>
+            <button id="sfbtn-CHINA"     class="sat-filter-btn" style="border:1px solid #ff2200;color:#ff2200;" onclick="toggleSatFilter('CHINA',this)">&#9679; CHINA-MIL</button>
+            <button id="sfbtn-BEIDOU"    class="sat-filter-btn" style="border:1px solid #ff8800;color:#ff8800;" onclick="toggleSatFilter('BEIDOU',this)">&#9679; BEIDOU</button>
+            <button id="sfbtn-GLONASS"   class="sat-filter-btn" style="border:1px solid #ffcc00;color:#ffcc00;" onclick="toggleSatFilter('GLONASS',this)">&#9679; GLONASS</button>
+            <button id="sfbtn-MILITARY"  class="sat-filter-btn" style="border:1px solid #ff9900;color:#ff9900;" onclick="toggleSatFilter('MILITARY',this)">&#9679; MILITARY</button>
+            <button id="sfbtn-IRAN_DPRK" class="sat-filter-btn" style="border:1px solid #cc44ff;color:#cc44ff;" onclick="toggleSatFilter('IRAN_DPRK',this)">&#9679; IRAN/DPRK</button>
+            <button id="sat-overhead-toggle" class="sat-overhead-btn" onclick="toggleOverheadMode()">&#8857; OVERHEAD NOW</button>
             <input id="sat-loc-input" class="sat-loc-input" placeholder="38.9,-77.0 (lat,lng)" title="Observer lat,lng for overhead detection" onchange="parseSatLocInput(this.value)">
           </div>
           <div class="sat-status-bar">
@@ -1530,16 +1530,16 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
           <div class="map-wrap">
             <div id="sat-map"></div>
             <div class="sat-legend">
-              <div class="sat-legend-title">SATELLITES</div>
+              <div class="sat-legend-title">ADVERSARY SATS</div>
               <div class="legend-row"><span class="legend-dot" style="background:#00ff88"></span>ISS / Stations</div>
-              <div class="legend-row"><span class="legend-dot" style="background:#00d4ff"></span>GPS (USA)</div>
-              <div class="legend-row"><span class="legend-dot" style="background:#ffcc00"></span>GLONASS (RUS)</div>
-              <div class="legend-row"><span class="legend-dot" style="background:#ff4d00"></span>Military</div>
-              <div class="legend-row"><span class="legend-dot" style="background:#cc44ff"></span>Starlink</div>
-              <div class="legend-row"><span class="legend-dot" style="background:#ff8800"></span>BeiDou (CHN)</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#ff2200"></span>China Military</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#ff8800"></span>BeiDou (CHN Nav)</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#ffcc00"></span>GLONASS (RUS Nav)</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#ff9900"></span>Military (Mixed)</div>
+              <div class="legend-row"><span class="legend-dot" style="background:#cc44ff"></span>Iran / DPRK</div>
               <div class="sat-legend-section">ORBIT ALTITUDE</div>
               <div class="legend-row" style="color:var(--dim2)">LEO &lt; 2,000 km</div>
-              <div class="legend-row" style="color:var(--dim2)">MEO 2k – 35k km</div>
+              <div class="legend-row" style="color:var(--dim2)">MEO 2k &ndash; 35k km</div>
               <div class="legend-row" style="color:var(--dim2)">GEO ~ 35,786 km</div>
             </div>
           </div>
@@ -1923,7 +1923,7 @@ var satMap          = null;
 var satMapInited    = false;
 var satLayer        = null;
 var satObjects      = {};
-var satFilters      = { ISS:true, GPS:true, GLONASS:true, MILITARY:true, STARLINK:true, BEIDOU:true };
+var satFilters      = { ISS:true, CHINA:true, BEIDOU:true, GLONASS:true, MILITARY:true, IRAN_DPRK:true };
 var satUpdateTimer  = null;
 var satLoadedGroups = 0;
 var satTotalGroups  = 0;
@@ -1932,18 +1932,26 @@ var overheadLng     = -77.0;
 var overheadMode    = false;
 
 var SAT_SOURCES = [
-  { key:'ISS',      color:'#00ff88', radius:7,  max:5,
+  // ISS / crewed stations
+  { key:'ISS',      color:'#00ff88', radius:7, max:5,
     url:'https://celestrak.org/NORAD/elements/gp.php?GROUP=stations&FORMAT=tle' },
-  { key:'GPS',      color:'#00d4ff', radius:4,  max:35,
-    url:'https://celestrak.org/NORAD/elements/gp.php?GROUP=gps-ops&FORMAT=tle' },
-  { key:'GLONASS',  color:'#ffcc00', radius:4,  max:30,
-    url:'https://celestrak.org/NORAD/elements/gp.php?GROUP=glonass-ops&FORMAT=tle' },
-  { key:'MILITARY', color:'#ff4d00', radius:5,  max:80,
-    url:'https://celestrak.org/NORAD/elements/gp.php?GROUP=military&FORMAT=tle' },
-  { key:'STARLINK', color:'#cc44ff', radius:3,  max:150,
-    url:'https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=tle' },
-  { key:'BEIDOU',   color:'#ff8800', radius:4,  max:50,
+  // Chinese military / intelligence / recon satellites (cataloged by CelesTrak)
+  { key:'CHINA',    color:'#ff2200', radius:5, max:80,
+    url:'https://celestrak.org/NORAD/elements/gp.php?GROUP=chinese&FORMAT=tle' },
+  // Chinese BeiDou navigation constellation
+  { key:'BEIDOU',   color:'#ff8800', radius:4, max:55,
     url:'https://celestrak.org/NORAD/elements/gp.php?GROUP=beidou&FORMAT=tle' },
+  // Russian GLONASS navigation constellation (use glo-ops, not glonass-ops)
+  { key:'GLONASS',  color:'#ffcc00', radius:4, max:30,
+    url:'https://celestrak.org/NORAD/elements/gp.php?GROUP=glo-ops&FORMAT=tle' },
+  // Miscellaneous military (US, RUS, other nations)
+  { key:'MILITARY', color:'#ff9900', radius:5, max:80,
+    url:'https://celestrak.org/NORAD/elements/gp.php?GROUP=military&FORMAT=tle' },
+  // Iran & DPRK active satellites (fetched individually by NORAD ID)
+  // Iran: Noor-2(51954), Noor-3(57962), Khayyam(53370)
+  // DPRK: KMS-4(41332), Malligyong-1/Chollima-1(58400)
+  { key:'IRAN_DPRK', color:'#cc44ff', radius:6, max:20,
+    noradIds:[51954, 57962, 53370, 41332, 58400] },
 ];
 
 // ── BREAKING NEWS ─────────────────────────────────────────────────────────
@@ -2594,60 +2602,98 @@ function initSatMap() {
   satMap.invalidateSize();
 }
 
+function addSatMarker(source, obj) {
+  var pos = getSatPos(obj.satrec);
+  if (!pos) return;
+  var marker = L.circleMarker([pos.lat, pos.lng], {
+    radius: source.radius, fillColor: source.color, color: source.color,
+    weight: 1, opacity: 0.9, fillOpacity: 0.75
+  });
+  var altLabel = pos.alt < 2000 ? 'LEO' : (pos.alt < 35000 ? 'MEO' : 'GEO');
+  var vel = Math.sqrt(398600.4418 / (6371 + pos.alt)).toFixed(2);
+  marker.bindPopup(
+    '<div class="popup-cat" style="color:' + source.color + '">[' + source.key + ']</div>' +
+    '<div class="popup-title">' + obj.name + '</div>' +
+    '<div class="popup-body" style="font-family:\'Share Tech Mono\',monospace;font-size:11px;line-height:1.7;">' +
+      'NORAD ID: ' + (obj.satrec.satnum || '?') + '<br>' +
+      'ALTITUDE: ' + pos.alt + ' km (' + altLabel + ')<br>' +
+      'VELOCITY: ~' + vel + ' km/s<br>' +
+      'LAT: ' + pos.lat.toFixed(1) + '\xb0 | LNG: ' + pos.lng.toFixed(1) + '\xb0' +
+    '</div>'
+  );
+  marker.addTo(satLayer);
+  satObjects[source.key].push({ name:obj.name, satrec:obj.satrec, marker:marker, color:source.color, key:source.key, radius:source.radius });
+}
+
+function onGroupLoaded() {
+  satLoadedGroups++;
+  var total = Object.keys(satObjects).reduce(function(n,k){ return n + satObjects[k].length; }, 0);
+  document.getElementById('sat-loading').textContent = 'Loaded ' + satLoadedGroups + '/' + satTotalGroups + ' groups';
+  document.getElementById('sat-count').textContent = total + ' satellites tracked';
+  if (satLoadedGroups === satTotalGroups) {
+    document.getElementById('sat-loading').textContent = 'TLE data current';
+    updateSatPositions();
+    if (currentTab === 'satellites' && !satUpdateTimer) satUpdateTimer = setInterval(updateSatPositions, 30000);
+  }
+}
+
+function processTLE(text, source) {
+  satObjects[source.key] = satObjects[source.key] || [];
+  parseTLE(text, source.max || 200).forEach(function(obj){ addSatMarker(source, obj); });
+}
+
+// Proxy chain: direct → allorigins → corsproxy
+function fetchTLEWithProxies(url, source, onOk, onFail) {
+  var proxies = [
+    function(u){ return u; },  // direct (CelesTrak enables CORS)
+    function(u){ return 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u); },
+    function(u){ return 'https://corsproxy.io/?url=' + encodeURIComponent(u); },
+  ];
+  function tryProxy(idx) {
+    if (idx >= proxies.length) { onFail(); return; }
+    fetch(proxies[idx](url))
+      .then(function(r){ if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then(onOk)
+      .catch(function(){ tryProxy(idx + 1); });
+  }
+  tryProxy(0);
+}
+
 function loadSatGroup(source) {
-  var url = source.url;
-  var proxy = 'https://corsproxy.io/?' + encodeURIComponent(url);
-  function onSuccess(text) {
-    var parsed = parseTLE(text, source.max);
+  // Special case: fetch individual satellites by NORAD ID (e.g. Iran/DPRK)
+  if (source.noradIds) {
     satObjects[source.key] = [];
-    parsed.forEach(function(obj){
-      var pos = getSatPos(obj.satrec);
-      if (!pos) return;
-      var marker = L.circleMarker([pos.lat, pos.lng], {
-        radius: source.radius, fillColor: source.color, color: source.color,
-        weight: 1, opacity: 0.9, fillOpacity: 0.75
-      });
-      var altLabel = pos.alt < 2000 ? 'LEO' : (pos.alt < 35000 ? 'MEO' : 'GEO');
-      var r = 6371 + pos.alt;
-      var vel = Math.sqrt(398600.4418 / r).toFixed(2);
-      marker.bindPopup(
-        '<div class="popup-cat" style="color:' + source.color + '">[' + source.key + ']</div>' +
-        '<div class="popup-title">' + obj.name + '</div>' +
-        '<div class="popup-body" style="font-family:\'Share Tech Mono\',monospace;font-size:11px;line-height:1.7;">' +
-          'NORAD ID: ' + (obj.satrec.satnum || '?') + '<br>' +
-          'ALTITUDE: ' + pos.alt + ' km (' + altLabel + ')<br>' +
-          'VELOCITY: ~' + vel + ' km/s<br>' +
-          'LAT: ' + pos.lat.toFixed(1) + '\xb0 | LNG: ' + pos.lng.toFixed(1) + '\xb0' +
-        '</div>'
+    var pending = source.noradIds.length;
+    var done = 0;
+    source.noradIds.forEach(function(id) {
+      var url = 'https://celestrak.org/NORAD/elements/gp.php?CATNR=' + id + '&FORMAT=tle';
+      fetchTLEWithProxies(url, source,
+        function(text) {
+          processTLE(text, source);
+          done++;
+          if (done === pending) onGroupLoaded();
+        },
+        function() {
+          done++;
+          if (done === pending) onGroupLoaded();
+        }
       );
-      marker.addTo(satLayer);
-      satObjects[source.key].push({ name:obj.name, satrec:obj.satrec, marker:marker, color:source.color, key:source.key, radius:source.radius });
     });
-    satLoadedGroups++;
-    var total = Object.keys(satObjects).reduce(function(n,k){ return n + satObjects[k].length; }, 0);
-    document.getElementById('sat-loading').textContent = 'Loaded ' + satLoadedGroups + '/' + satTotalGroups + ' groups';
-    document.getElementById('sat-count').textContent = total + ' satellites tracked';
-    if (satLoadedGroups === satTotalGroups) {
-      document.getElementById('sat-loading').textContent = 'TLE data current';
-      updateSatPositions();
-      if (currentTab === 'satellites' && !satUpdateTimer) satUpdateTimer = setInterval(updateSatPositions, 30000);
+    return;
+  }
+
+  // Standard GROUP fetch
+  satObjects[source.key] = [];
+  fetchTLEWithProxies(source.url, source,
+    function(text) { processTLE(text, source); onGroupLoaded(); },
+    function() {
+      var el = document.getElementById('sat-loading');
+      el.textContent = source.key + ' TLE unavailable \u2014 click to retry';
+      el.style.cursor = 'pointer';
+      el.onclick = function(){ el.textContent = 'Retrying\u2026'; el.onclick = null; el.style.cursor = ''; satLoadedGroups--; loadSatGroup(source); };
+      onGroupLoaded(); // onGroupLoaded handles the increment
     }
-  }
-  function onError() {
-    satLoadedGroups++;
-    var el = document.getElementById('sat-loading');
-    el.textContent = source.key + ' TLE unavailable \u2014 click retry';
-    el.style.cursor = 'pointer';
-    el.onclick = function(){ el.textContent='Retrying...'; el.onclick=null; el.style.cursor=''; satLoadedGroups--; loadSatGroup(source); };
-  }
-  fetch(url, { mode:'cors' })
-    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
-    .then(onSuccess)
-    .catch(function(){
-      fetch(proxy)
-        .then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
-        .then(onSuccess).catch(onError);
-    });
+  );
 }
 
 function parseTLE(tleText, maxCount) {
@@ -2703,12 +2749,14 @@ function checkSingleOverhead(satrec) {
   var pv = satellite.propagate(satrec, now);
   if (!pv || !pv.position || typeof pv.position === 'boolean') return false;
   var gmst = satellite.gstime(now);
+  // Convert satellite ECI position → ECF for look-angle calc
+  var satEcf = satellite.eciToEcf(pv.position, gmst);
   var obs = satellite.geodeticToEcf({
     longitude: satellite.degreesToRadians(overheadLng),
     latitude:  satellite.degreesToRadians(overheadLat),
     height: 0.0
   });
-  var lookAngles = satellite.ecfToLookAngles(obs, pv.position);
+  var lookAngles = satellite.ecfToLookAngles(obs, satEcf);
   return lookAngles && lookAngles.elevation > 0;
 }
 
