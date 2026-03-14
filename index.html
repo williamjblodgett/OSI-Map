@@ -570,6 +570,27 @@ header {
 }
 .feed-time { color: var(--dim2); }
 
+/* ── WORLD NEWS ── */
+#news-feed-section { padding: 0; }
+#news-feed-list { max-height: 320px; overflow-y: auto; }
+#news-feed-list::-webkit-scrollbar { width: 4px; }
+#news-feed-list::-webkit-scrollbar-track { background: var(--panel); }
+#news-feed-list::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 2px; }
+.news-item {
+  display: block;
+  padding: 6px 12px;
+  border-bottom: 1px solid rgba(13,51,72,0.5);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  color: var(--text);
+  line-height: 1.4;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.news-item:hover { background: rgba(0,212,255,0.07); color: var(--accent); }
+.news-src { color: var(--dim2); font-size: 10px; display: block; margin-top: 2px; }
+#news-loading { padding: 10px 12px; font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--dim2); }
+
 /* ── CAMERA DIRECTORY ── */
 .cam-dir-item {
   display: flex;
@@ -1074,7 +1095,11 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
   }
   .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent); }
   .nav-label { display: none; }
-  #left, #right { display: none; }
+  #left { display: none; }
+  #right { display: block; grid-column: 1; grid-row: 3; width: 100%; border-left: none; border-top: 1px solid var(--border); max-height: none; overflow: visible; }
+  #right .sb-section { display: none; }
+  #right #news-feed-section { display: block; }
+  #right #news-feed-list { max-height: 240px; }
   #center { grid-column: 1; grid-row: 2; }
 }
 </style>
@@ -1435,6 +1460,12 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
           <div class="feed-item"><span class="feed-time">[01:33 UTC]</span> 🟡 INTEL — Iranian IRGCN vessels trailing USN ship</div>
           <div class="feed-item"><span class="feed-time">[01:12 UTC]</span> ✅ STATUS — 7th Fleet CSG position updated</div>
         </div>
+      </div>
+
+      <!-- World News -->
+      <div class="sb-section" id="news-feed-section" style="padding:0">
+        <div class="sb-header" style="padding:12px 12px 4px; margin-bottom:0;">WORLD NEWS</div>
+        <div id="news-feed-list"><div id="news-loading">Loading news...</div></div>
       </div>
 
       <!-- Camera Directory -->
@@ -2608,6 +2639,59 @@ function setShipRegion(key) {
   var idx = keys.indexOf(key);
   if (btns[idx]) { btns[idx].style.borderColor = 'var(--accent)'; btns[idx].style.color = 'var(--accent)'; }
 }
+
+// ── WORLD NEWS FEED ───────────────────────────────────────────────────────
+
+(function loadWorldNews() {
+  var feeds = [
+    { url: 'https://feeds.bbci.co.uk/news/world/rss.xml',        label: 'BBC' },
+    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml', label: 'NYT' },
+    { url: 'https://www.aljazeera.com/xml/rss/all.xml',           label: 'AJE' },
+  ];
+  var allItems = [];
+  var pending = feeds.length;
+
+  feeds.forEach(function(feed) {
+    var api = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feed.url) + '&api_key=&count=6';
+    fetch(api)
+      .then(function(r){ return r.json(); })
+      .then(function(data) {
+        if (data && data.items) {
+          data.items.forEach(function(item) {
+            allItems.push({
+              title: item.title,
+              link:  item.link,
+              date:  new Date(item.pubDate || 0),
+              src:   feed.label,
+            });
+          });
+        }
+      })
+      .catch(function(){})
+      .finally(function() {
+        pending--;
+        if (pending === 0) renderNews();
+      });
+  });
+
+  function renderNews() {
+    var list = document.getElementById('news-feed-list');
+    if (!list) return;
+    if (!allItems.length) {
+      list.innerHTML = '<div id="news-loading">Unable to load news.</div>';
+      return;
+    }
+    allItems.sort(function(a,b){ return b.date - a.date; });
+    var top = allItems.slice(0, 18);
+    list.innerHTML = top.map(function(item) {
+      var title = item.title.length > 80 ? item.title.slice(0, 78) + '…' : item.title;
+      return '<a class="news-item" href="' + item.link + '" target="_blank" rel="noopener">'
+        + title
+        + '<span class="news-src">' + item.src + ' · ' + item.date.toUTCString().slice(0,16) + '</span>'
+        + '</a>';
+    }).join('');
+  }
+})();
 
 // ── INIT ──────────────────────────────────────────────────────────────────
 
