@@ -1058,7 +1058,25 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
 #sat-map { width: 100%; height: 100%; }
 @keyframes sat-pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
 .sat-overhead-marker { animation: sat-pulse 1.2s ease-in-out infinite; }
-@media (max-width: 768px) { #nav-sidebar { display: none; } }
+@media (max-width: 768px) {
+  #main { grid-template-columns: 1fr !important; grid-template-rows: auto 1fr; }
+  #nav-sidebar {
+    grid-column: 1; grid-row: 1;
+    flex-direction: row; width: 100% !important;
+    height: 48px; min-height: 48px; overflow-x: auto; overflow-y: hidden;
+    border-right: none; border-bottom: 1px solid var(--border);
+  }
+  #nav-toggle { display: none; }
+  .nav-item {
+    min-width: 48px; height: 48px; padding: 0 12px;
+    border-left: none; border-bottom: 3px solid transparent;
+    flex-shrink: 0;
+  }
+  .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent); }
+  .nav-label { display: none; }
+  #left, #right { display: none; }
+  #center { grid-column: 1; grid-row: 2; }
+}
 </style>
 </head>
 <body>
