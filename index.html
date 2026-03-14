@@ -1063,6 +1063,10 @@ header {
     min-height: 80vh;
   }
   .intel-cell { min-height: 200px; }
+  .hist-toolbar { gap: 6px; padding: 6px 8px; }
+  .hist-body { flex-direction: column; }
+  #hist-map { min-height: 55vh; }
+  .hist-feed { width: 100%; height: 220px; border-left: none; border-top: 1px solid var(--border); }
   .tab-bar {
     overflow-x: auto;
     white-space: nowrap;
@@ -1122,7 +1126,85 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
 .nav-item.active .nav-label { color: var(--accent); }
 
 /* ── SATELLITE / SHIPS TABS ── */
-#tab-satellites, #tab-ships { flex-direction: column; }
+#tab-satellites, #tab-ships, #tab-history { flex-direction: column; }
+
+/* ── HISTORY / TIME MACHINE ── */
+.hist-toolbar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; background: var(--surface);
+  border-bottom: 1px solid var(--border); flex-shrink: 0; flex-wrap: wrap;
+}
+.hist-year-box {
+  display: flex; flex-direction: column; align-items: center;
+  min-width: 70px; flex-shrink: 0;
+}
+#hist-year-num {
+  font-family: 'Orbitron', sans-serif; font-size: 26px;
+  color: var(--accent); line-height: 1; letter-spacing: 2px;
+}
+#hist-era-label {
+  font-family: 'Share Tech Mono', monospace; font-size: 8px;
+  color: var(--dim2); text-transform: uppercase;
+  letter-spacing: 1px; margin-top: 3px; white-space: nowrap;
+}
+.hist-slider-wrap { flex: 1; min-width: 140px; }
+.hist-slider {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 3px; border-radius: 2px;
+  background: var(--border); outline: none; cursor: pointer;
+}
+.hist-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 14px; height: 14px;
+  border-radius: 50%; background: var(--accent);
+  border: 2px solid var(--bg); cursor: pointer;
+  box-shadow: 0 0 6px rgba(0,212,255,0.5);
+}
+.hist-slider::-moz-range-thumb {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--bg); cursor: pointer;
+}
+.hist-tick-row {
+  display: flex; justify-content: space-between; margin-top: 3px;
+  font-family: 'Share Tech Mono', monospace; font-size: 8px;
+  color: var(--dim); padding: 0 1px;
+}
+.hist-filters { display: flex; gap: 4px; flex-wrap: wrap; }
+.hf-btn {
+  font-family: 'Share Tech Mono', monospace; font-size: 10px;
+  padding: 3px 8px; border: 1px solid var(--border); border-radius: 2px;
+  background: transparent; color: var(--dim2); cursor: pointer;
+  transition: all 0.15s; white-space: nowrap;
+}
+.hf-btn:hover { border-color: var(--dim2); color: var(--text); }
+.hf-btn.active { background: rgba(255,255,255,0.07); border-color: var(--dim2); color: var(--text); }
+.hist-body { flex: 1; display: flex; overflow: hidden; min-height: 0; }
+#hist-map { flex: 1; min-width: 0; }
+.hist-feed {
+  width: 272px; flex-shrink: 0; overflow-y: auto;
+  border-left: 1px solid var(--border); background: var(--surface);
+}
+.hist-feed::-webkit-scrollbar { width: 3px; }
+.hist-feed::-webkit-scrollbar-track { background: transparent; }
+.hist-feed::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 2px; }
+.hist-feed-hdr {
+  padding: 8px 12px 6px; font-family: 'Orbitron', sans-serif;
+  font-size: 8px; color: var(--accent); letter-spacing: 1px;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; background: var(--surface); z-index: 1;
+}
+.hist-event {
+  padding: 7px 10px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  cursor: pointer; transition: background 0.12s;
+}
+.hist-event:hover { background: rgba(255,255,255,0.03); }
+.hist-event.hl { border-left: 2px solid var(--accent); padding-left: 8px; }
+.hist-event-meta { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+.hist-yr { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--accent); min-width: 34px; }
+.hist-cdot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.hist-cat-lbl { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--dim2); }
+.hist-etitle { font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.2; }
+.hist-ebody { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--dim2); line-height: 1.5; margin-top: 3px; }
+
 .sat-toolbar {
   display: flex; gap: 6px; padding: 8px 10px;
   background: var(--surface); border-bottom: 1px solid var(--border);
@@ -1255,6 +1337,7 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
       <div class="nav-item"        id="nav-hotspots"   onclick="setTab('hotspots')"><span class="nav-icon">⚠</span><span class="nav-label">HOTSPOTS</span></div>
       <div class="nav-item"        id="nav-satellites" onclick="setTab('satellites')"><span class="nav-icon">🛰</span><span class="nav-label">SATELLITES</span></div>
       <div class="nav-item"        id="nav-ships"      onclick="setTab('ships')"><span class="nav-icon">🚢</span><span class="nav-label">SHIPS / AIS</span></div>
+      <div class="nav-item"        id="nav-history"    onclick="setTab('history')"><span class="nav-icon">🏛</span><span class="nav-label">HISTORY</span></div>
     </div>
 
     <!-- LEFT SIDEBAR -->
@@ -1565,6 +1648,42 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
               allow="fullscreen"
               title="AIS Live Ship Tracker">
             </iframe>
+          </div>
+        </div>
+
+        <!-- HISTORY / TIME MACHINE TAB -->
+        <div id="tab-history" class="tab-pane">
+          <div class="hist-toolbar">
+            <div class="hist-year-box">
+              <span id="hist-year-num">1944</span>
+              <span id="hist-era-label">WORLD WAR II</span>
+            </div>
+            <div class="hist-slider-wrap">
+              <input type="range" id="hist-slider" class="hist-slider"
+                min="1500" max="2024" value="1944" step="1"
+                oninput="onHistSlider(this.value)">
+              <div class="hist-tick-row">
+                <span>1500</span><span>1600</span><span>1700</span>
+                <span>1800</span><span>1850</span><span>1900</span>
+                <span>1945</span><span>1990</span><span>2024</span>
+              </div>
+            </div>
+            <div class="hist-filters">
+              <button class="hf-btn active"  data-cat="ALL"       onclick="setHistFilter('ALL',this)">ALL</button>
+              <button class="hf-btn" data-cat="CONFLICT"   onclick="setHistFilter('CONFLICT',this)"   style="color:#ff4d00">CONFLICT</button>
+              <button class="hf-btn" data-cat="EMPIRE"     onclick="setHistFilter('EMPIRE',this)"     style="color:#ff8800">EMPIRE</button>
+              <button class="hf-btn" data-cat="REVOLUTION" onclick="setHistFilter('REVOLUTION',this)" style="color:#ffcc00">REVOLUTION</button>
+              <button class="hf-btn" data-cat="DISCOVERY"  onclick="setHistFilter('DISCOVERY',this)"  style="color:#00d4ff">DISCOVERY</button>
+              <button class="hf-btn" data-cat="DIPLOMACY"  onclick="setHistFilter('DIPLOMACY',this)"  style="color:#00ff88">DIPLOMACY</button>
+              <button class="hf-btn" data-cat="DISASTER"   onclick="setHistFilter('DISASTER',this)"   style="color:#cc44ff">DISASTER</button>
+            </div>
+          </div>
+          <div class="hist-body">
+            <div id="hist-map"></div>
+            <div class="hist-feed">
+              <div class="hist-feed-hdr" id="hist-feed-hdr">EVENTS: 1944</div>
+              <div id="hist-feed-list"></div>
+            </div>
           </div>
         </div>
 
@@ -1954,6 +2073,14 @@ var SAT_SOURCES = [
     noradIds:[51954, 57962, 53370, 41332, 58400] },
 ];
 
+// ── HISTORY STATE ────────────────────────────────────────────────────────
+var histMap       = null;
+var histMapInited = false;
+var histLayer     = null;
+var histYear      = 1944;
+var histCatFilter = 'ALL';
+var HIST_WINDOW   = 20;  // ±years shown on map around selected year
+
 // ── BREAKING NEWS ─────────────────────────────────────────────────────────
 
 function cycleBraking() {
@@ -2002,6 +2129,7 @@ function setTab(mode) {
   if (mode === 'newsmap' && !newsMapInited) { setTimeout(initNewsMap, 100); }
   if ((mode === 'worldmap' || mode === 'usa' || mode === 'fleets' || mode === 'hotspots') && !milMapInited) { setTimeout(initMilMap, 100); }
   if (mode === 'satellites' && !satMapInited) { setTimeout(initSatMap, 100); }
+  if (mode === 'history'    && !histMapInited) { setTimeout(initHistMap, 100); }
 
   if (milMapInited && (mode === 'worldmap' || mode === 'usa' || mode === 'fleets' || mode === 'hotspots')) {
     setTimeout(function(){ placeMilMap(mode); }, 50);
@@ -2018,6 +2146,7 @@ function setTab(mode) {
     if (newsMap && mode === 'newsmap') newsMap.invalidateSize();
     if (milMap && (mode === 'worldmap'||mode==='usa'||mode==='fleets'||mode==='hotspots')) milMap.invalidateSize();
     if (satMap && mode === 'satellites') satMap.invalidateSize();
+    if (histMap && mode === 'history') histMap.invalidateSize();
   }, 200);
 }
 
@@ -3040,6 +3169,254 @@ function setShipRegion(key) {
   })
   .catch(function() { body.innerHTML = '<div class="intel-loading">Space weather feed unavailable.</div>'; });
 })();
+
+// ── HISTORY / TIME MACHINE ───────────────────────────────────────────────
+
+var HIST_DATA = [
+  // ── 1500s: Age of Exploration & Conquest ─────────────────────────────
+  { year:1513, lat:8.4,   lng:-77.3,  cat:'DISCOVERY',  color:'#00d4ff', title:'Balboa Sees the Pacific',           body:'Vasco N\xfa\xf1ez de Balboa leads the first European expedition across Panama to sight the Pacific Ocean, opening an era of trans-oceanic exploration.' },
+  { year:1517, lat:51.9,  lng:11.7,   cat:'REVOLUTION', color:'#ffcc00', title:'Luther\u2019s 95 Theses',           body:'Martin Luther nails his theses to the Wittenberg church door, igniting the Protestant Reformation and permanently fracturing Western Christianity.', outcome:'Religious wars across Europe for the next 130 years' },
+  { year:1519, lat:41.9,  lng:12.5,   cat:'DISCOVERY',  color:'#00d4ff', title:'Magellan-Elcano Circumnavigation',  body:'Magellan departs Spain with 5 ships to circumnavigate the globe. Juan Sebasti\xe1n Elcano completes the voyage in 1522 with 1 ship and 18 survivors, proving the Earth\u2019s roundness.' },
+  { year:1521, lat:19.4,  lng:-99.1,  cat:'CONFLICT',   color:'#ff4d00', title:'Fall of Tenochtitlan',              body:'Hern\xe1n Cort\xe9s and Tlaxcalan allies capture the Aztec capital after a 75-day siege. The Aztec Empire \u2014 population 5\u201325 million \u2014 collapses.', parties:['Spanish Empire','Aztec Empire'] },
+  { year:1526, lat:46.0,  lng:18.2,   cat:'CONFLICT',   color:'#ff4d00', title:'Battle of Moh\xe1cs',               body:'Ottoman Sultan Suleiman I crushes the Hungarian army in 2 hours. King Louis II is killed. Hungary loses independence for 150 years; Ottomans push to the gates of Vienna.', parties:['Ottoman Empire','Kingdom of Hungary'] },
+  { year:1532, lat:-13.5, lng:-72.0,  cat:'CONFLICT',   color:'#ff4d00', title:'Spanish Conquest of the Inca',      body:'Francisco Pizarro captures Inca Emperor Atahualpa at Cajamarca with 168 men against thousands. The largest empire in the Americas collapses within decades.', parties:['Spain','Inca Empire'] },
+  { year:1545, lat:45.9,  lng:10.9,   cat:'DIPLOMACY',  color:'#00ff88', title:'Council of Trent',                  body:'The Catholic Church convenes to respond to the Protestant Reformation with internal reform \u2014 the Counter-Reformation that will reshape European culture for centuries.' },
+  { year:1571, lat:38.3,  lng:21.2,   cat:'CONFLICT',   color:'#ff4d00', title:'Battle of Lepanto',                 body:'The Holy League destroys the Ottoman fleet off Greece in the largest naval battle of the 16th century, halting Ottoman expansion in the Mediterranean.', parties:['Holy League','Ottoman Empire'] },
+  { year:1572, lat:48.9,  lng:2.3,    cat:'DISASTER',   color:'#cc44ff', title:'St. Bartholomew\u2019s Day Massacre', body:'Catholic mobs kill an estimated 5,000\u201330,000 French Protestants (Huguenots) over several weeks, escalating the French Wars of Religion.' },
+  { year:1588, lat:51.5,  lng:-3.0,   cat:'CONFLICT',   color:'#ff4d00', title:'Spanish Armada Defeated',           body:'England\u2019s smaller fleet and Atlantic storms destroy Spain\u2019s 130-ship invasion fleet. Spain\u2019s dominance of the seas ends; England rises as a naval power.', parties:['England','Spain'] },
+  { year:1598, lat:48.9,  lng:2.3,    cat:'DIPLOMACY',  color:'#00ff88', title:'Edict of Nantes',                   body:'Henry IV of France grants Huguenots substantial rights, ending 36 years of the French Wars of Religion. Revoked in 1685, triggering mass Protestant emigration.' },
+
+  // ── 1600s: Colonial Expansion ────────────────────────────────────────
+  { year:1600, lat:51.5,  lng:-0.1,   cat:'EMPIRE',     color:'#ff8800', title:'British East India Company Founded', body:'English merchants receive a royal charter to trade with the East Indies \u2014 the beginning of British commercial and eventually colonial dominance of Asia.' },
+  { year:1603, lat:35.0,  lng:135.8,  cat:'EMPIRE',     color:'#ff8800', title:'Tokugawa Shogunate Established',    body:'Tokugawa Ieyasu becomes Shogun, unifying Japan after decades of civil war. Japan closes itself to the outside world for 265 years under the Edo period.' },
+  { year:1607, lat:37.2,  lng:-76.5,  cat:'EMPIRE',     color:'#ff8800', title:'Jamestown Colony Founded',          body:'England establishes its first permanent North American colony at Jamestown, Virginia. Of 104 original settlers, only 38 survive the first year.' },
+  { year:1618, lat:50.1,  lng:14.4,   cat:'CONFLICT',   color:'#ff4d00', title:'Thirty Years War Begins',           body:'Europe\u2019s most destructive pre-modern war begins in Bohemia. Religious, dynastic, and political conflicts kill up to 8 million people and depopulate parts of Germany by 30%.', parties:['Protestant Union','Catholic League'] },
+  { year:1620, lat:41.9,  lng:-70.0,  cat:'DISCOVERY',  color:'#00d4ff', title:'Mayflower \u2014 Plymouth Colony',   body:'102 Puritan settlers cross the Atlantic and establish Plymouth Colony in Massachusetts, signing the Mayflower Compact \u2014 an early model of self-governance.' },
+  { year:1644, lat:39.9,  lng:116.4,  cat:'EMPIRE',     color:'#ff8800', title:'Qing Dynasty Replaces Ming China', body:'Manchu forces capture Beijing and establish the Qing Dynasty, which will rule China until 1912 \u2014 the last imperial dynasty of China.' },
+  { year:1648, lat:52.5,  lng:5.8,    cat:'DIPLOMACY',  color:'#00ff88', title:'Peace of Westphalia',               body:'Treaties ending the Thirty Years War establish the modern concept of national sovereignty and state equality, forming the foundation of international law.', outcome:'Birth of the modern nation-state system' },
+  { year:1683, lat:48.2,  lng:16.4,   cat:'CONFLICT',   color:'#ff4d00', title:'Ottoman Siege of Vienna Repulsed', body:'A Polish-Habsburg relief force defeats the Ottoman army besieging Vienna. The Ottoman Empire begins its long decline; Europe\u2019s eastern frontier is secured.', parties:['Holy Roman Empire & Poland','Ottoman Empire'] },
+  { year:1688, lat:51.5,  lng:-0.1,   cat:'REVOLUTION', color:'#ffcc00', title:'Glorious Revolution',               body:'William of Orange invades England, replacing Catholic King James II without bloodshed. Constitutional monarchy and parliamentary supremacy are established.' },
+
+  // ── 1700s: Enlightenment & Revolution ───────────────────────────────
+  { year:1700, lat:59.3,  lng:18.1,   cat:'CONFLICT',   color:'#ff4d00', title:'Great Northern War',                body:'Russia, Denmark, and Poland attack Sweden. Peter the Great defeats Charles XII at Poltava (1709), establishing Russia as the dominant Baltic power and a major European force.', parties:['Russia, Denmark, Poland','Sweden'] },
+  { year:1756, lat:48.2,  lng:16.4,   cat:'CONFLICT',   color:'#ff4d00', title:'Seven Years War',                   body:'A global conflict fought across Europe, North America, India, Africa, and Asia. Britain defeats France to dominate North America and India \u2014 often called the first \u201cworld war\u201d.', parties:['Britain & Prussia','France, Austria, Russia, Spain'] },
+  { year:1757, lat:23.4,  lng:88.5,   cat:'CONFLICT',   color:'#ff4d00', title:'Battle of Plassey',                 body:'Robert Clive\u2019s British East India Company force defeats the Nawab of Bengal. Effective British control of the Indian subcontinent begins.', parties:['British East India Co.','Nawab of Bengal'] },
+  { year:1775, lat:42.3,  lng:-71.1,  cat:'REVOLUTION', color:'#ffcc00', title:'American Revolutionary War',        body:'Shots fired at Lexington and Concord begin the revolution. Thirteen colonies, backed by France, fight Britain for independence in a war that reshapes the Western world.', parties:['American Colonies & France','British Empire'] },
+  { year:1776, lat:39.9,  lng:-75.2,  cat:'REVOLUTION', color:'#ffcc00', title:'Declaration of Independence',       body:'The Continental Congress adopts the Declaration, proclaiming the USA based on Enlightenment ideals of liberty, equality, and natural rights. A blueprint for revolutions worldwide.' },
+  { year:1789, lat:48.9,  lng:2.3,    cat:'REVOLUTION', color:'#ffcc00', title:'French Revolution',                 body:'The storming of the Bastille (July 14) ignites a decade of radical transformation. Monarchy falls; the Reign of Terror executes 17,000. Napoleon emerges from the chaos.' },
+  { year:1791, lat:18.5,  lng:-72.3,  cat:'REVOLUTION', color:'#ffcc00', title:'Haitian Revolution',               body:'Enslaved people in Saint-Domingue revolt against French colonial rule \u2014 the only successful slave revolt in history. Haiti becomes independent in 1804.' },
+  { year:1799, lat:48.9,  lng:2.3,    cat:'EMPIRE',     color:'#ff8800', title:'Napoleon Seizes Power',            body:'Napoleon Bonaparte stages the 18 Brumaire coup, ending the French Revolution. The Napoleonic Era begins; France will redraw the map of Europe.' },
+
+  // ── 1800s: Napoleonic Era & Industrial Age ───────────────────────────
+  { year:1803, lat:38.9,  lng:-77.0,  cat:'DIPLOMACY',  color:'#00ff88', title:'Louisiana Purchase',               body:'The United States doubles its territory, buying 828,000 sq mi from Napoleonic France for $15 million (about 3 cents per acre), enabling westward expansion.' },
+  { year:1804, lat:18.5,  lng:-72.3,  cat:'REVOLUTION', color:'#ffcc00', title:'Haitian Independence',             body:'Haiti becomes the first Black republic and second independent nation in the Western Hemisphere, after defeating Napoleon\u2019s army sent to restore slavery.' },
+  { year:1805, lat:36.9,  lng:-5.9,   cat:'CONFLICT',   color:'#ff4d00', title:'Battle of Trafalgar',              body:'Admiral Nelson\u2019s fleet destroys the Franco-Spanish fleet, giving Britain undisputed naval supremacy for a century. Nelson is killed at the moment of victory.', parties:['Britain','France & Spain'] },
+  { year:1805, lat:49.1,  lng:16.6,   cat:'CONFLICT',   color:'#ff4d00', title:'Battle of Austerlitz',             body:'Napoleon\u2019s tactical masterpiece: he defeats the Russian and Austrian emperors simultaneously in under 9 hours, cementing French dominance of Europe.', parties:['France','Russia & Austria'] },
+  { year:1812, lat:55.8,  lng:37.6,   cat:'CONFLICT',   color:'#ff4d00', title:'Napoleon Invades Russia',          body:'Grande Arm\xe9e of 600,000 enters Russia. Moscow is taken but burned. The brutal retreat kills 400,000+ French soldiers. Napoleon\u2019s empire begins its collapse.', parties:['France','Russia'] },
+  { year:1815, lat:50.7,  lng:4.4,    cat:'CONFLICT',   color:'#ff4d00', title:'Battle of Waterloo',               body:'Wellington and Bl\xfccher defeat Napoleon near Brussels, ending the Napoleonic Wars and Napoleon\u2019s \u201cHundred Days\u201d return. Napoleon is exiled to St. Helena.', parties:['Britain & Prussia','France'] },
+  { year:1815, lat:48.2,  lng:16.4,   cat:'DIPLOMACY',  color:'#00ff88', title:'Congress of Vienna',               body:'European powers redraw the map of Europe and establish the Concert of Europe \u2014 a balance-of-power system maintaining relative peace for nearly a century.', outcome:'European order largely preserved until 1914' },
+  { year:1821, lat:38.0,  lng:23.7,   cat:'REVOLUTION', color:'#ffcc00', title:'Greek War of Independence',        body:'Greece revolts against 400 years of Ottoman rule. With British, French, and Russian naval support (Battle of Navarino), Greece wins independence by 1829.' },
+  { year:1839, lat:23.1,  lng:113.3,  cat:'CONFLICT',   color:'#ff4d00', title:'First Opium War',                  body:'Britain forces China to open its ports after Chinese officials confiscate British opium. Hong Kong is ceded; China\u2019s \u201cCentury of Humiliation\u201d begins.', parties:['Britain','Qing China'] },
+  { year:1845, lat:53.4,  lng:-7.5,   cat:'DISASTER',   color:'#cc44ff', title:'Irish Famine',                     body:'Potato blight kills 1 million Irish and forces 2 million to emigrate. Ireland loses 25% of its population. The catastrophe fuels deep anti-British sentiment for generations.' },
+  { year:1848, lat:48.9,  lng:2.3,    cat:'REVOLUTION', color:'#ffcc00', title:'Revolutions of 1848',              body:'Democratic uprisings sweep France, Germany, Italy, Austria-Hungary, and Poland. Most are suppressed within a year but permanently alter the political consciousness of Europe.' },
+  { year:1853, lat:45.0,  lng:34.0,   cat:'CONFLICT',   color:'#ff4d00', title:'Crimean War',                      body:'Britain, France, and the Ottoman Empire fight Russia over Black Sea influence. 500,000 die, largely of disease. Florence Nightingale transforms nursing. Russia begins modernizing.', parties:['Britain, France & Ottomans','Russia'] },
+  { year:1857, lat:28.6,  lng:77.2,   cat:'REVOLUTION', color:'#ffcc00', title:'Indian Rebellion',                 body:'Widespread mutiny of Indian soldiers (sepoys) against British East India Company rule. After brutal suppression, Britain abolishes the Company and assumes direct Crown rule of India.' },
+  { year:1861, lat:37.5,  lng:-77.5,  cat:'CONFLICT',   color:'#ff4d00', title:'American Civil War',               body:'Confederate states secede over slavery. Four years of war kill 620,000 \u2014 the bloodiest conflict in US history. Ends with the abolition of slavery via the 13th Amendment.', parties:['Union (North)','Confederacy (South)'] },
+  { year:1868, lat:35.7,  lng:139.7,  cat:'REVOLUTION', color:'#ffcc00', title:'Meiji Restoration',                body:'Emperor Meiji is restored to power. Japan rapidly industrializes, adopts Western institutions, and transforms from a feudal state to an imperial power within a generation.' },
+  { year:1870, lat:48.9,  lng:2.3,    cat:'CONFLICT',   color:'#ff4d00', title:'Franco-Prussian War',              body:'Prussia crushes France, captures Napoleon III, and annexes Alsace-Lorraine. Germany is unified under Kaiser Wilhelm I. France\u2019s humiliation seeds WWI 44 years later.', parties:['Prussia & German states','France'] },
+  { year:1885, lat:52.5,  lng:13.4,   cat:'EMPIRE',     color:'#ff8800', title:'Berlin Conference \u2014 Scramble for Africa', body:'European powers divide Africa among themselves without African representation. By 1900, 90% of Africa is under European colonial rule. Borders are drawn arbitrarily, causing conflicts to this day.' },
+  { year:1894, lat:37.5,  lng:126.5,  cat:'CONFLICT',   color:'#ff4d00', title:'First Sino-Japanese War',          body:'Japan defeats China, gains Taiwan and Korea\u2019s suzerainty, and forces a massive indemnity. Japan emerges as Asia\u2019s dominant power; China\u2019s Qing Dynasty hastens toward collapse.', parties:['Japan','Qing China'] },
+  { year:1898, lat:14.6,  lng:121.0,  cat:'CONFLICT',   color:'#ff4d00', title:'Spanish-American War',             body:'The US defeats Spain in 10 weeks, gaining Philippines, Guam, and Puerto Rico \u2014 America\u2019s emergence as an imperial Pacific power. Cuba wins nominal independence.', parties:['United States','Spain'] },
+  { year:1899, lat:-29.1, lng:26.2,   cat:'CONFLICT',   color:'#ff4d00', title:'Second Boer War',                  body:'Britain fights Afrikaner settlers in South Africa. Britain uses concentration camps; 26,000 Boer civilians die. Britain wins but moral authority is severely damaged.', parties:['Britain','Boer Republics'] },
+
+  // ── 1900\u20131918: WWI Era ──────────────────────────────────────────────────
+  { year:1904, lat:43.1,  lng:131.9,  cat:'CONFLICT',   color:'#ff4d00', title:'Russo-Japanese War',               body:'Japan defeats Russia at Mukden and Tsushima \u2014 the first time an Asian power defeats a European power in modern history. Russia\u2019s humiliation triggers the 1905 revolution.', parties:['Japan','Russia'] },
+  { year:1905, lat:55.8,  lng:37.6,   cat:'REVOLUTION', color:'#ffcc00', title:'Russian Revolution of 1905',       body:'Bloody Sunday massacre of peaceful workers, naval mutiny (Battleship Potemkin), and mass strikes force Tsar Nicholas II to grant a parliament (Duma) \u2014 a rehearsal for 1917.' },
+  { year:1910, lat:19.4,  lng:-99.1,  cat:'REVOLUTION', color:'#ffcc00', title:'Mexican Revolution',               body:'Armed revolt against dictator Porfirio D\xedaz erupts, plunging Mexico into a decade of violence. Pancho Villa, Emiliano Zapata, and others reshape Mexico\u2019s national identity.' },
+  { year:1912, lat:42.0,  lng:21.4,   cat:'CONFLICT',   color:'#ff4d00', title:'Balkan Wars',                      body:'Balkan states drive the Ottomans from most of Europe, then fight among themselves. The powder keg created directly triggers the assassination of Franz Ferdinand two years later.' },
+  { year:1914, lat:43.9,  lng:17.7,   cat:'CONFLICT',   color:'#ff4d00', title:'WWI Begins \u2014 Franz Ferdinand Assassinated', body:'Gavrilo Princip shoots Archduke Franz Ferdinand in Sarajevo. A chain of alliances and failed diplomacy drags all major European powers into war within weeks. 17 million die.', parties:['Triple Entente','Central Powers'] },
+  { year:1915, lat:40.1,  lng:26.4,   cat:'CONFLICT',   color:'#ff4d00', title:'Gallipoli Campaign',               body:'Allied attempt to knock the Ottoman Empire out of the war by seizing the Dardanelles fails after 8 months, costing 250,000 Allied casualties. A national trauma for Australia and New Zealand.', parties:['Britain, ANZACs, France','Ottoman Empire'] },
+  { year:1915, lat:39.9,  lng:44.0,   cat:'DISASTER',   color:'#cc44ff', title:'Armenian Genocide',                body:'Ottoman authorities systematically deport and massacre Armenians. 600,000\u20131.5 million killed in the first genocide of the 20th century \u2014 still denied by Turkey.' },
+  { year:1916, lat:49.2,  lng:5.4,    cat:'CONFLICT',   color:'#ff4d00', title:'Battle of Verdun',                 body:'Germany and France fight the longest battle of WWI: 10 months, 300,000 dead, 700,000 casualties total. Neither side gains meaningful ground. A symbol of industrialized slaughter.', parties:['France','Germany'] },
+  { year:1916, lat:50.1,  lng:-2.8,   cat:'CONFLICT',   color:'#ff4d00', title:'Battle of the Somme',              body:'July 1: 57,470 British casualties in a single day \u2014 the bloodiest day in British military history. The 4-month battle produces 1.2 million casualties and moves the front 10 km.', parties:['Britain & France','Germany'] },
+  { year:1917, lat:59.9,  lng:30.3,   cat:'REVOLUTION', color:'#ffcc00', title:'Russian Revolution',               body:'February: Tsar Nicholas II abdicates. October: Lenin\u2019s Bolsheviks seize power. Russia exits WWI. The Communist Soviet era begins, reshaping global politics for 74 years.' },
+  { year:1918, lat:48.9,  lng:2.3,    cat:'DIPLOMACY',  color:'#00ff88', title:'World War I Ends',                 body:'Armistice signed November 11 at 11am. 17 million dead, 23 million wounded. Four empires collapse: Ottoman, Austro-Hungarian, Russian, and German. The world map is redrawn.', outcome:'17 million dead; 4 empires collapse' },
+  { year:1918, lat:39.9,  lng:-75.2,  cat:'DISASTER',   color:'#cc44ff', title:'Spanish Flu Pandemic',             body:'A catastrophic influenza pandemic kills 50\u2013100 million worldwide in 2 years \u2014 more than WWI itself. Disproportionately kills healthy young adults aged 20\u201340.' },
+
+  // ── Interwar Period ───────────────────────────────────────────────────
+  { year:1919, lat:48.9,  lng:2.3,    cat:'DIPLOMACY',  color:'#00ff88', title:'Treaty of Versailles',             body:'WWI peace treaty humiliates Germany: war guilt, \xe340 billion in reparations, loss of 13% of territory, and military limits. Historians broadly agree the harsh terms seed WWII.' },
+  { year:1922, lat:55.8,  lng:37.6,   cat:'EMPIRE',     color:'#ff8800', title:'Soviet Union Established',         body:'The Union of Soviet Socialist Republics (USSR) is formally proclaimed, uniting Russia and former tsarist territories under Leninist Communist rule.' },
+  { year:1929, lat:40.7,  lng:-74.0,  cat:'DISASTER',   color:'#cc44ff', title:'Wall Street Crash',                body:'US stock markets collapse on Black Tuesday. Global GDP falls 15%; US unemployment reaches 25%. The Great Depression spreads worldwide, fueling political extremism across Europe.' },
+  { year:1931, lat:41.8,  lng:123.4,  cat:'CONFLICT',   color:'#ff4d00', title:'Japan Invades Manchuria',          body:'Japan fabricates the Mukden Incident to seize Manchuria, creating the puppet state of Manchukuo. The League of Nations condemns but does nothing \u2014 its authority is fatally undermined.', parties:['Japan','China'] },
+  { year:1933, lat:52.5,  lng:13.4,   cat:'EMPIRE',     color:'#ff8800', title:'Hitler Becomes Chancellor',        body:'Adolf Hitler is appointed Chancellor of Germany. Within months he dismantles democracy, begins persecution of Jews, and violates the Versailles Treaty by rearming. WWII is set in motion.' },
+  { year:1935, lat:9.0,   lng:38.7,   cat:'CONFLICT',   color:'#ff4d00', title:'Italian Invasion of Ethiopia',     body:'Mussolini\u2019s forces use poison gas and aerial bombardment against Ethiopia. Emperor Haile Selassie appeals to the League of Nations, which fails again. Fascism is emboldened.', parties:['Italy','Ethiopia'] },
+  { year:1936, lat:40.4,  lng:-3.7,   cat:'CONFLICT',   color:'#ff4d00', title:'Spanish Civil War',                body:'Nationalist General Franco (backed by Hitler and Mussolini) fights the Republican government (backed by the USSR). A proxy war and testing ground for WWII weapons and tactics.', parties:['Nationalists (+ Germany & Italy)','Republicans (+ USSR)'] },
+  { year:1937, lat:32.1,  lng:118.8,  cat:'CONFLICT',   color:'#ff4d00', title:'Nanjing Massacre',                 body:'Japanese forces capture Nanjing and kill an estimated 200,000\u2013300,000 Chinese civilians and POWs in 6 weeks. One of WWII\u2019s most horrific war crimes.', parties:['Japan','China'] },
+  { year:1938, lat:48.2,  lng:16.4,   cat:'DIPLOMACY',  color:'#00ff88', title:'Munich Agreement',                 body:'Britain and France appease Hitler by ceding Czechoslovakia\u2019s Sudetenland. Chamberlain declares \u201cpeace for our time.\u201d Hitler invades the rest of Czechoslovakia 6 months later.', outcome:'Appeasement fails; WWII becomes inevitable' },
+
+  // ── World War II ─────────────────────────────────────────────────────
+  { year:1939, lat:52.2,  lng:21.0,   cat:'CONFLICT',   color:'#ff4d00', title:'Germany Invades Poland / WWII Begins', body:'Germany invades from the west, USSR from the east (Molotov-Ribbentrop Pact). Britain and France declare war. WWII begins; 70\u201385 million will die in 6 years.', parties:['Germany & USSR','Poland, then Allied Powers'] },
+  { year:1940, lat:51.5,  lng:-0.1,   cat:'CONFLICT',   color:'#ff4d00', title:'Battle of Britain',                body:'Luftwaffe attempts to destroy the RAF to enable invasion. RAF holds across 4 months. Churchill: \u201cNever in the field of human conflict was so much owed by so many to so few.\u201d', parties:['RAF Britain','Luftwaffe Germany'] },
+  { year:1941, lat:55.8,  lng:37.6,   cat:'CONFLICT',   color:'#ff4d00', title:'Operation Barbarossa',             body:'Germany invades the USSR with 3.8 million troops \u2014 the largest invasion in history. Initial gains are staggering. The Eastern Front will produce 30 million of WWII\u2019s deaths.', parties:['Germany & Axis','Soviet Union'] },
+  { year:1941, lat:21.3,  lng:-157.8, cat:'CONFLICT',   color:'#ff4d00', title:'Pearl Harbor Attack',              body:'Japan\u2019s carrier strike destroys much of the US Pacific Fleet. The US enters WWII. Japan simultaneously attacks Malaya, Philippines, and Hong Kong \u2014 unleashing the Pacific War.', parties:['Japan','United States'] },
+  { year:1942, lat:48.7,  lng:44.5,   cat:'CONFLICT',   color:'#ff4d00', title:'Battle of Stalingrad',             body:'The war\u2019s pivotal battle: 6 months, 2 million casualties. Germany\u2019s entire 6th Army is encircled and destroyed. The tide of WWII irrevocably turns. Hitler\u2019s first major defeat.', parties:['Soviet Union','Germany'] },
+  { year:1942, lat:28.2,  lng:177.4,  cat:'CONFLICT',   color:'#ff4d00', title:'Battle of Midway',                 body:'US codebreakers allow a smaller US carrier force to ambush the Japanese fleet. Four Japanese fleet carriers are sunk. Japan\u2019s offensive capability is permanently broken.', parties:['United States','Japan'] },
+  { year:1944, lat:49.4,  lng:-0.9,   cat:'CONFLICT',   color:'#ff4d00', title:'D-Day \u2014 Normandy Landings',    body:'156,000 Allied troops storm 5 beaches across 50 miles of Normandy coast in the largest seaborne invasion in history. The Western Front is opened. Germany faces war on two fronts.', parties:['Allied Forces','Germany'] },
+  { year:1945, lat:34.4,  lng:132.5,  cat:'CONFLICT',   color:'#ff4d00', title:'Hiroshima \u2014 Atomic Bomb',      body:'US drops \u201cLittle Boy\u201d on Hiroshima (Aug 6) and \u201cFat Man\u201d on Nagasaki (Aug 9). 110,000\u2013210,000 killed. Japan surrenders August 15. The nuclear age begins.', parties:['United States','Japan'] },
+  { year:1945, lat:48.9,  lng:2.3,    cat:'DIPLOMACY',  color:'#00ff88', title:'WWII Ends \u2014 United Nations Founded', body:'Germany surrenders May 8; Japan September 2. 70\u201385 million dead. The United Nations is founded with 51 original members to prevent future world wars.', outcome:'70\u201385 million killed; world order remade' },
+
+  // ── Cold War ─────────────────────────────────────────────────────────
+  { year:1947, lat:28.6,  lng:77.2,   cat:'REVOLUTION', color:'#ffcc00', title:'Indian Independence \u2014 Partition', body:'Britain grants independence to India and Pakistan (August 15 & 14). Partition triggers mass migrations of 10\u201320 million people and communal violence killing 200,000\u20132 million.' },
+  { year:1948, lat:31.8,  lng:35.2,   cat:'CONFLICT',   color:'#ff4d00', title:'Israeli Independence \u2014 First Arab-Israeli War', body:'State of Israel is declared May 14; Arab states immediately invade. Israel survives; 700,000 Palestinians are displaced (the Nakba). The modern Middle East conflict begins.', parties:['Israel','Arab States'] },
+  { year:1949, lat:39.9,  lng:116.4,  cat:'REVOLUTION', color:'#ffcc00', title:'People\u2019s Republic of China Proclaimed', body:'Mao Zedong proclaims the PRC after Communist victory in the civil war. Chiang Kai-shek retreats to Taiwan. China aligns with the USSR; the world\u2019s most populous nation turns Communist.' },
+  { year:1950, lat:37.5,  lng:127.0,  cat:'CONFLICT',   color:'#ff4d00', title:'Korean War',                       body:'North Korea invades South Korea; US-led UN force intervenes; China sends 300,000 troops. 36,000 Americans, 400,000 Chinese, 600,000 Koreans die. Armistice (1953) \u2014 no peace treaty yet.', parties:['UN & South Korea','North Korea & China'] },
+  { year:1954, lat:21.4,  lng:103.0,  cat:'CONFLICT',   color:'#ff4d00', title:'Battle of Dien Bien Phu',          body:'Viet Minh forces defeat the French colonial army in a decisive 57-day siege, ending French Indochina and splitting Vietnam at the 17th parallel. The US begins filling the vacuum.', parties:['Viet Minh','France'] },
+  { year:1956, lat:30.1,  lng:31.2,   cat:'CONFLICT',   color:'#ff4d00', title:'Suez Crisis',                      body:'Britain, France, and Israel secretly invade Egypt after Nasser nationalizes the Suez Canal. The US and USSR force their withdrawal \u2014 humiliating Europe and signaling the end of colonial-era power.', parties:['Egypt','Britain, France & Israel'] },
+  { year:1956, lat:47.5,  lng:19.1,   cat:'REVOLUTION', color:'#ffcc00', title:'Hungarian Revolution Crushed',     body:'Hungarians revolt against Soviet rule. The USSR sends 17 divisions with 1,000 tanks. 2,500 Hungarians die; 200,000 flee. The West does nothing. The Iron Curtain holds.' },
+  { year:1957, lat:55.8,  lng:37.6,   cat:'DISCOVERY',  color:'#00d4ff', title:'Sputnik \u2014 Space Age Begins',  body:'The USSR launches Sputnik 1 \u2014 humanity\u2019s first artificial satellite (Oct 4). The Space Race begins. American panic: if Soviets can orbit a satellite, they can orbit a nuclear warhead.' },
+  { year:1959, lat:23.1,  lng:-82.4,  cat:'REVOLUTION', color:'#ffcc00', title:'Cuban Revolution',                 body:'Fidel Castro\u2019s guerrillas overthrow US-backed dictator Batista. Cuba becomes a Communist state 90 miles from Florida, transforming Western Hemisphere geopolitics.' },
+  { year:1961, lat:52.5,  lng:13.4,   cat:'CONFLICT',   color:'#ff4d00', title:'Berlin Wall Constructed',          body:'East Germany erects a wall through Berlin overnight (Aug 13), sealing the border and halting the flow of refugees West. 171 people die trying to cross it over 28 years.' },
+  { year:1962, lat:23.1,  lng:-82.4,  cat:'CONFLICT',   color:'#ff4d00', title:'Cuban Missile Crisis',             body:'US spy planes discover Soviet nuclear missiles in Cuba. 13 days of brinkmanship bring the world closer to nuclear war than any other moment. Soviets withdraw; US pledges not to invade Cuba.', parties:['USA','USSR & Cuba'] },
+  { year:1963, lat:32.8,  lng:-96.8,  cat:'CONFLICT',   color:'#ff4d00', title:'JFK Assassinated',                 body:'President John F. Kennedy is shot in Dallas (Nov 22). Lee Harvey Oswald is arrested and then murdered. The assassination reshapes American politics and fuels decades of conspiracy theories.' },
+  { year:1965, lat:16.1,  lng:107.8,  cat:'CONFLICT',   color:'#ff4d00', title:'Vietnam War Escalates',            body:'US deploys first combat troops (Marines, March 1965). What follows: 10 years of guerrilla war, 58,000 American and 2 million Vietnamese dead, and eventual Communist victory.', parties:['USA & South Vietnam','North Vietnam & Viet Cong'] },
+  { year:1967, lat:31.8,  lng:35.2,   cat:'CONFLICT',   color:'#ff4d00', title:'Six-Day War',                      body:'Israel launches a pre-emptive strike and defeats Egypt, Jordan, and Syria in 6 days, capturing the Sinai, West Bank, Gaza, and Golan Heights \u2014 tripling its territory.', parties:['Israel','Egypt, Jordan & Syria'] },
+  { year:1968, lat:50.1,  lng:14.4,   cat:'REVOLUTION', color:'#ffcc00', title:'Prague Spring Crushed',            body:'Czech reformer Dub\u010dek introduces \u201csocialism with a human face.\u201d 500,000 Warsaw Pact troops invade in 3 days. Reform is crushed; the Brezhnev Doctrine is proclaimed.' },
+  { year:1969, lat:28.6,  lng:-80.6,  cat:'DISCOVERY',  color:'#00d4ff', title:'Moon Landing \u2014 Apollo 11',    body:'Neil Armstrong and Buzz Aldrin walk on the Moon (July 20). \u201cOne small step for man, one giant leap for mankind.\u201d The US wins the Space Race decisively.' },
+  { year:1971, lat:23.8,  lng:90.4,   cat:'CONFLICT',   color:'#ff4d00', title:'Bangladesh Liberation War',        body:'Pakistan\u2019s army conducts genocide in East Pakistan (300,000\u20133 million killed). India intervenes militarily; Pakistan surrenders in 13 days. Bangladesh is born.', parties:['India & Bangladesh','Pakistan'] },
+  { year:1973, lat:30.1,  lng:31.2,   cat:'CONFLICT',   color:'#ff4d00', title:'Yom Kippur War',                   body:'Egypt and Syria launch a surprise attack on Israel on Yom Kippur. Initial Arab gains are reversed; Israel counter-attacks deep into Egypt. US-Soviet airlift confrontation raises nuclear alert levels.', parties:['Israel','Egypt & Syria'] },
+  { year:1975, lat:10.8,  lng:106.7,  cat:'CONFLICT',   color:'#ff4d00', title:'Fall of Saigon',                   body:'North Vietnamese tanks crash through the Presidential Palace gates (April 30). US helicopters evacuate the last personnel from the embassy roof. The Vietnam War ends in Communist victory.' },
+  { year:1979, lat:35.7,  lng:51.4,   cat:'REVOLUTION', color:'#ffcc00', title:'Iranian Revolution',               body:'Mass protests force the Shah to flee. Ayatollah Khomeini returns from exile. Iran becomes an Islamic Republic, transforming Middle East politics and US-Iran relations permanently.' },
+  { year:1979, lat:34.5,  lng:69.2,   cat:'CONFLICT',   color:'#ff4d00', title:'Soviet Invasion of Afghanistan',   body:'USSR invades to prop up the Communist Afghan government. A 10-year insurgency, backed by the US, Pakistan, and Saudi Arabia, kills 1\u20132 million Afghans. The mujahideen later become Al-Qaeda.', parties:['USSR','Mujahideen (US/Saudi-backed)'] },
+  { year:1980, lat:32.0,  lng:53.0,   cat:'CONFLICT',   color:'#ff4d00', title:'Iran-Iraq War',                    body:'Saddam Hussein\u2019s Iraq invades Iran. 8 years of trench warfare, chemical weapons attacks, and tanker strikes. 500,000\u20131 million dead. Both sides receive US support at various points.', parties:['Iraq','Iran'] },
+  { year:1982, lat:-51.7, lng:-59.0,  cat:'CONFLICT',   color:'#ff4d00', title:'Falklands War',                    body:'Argentina invades the British Falkland Islands. Thatcher dispatches a naval task force 13,000 km. Argentina surrenders after 74 days. 907 killed; decisive Thatcher political victory.', parties:['Britain','Argentina'] },
+  { year:1986, lat:51.4,  lng:30.1,   cat:'DISASTER',   color:'#cc44ff', title:'Chernobyl Nuclear Disaster',       body:'Reactor 4 explodes, releasing 400\xd7 Hiroshima\u2019s radiation. 31 immediate deaths; long-term deaths estimated at 4,000\u201360,000. The disaster accelerates Gorbachev\u2019s glasnost reforms.' },
+  { year:1989, lat:39.9,  lng:116.4,  cat:'REVOLUTION', color:'#ffcc00', title:'Tiananmen Square Massacre',        body:'Chinese military crushes pro-democracy demonstrations with tanks (June 4). Death toll: 200\u201310,000 (disputed). China\u2019s leadership chooses authoritarian capitalism over political reform.' },
+  { year:1989, lat:52.5,  lng:13.4,   cat:'REVOLUTION', color:'#ffcc00', title:'Berlin Wall Falls',                body:'East Germany opens its borders (Nov 9); jubilant crowds tear down the Wall. Unification follows in 1990. The Cold War effectively ends. The \u201cend of history\u201d is proclaimed.' },
+  { year:1991, lat:29.4,  lng:47.5,   cat:'CONFLICT',   color:'#ff4d00', title:'Gulf War \u2014 Desert Storm',      body:'US-led coalition of 35 nations liberates Kuwait in 42 days with an unprecedented precision air campaign. Ground war lasts 100 hours. Saddam retreats but survives in power.', parties:['US-led Coalition','Iraq'] },
+  { year:1991, lat:55.8,  lng:37.6,   cat:'REVOLUTION', color:'#ffcc00', title:'Soviet Union Dissolves',           body:'Gorbachev resigns on Christmas Day. The USSR is replaced by 15 independent states. The Cold War ends. The US emerges as the sole superpower. 74 years of Communist rule ends.' },
+
+  // ── Post-Cold War & Modern ─────────────────────────────────────────
+  { year:1992, lat:43.9,  lng:17.7,   cat:'CONFLICT',   color:'#ff4d00', title:'Bosnian War',                      body:'Yugoslavia\u2019s breakup triggers Europe\u2019s worst conflict since WWII. Bosnian Serb forces conduct ethnic cleansing. 100,000 killed; Srebrenica massacre is Europe\u2019s first genocide since WWII.', parties:['Bosnia & Croatia','Bosnian Serbs'] },
+  { year:1994, lat:-1.9,  lng:29.9,   cat:'DISASTER',   color:'#cc44ff', title:'Rwandan Genocide',                 body:'Hutu extremists massacre 500,000\u2013800,000 Tutsis and moderate Hutus in 100 days. The international community \u2014 US, UN, and France \u2014 fails to intervene despite clear warning signs.' },
+  { year:1994, lat:-29.9, lng:25.1,   cat:'REVOLUTION', color:'#ffcc00', title:'End of Apartheid \u2014 S. Africa',  body:'Nelson Mandela leads the ANC to victory in South Africa\u2019s first democratic elections, ending 46 years of white minority rule. The world watches one of history\u2019s most peaceful transitions of power.' },
+  { year:2001, lat:40.7,  lng:-74.0,  cat:'CONFLICT',   color:'#ff4d00', title:'September 11 Attacks',             body:'Al-Qaeda hijackers crash planes into the World Trade Center, Pentagon, and Pennsylvania. 2,977 killed. The War on Terror begins. Airport security, surveillance, and the world are permanently changed.', parties:['Al-Qaeda','United States'] },
+  { year:2001, lat:34.5,  lng:69.2,   cat:'CONFLICT',   color:'#ff4d00', title:'US Invades Afghanistan',           body:'NATO invades Afghanistan 26 days after 9/11, toppling the Taliban. What follows is a 20-year war \u2014 America\u2019s longest. The Taliban regains power in 2021 upon US withdrawal.' },
+  { year:2003, lat:33.3,  lng:44.4,   cat:'CONFLICT',   color:'#ff4d00', title:'US Invasion of Iraq',              body:'US and UK invade based on (fabricated) WMD claims. Saddam is toppled but insurgency follows. 200,000+ Iraqis and 4,500 US soldiers die. Iraq is destabilized for a generation.', parties:['USA & UK','Iraq'] },
+  { year:2004, lat:3.3,   lng:95.9,   cat:'DISASTER',   color:'#cc44ff', title:'Indian Ocean Tsunami',             body:'A 9.1 magnitude earthquake off Sumatra triggers tsunamis killing 227,898 people across 14 countries \u2014 the deadliest tsunami in recorded history. 1.7 million are displaced.' },
+  { year:2008, lat:42.0,  lng:43.5,   cat:'CONFLICT',   color:'#ff4d00', title:'Russia-Georgia War',               body:'Russia invades Georgia, recognizes South Ossetia and Abkhazia as independent. The first Russian military action in a former Soviet republic \u2014 a direct preview of the Ukraine invasions.', parties:['Russia','Georgia'] },
+  { year:2010, lat:33.8,  lng:9.6,    cat:'REVOLUTION', color:'#ffcc00', title:'Arab Spring Begins',               body:'Mohamed Bouazizi\u2019s self-immolation in Tunisia (Dec 2010) triggers a wave of pro-democracy protests across the Arab world. Tunisia democratizes; Egypt, Libya, Syria spiral into chaos.' },
+  { year:2011, lat:32.9,  lng:13.2,   cat:'CONFLICT',   color:'#ff4d00', title:'Libyan Civil War \u2014 Gaddafi Killed', body:'NATO-backed rebels overthrow and kill Muammar Gaddafi. Libya descends into years of civil war, militia rule, and becomes the main human-trafficking route to Europe.', parties:['NATO & Rebels','Gaddafi Government'] },
+  { year:2011, lat:33.5,  lng:36.3,   cat:'CONFLICT',   color:'#ff4d00', title:'Syrian Civil War Begins',          body:'Assad crushes Arab Spring protests with live fire. Multi-faction war erupts. 500,000+ dead; 6 million refugees. ISIS rises. Russia and Iran prop up Assad with decisive military support.', parties:['Assad + Russia + Iran','Rebels, Kurds, ISIS'] },
+  { year:2014, lat:45.4,  lng:34.4,   cat:'CONFLICT',   color:'#ff4d00', title:'Russia Annexes Crimea',            body:'Russia seizes Crimea from Ukraine and foments separatist war in the Donbas. The first forcible annexation of European territory since WWII. Western sanctions follow but change little.', parties:['Russia','Ukraine'] },
+  { year:2014, lat:33.3,  lng:43.7,   cat:'CONFLICT',   color:'#ff4d00', title:'ISIS Caliphate Proclaimed',        body:'ISIS (Islamic State) seizes Mosul and declares a caliphate across Iraq and Syria, controlling territory the size of the UK and 8 million people. A global terrorist campaign follows.' },
+  { year:2020, lat:30.6,  lng:114.3,  cat:'DISASTER',   color:'#cc44ff', title:'COVID-19 Global Pandemic',        body:'SARS-CoV-2 emerges in Wuhan and spreads to every country. 7+ million officially dead (15\u201320 million estimated). The largest global health crisis since the 1918 flu. Global economy collapses.' },
+  { year:2022, lat:50.4,  lng:30.5,   cat:'CONFLICT',   color:'#ff4d00', title:'Russia Invades Ukraine (Full Scale)', body:'Russia launches a full-scale invasion of Ukraine (February 24). The largest land war in Europe since WWII. Hundreds of thousands of casualties; cities destroyed; nuclear threats raised.', parties:['Russia','Ukraine & Western-backed allies'] },
+  { year:2023, lat:31.5,  lng:34.5,   cat:'CONFLICT',   color:'#ff4d00', title:'Hamas Attacks Israel \u2014 Gaza War', body:'Hamas launches an unprecedented attack from Gaza (Oct 7), killing 1,200 Israelis and taking 250 hostages. Israel launches a major military campaign in Gaza; 40,000+ Palestinian casualties in the first year.', parties:['Israel','Hamas'] },
+];
+
+function getEra(y) {
+  if (y < 1600) return 'AGE OF EXPLORATION';
+  if (y < 1700) return 'COLONIAL EXPANSION';
+  if (y < 1800) return 'ENLIGHTENMENT & REVOLUTION';
+  if (y < 1815) return 'NAPOLEONIC ERA';
+  if (y < 1850) return 'INDUSTRIAL REVOLUTION';
+  if (y < 1900) return 'IMPERIAL AGE';
+  if (y < 1914) return 'BELLE \xc9POQUE';
+  if (y < 1919) return 'WORLD WAR I';
+  if (y < 1939) return 'INTERWAR PERIOD';
+  if (y < 1946) return 'WORLD WAR II';
+  if (y < 1991) return 'COLD WAR';
+  if (y < 2001) return 'POST-COLD WAR';
+  if (y < 2012) return 'WAR ON TERROR';
+  return 'MODERN ERA';
+}
+
+function onHistSlider(val) {
+  histYear = parseInt(val, 10);
+  document.getElementById('hist-year-num').textContent = histYear;
+  document.getElementById('hist-era-label').textContent = getEra(histYear);
+  var pct = ((histYear - 1500) / (2024 - 1500) * 100).toFixed(1);
+  var sl = document.getElementById('hist-slider');
+  if (sl) sl.style.background = 'linear-gradient(to right,var(--accent) 0%,var(--accent) ' + pct + '%,var(--border) ' + pct + '%,var(--border) 100%)';
+  if (histMapInited) renderHistYear();
+}
+
+function setHistFilter(cat, btn) {
+  histCatFilter = cat;
+  document.querySelectorAll('.hf-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  if (histMapInited) renderHistYear();
+}
+
+function initHistMap() {
+  if (histMapInited) return;
+  histMapInited = true;
+  histMap = L.map('hist-map', { center:[25,15], zoom:2, zoomControl:true, attributionControl:false });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { subdomains:'abcd', maxZoom:19 }).addTo(histMap);
+  histLayer = L.layerGroup().addTo(histMap);
+  onHistSlider(histYear); // set initial slider gradient
+  renderHistYear();
+  setTimeout(function(){ if (histMap) histMap.invalidateSize(); }, 200);
+}
+
+function renderHistYear() {
+  if (!histMap || !histLayer) return;
+  histLayer.clearLayers();
+  var visible = HIST_DATA.filter(function(e) {
+    return Math.abs(e.year - histYear) <= HIST_WINDOW &&
+           (histCatFilter === 'ALL' || e.cat === histCatFilter);
+  });
+  visible.forEach(function(e) {
+    var diff = Math.abs(e.year - histYear);
+    var isCur = diff <= 3;
+    var opacity = isCur ? 0.95 : Math.max(0.2, 1 - diff / HIST_WINDOW * 0.8);
+    var radius  = isCur ? 9 : 5;
+    var marker = L.circleMarker([e.lat, e.lng], {
+      radius: radius, fillColor: e.color, color: e.color,
+      weight: isCur ? 2 : 1, opacity: opacity, fillOpacity: opacity * 0.75,
+    });
+    var partHtml    = e.parties  ? '<br><span style="color:var(--dim2)">Parties: ' + e.parties.join(' vs. ') + '</span>' : '';
+    var outcomeHtml = e.outcome  ? '<br><em style="color:var(--dim2)">' + e.outcome + '</em>' : '';
+    marker.bindPopup(
+      '<div class="popup-cat" style="color:' + e.color + '">[' + e.cat + '] ' + e.year + '</div>' +
+      '<div class="popup-title">' + e.title + '</div>' +
+      '<div class="popup-body">' + e.body + partHtml + outcomeHtml + '</div>'
+    );
+    marker.addTo(histLayer);
+  });
+  updateHistFeed(visible);
+}
+
+function updateHistFeed(events) {
+  var hdr  = document.getElementById('hist-feed-hdr');
+  var list = document.getElementById('hist-feed-list');
+  if (!hdr || !list) return;
+  hdr.textContent = 'EVENTS \u00b720 YRS \u2014 ' + histYear;
+  var sorted = (events || []).slice().sort(function(a, b) {
+    return Math.abs(a.year - histYear) - Math.abs(b.year - histYear);
+  });
+  if (!sorted.length) {
+    list.innerHTML = '<div style="padding:12px 10px;font-family:\'Share Tech Mono\',monospace;font-size:10px;color:var(--dim2)">No events in this window.</div>';
+    return;
+  }
+  list.innerHTML = sorted.map(function(e) {
+    var isHL  = Math.abs(e.year - histYear) <= 3;
+    var short = e.body.length > 110 ? e.body.slice(0, 108) + '\u2026' : e.body;
+    return '<div class="hist-event' + (isHL ? ' hl' : '') + '" onclick="histFocus(' + e.lat + ',' + e.lng + ')">' +
+      '<div class="hist-event-meta">' +
+        '<span class="hist-yr">' + e.year + '</span>' +
+        '<span class="hist-cdot" style="background:' + e.color + '"></span>' +
+        '<span class="hist-cat-lbl">' + e.cat + '</span>' +
+      '</div>' +
+      '<div class="hist-etitle">' + e.title + '</div>' +
+      '<div class="hist-ebody">' + short + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function histFocus(lat, lng) {
+  if (histMap) histMap.setView([lat, lng], 5, { animate:true });
+}
 
 // ── INIT ──────────────────────────────────────────────────────────────────
 
