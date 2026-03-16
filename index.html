@@ -1346,6 +1346,316 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
   #right #news-feed-list { max-height: 240px; }
   #center { grid-column: 1; grid-row: 2; }
 }
+
+/* ── CLASSIFICATION BANNER ── */
+#class-banner {
+  background: #070700;
+  color: #c8a93a;
+  text-align: center;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  padding: 4px 12px;
+  border-bottom: 1px solid #2a2200;
+  flex-shrink: 0;
+}
+
+/* ── HEADER DEFCON BADGE ── */
+#header-defcon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(33,150,243,0.1);
+  border: 1px solid rgba(33,150,243,0.3);
+  border-radius: 3px;
+  padding: 6px 11px;
+  flex-shrink: 0;
+}
+#hd-number {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: #2196f3;
+  text-shadow: 0 0 14px rgba(33,150,243,0.55);
+  line-height: 1;
+}
+#hd-labels { display: flex; flex-direction: column; gap: 1px; }
+#hd-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  color: #2196f3;
+  letter-spacing: 1.5px;
+}
+#hd-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px;
+  color: var(--dim3);
+  letter-spacing: 0.5px;
+}
+
+/* ── DEFCON SIDEBAR WIDGET ── */
+.defcon-levels {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 7px;
+}
+.defcon-lv {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 2px 5px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  background: rgba(0,0,0,0.2);
+  opacity: 0.3;
+  cursor: default;
+  transition: all 0.3s;
+}
+.defcon-lv[data-lv="5"] .dl-n { color: #4caf50; }
+.defcon-lv[data-lv="4"] .dl-n { color: #2196f3; }
+.defcon-lv[data-lv="3"] .dl-n { color: #ffeb3b; }
+.defcon-lv[data-lv="2"] .dl-n { color: #ff9800; }
+.defcon-lv[data-lv="1"] .dl-n { color: #f44336; }
+.defcon-lv[data-lv="5"] .dl-name { color: #4caf50; }
+.defcon-lv[data-lv="4"] .dl-name { color: #2196f3; }
+.defcon-lv[data-lv="3"] .dl-name { color: #ffeb3b; }
+.defcon-lv[data-lv="2"] .dl-name { color: #ff9800; }
+.defcon-lv[data-lv="1"] .dl-name { color: #f44336; }
+.defcon-lv.current { opacity: 1; }
+.defcon-lv[data-lv="5"].current { border-color:#4caf50; background:rgba(76,175,80,0.08); box-shadow:0 0 8px rgba(76,175,80,0.18); }
+.defcon-lv[data-lv="4"].current { border-color:#2196f3; background:rgba(33,150,243,0.1); box-shadow:0 0 10px rgba(33,150,243,0.22); }
+.defcon-lv[data-lv="3"].current { border-color:#ffeb3b; background:rgba(255,235,59,0.08); box-shadow:0 0 10px rgba(255,235,59,0.2); }
+.defcon-lv[data-lv="2"].current { border-color:#ff9800; background:rgba(255,152,0,0.09); box-shadow:0 0 10px rgba(255,152,0,0.22); }
+.defcon-lv[data-lv="1"].current { border-color:#f44336; background:rgba(244,67,54,0.12); box-shadow:0 0 14px rgba(244,67,54,0.32); animation:defcon-alert 1s ease-in-out infinite; }
+@keyframes defcon-alert { 0%,100%{box-shadow:0 0 14px rgba(244,67,54,0.32);} 50%{box-shadow:0 0 22px rgba(244,67,54,0.6);} }
+.dl-n {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1;
+}
+.dl-name {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 5.5px;
+  letter-spacing: 0.2px;
+  text-align: center;
+  margin-top: 2px;
+  opacity: 0.85;
+}
+.defcon-status-note {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8.5px;
+  color: var(--dim2);
+  text-align: center;
+}
+
+/* ── ADVERSARY THREAT MATRIX ── */
+.threat-matrix { display: flex; flex-direction: column; gap: 4px; }
+.threat-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 7px;
+  background: rgba(0,0,0,0.12);
+  border-radius: 2px;
+  border-left: 2px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+.threat-row:hover { background: rgba(0,200,240,0.04); border-left-color: var(--border2); }
+.threat-flag { font-size: 12px; flex-shrink: 0; width: 18px; text-align: center; }
+.threat-name { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim2); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.threat-bar-outer { width: 46px; height: 4px; background: rgba(0,0,0,0.4); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+.threat-bar-inner { height: 100%; border-radius: 2px; }
+.threat-tag {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 6.5px;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.threat-tag.critical { background:rgba(244,67,54,0.15); color:#f44336; border:1px solid rgba(244,67,54,0.3); }
+.threat-tag.high { background:rgba(255,152,0,0.12); color:#ff9800; border:1px solid rgba(255,152,0,0.3); }
+.threat-tag.elevated { background:rgba(255,235,59,0.1); color:#ffeb3b; border:1px solid rgba(255,235,59,0.25); }
+.threat-tag.guarded { background:rgba(33,150,243,0.1); color:#2196f3; border:1px solid rgba(33,150,243,0.25); }
+
+/* ── READINESS GRID (air/strategic assets) ── */
+.readiness-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.readiness-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 7px;
+  background: rgba(0,0,0,0.15);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  transition: border-color 0.15s;
+  cursor: default;
+}
+.readiness-item:hover { border-color: var(--border2); }
+.readiness-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.readiness-label { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim2); line-height:1.2; }
+.readiness-val { font-family:'Orbitron',monospace; font-size:9px; font-weight:700; color:var(--text); margin-left:auto; }
+
+/* ── DEFENSE SPENDING COUNTER (intel cell) ── */
+.def-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 7px;
+  padding: 10px 14px;
+  height: 100%;
+}
+.def-label { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim3); letter-spacing:2px; text-align:center; }
+.def-val {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--green);
+  letter-spacing: 1px;
+  text-shadow: 0 0 16px rgba(0,232,144,0.4);
+  text-align: center;
+  line-height: 1;
+}
+.def-sub { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--dim2); text-align:center; }
+.def-bar-outer { width:100%; height:3px; background:rgba(0,0,0,0.4); border-radius:2px; overflow:hidden; }
+.def-bar-fill { height:100%; background:linear-gradient(90deg,var(--green),var(--accent)); border-radius:2px; transition:width 0.5s linear; width:0%; }
+.def-rate-row { display:flex; justify-content:space-between; font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--dim2); }
+.def-compare-grid { display:flex; flex-direction:column; gap:4px; }
+.def-compare-row { display:flex; align-items:center; gap:5px; font-family:'Share Tech Mono',monospace; font-size:9px; }
+.def-cname { color:var(--dim2); min-width:46px; flex-shrink:0; }
+.def-cbar-o { flex:1; height:3px; background:rgba(0,0,0,0.4); border-radius:2px; overflow:hidden; }
+.def-cbar-i { height:100%; border-radius:2px; }
+.def-camt { min-width:34px; text-align:right; flex-shrink:0; color:var(--text); }
+
+/* ── DEFCON CELL (intel grid) ── */
+.dc-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 10px;
+  height: 100%;
+  justify-content: center;
+}
+.dc-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border-radius: 2px;
+  border-left: 3px solid transparent;
+  opacity: 0.28;
+  transition: all 0.3s;
+}
+.dc-row.active { opacity: 1; background: rgba(0,0,0,0.28); }
+.dc-row[data-lv="5"] { border-left-color: #4caf50; }
+.dc-row[data-lv="4"] { border-left-color: #2196f3; }
+.dc-row[data-lv="3"] { border-left-color: #ffeb3b; }
+.dc-row[data-lv="2"] { border-left-color: #ff9800; }
+.dc-row[data-lv="1"] { border-left-color: #f44336; }
+.dc-row.active[data-lv="4"] { box-shadow: inset 0 0 20px rgba(33,150,243,0.05); }
+.dc-n { font-family:'Orbitron',sans-serif; font-size:9px; font-weight:700; min-width:62px; letter-spacing:0.5px; }
+.dc-row[data-lv="5"] .dc-n { color:#4caf50; }
+.dc-row[data-lv="4"] .dc-n { color:#2196f3; }
+.dc-row[data-lv="3"] .dc-n { color:#ffeb3b; }
+.dc-row[data-lv="2"] .dc-n { color:#ff9800; }
+.dc-row[data-lv="1"] .dc-n { color:#f44336; }
+.dc-desc { font-family:'Share Tech Mono',monospace; font-size:8px; color:var(--dim2); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.dc-ind { width:7px; height:7px; border-radius:50%; flex-shrink:0; border:1px solid; }
+.dc-row[data-lv="5"] .dc-ind { border-color:#4caf50; }
+.dc-row[data-lv="4"] .dc-ind { border-color:#2196f3; }
+.dc-row[data-lv="3"] .dc-ind { border-color:#ffeb3b; }
+.dc-row[data-lv="2"] .dc-ind { border-color:#ff9800; }
+.dc-row[data-lv="1"] .dc-ind { border-color:#f44336; }
+.dc-row.active .dc-ind { background:#2196f3; }
+.dc-row.active[data-lv="5"] .dc-ind { background:#4caf50; }
+.dc-row.active[data-lv="3"] .dc-ind { background:#ffeb3b; }
+.dc-row.active[data-lv="2"] .dc-ind { background:#ff9800; }
+.dc-row.active[data-lv="1"] .dc-ind { background:#f44336; }
+.dc-note { font-family:'Share Tech Mono',monospace; font-size:8px; color:var(--dim); text-align:center; margin-top:3px; }
+
+/* ── NUCLEAR ARSENAL CELL ── */
+.nuke-row { display:flex; align-items:center; gap:5px; padding:4px 8px; border-bottom:1px solid rgba(255,255,255,0.03); }
+.nuke-row:last-child { border-bottom:none; }
+.nuke-flag { font-size:12px; flex-shrink:0; width:18px; text-align:center; }
+.nuke-name { font-family:'Share Tech Mono',monospace; font-size:8px; color:var(--dim2); min-width:44px; flex-shrink:0; }
+.nuke-bar-wrap { flex:1; height:8px; background:rgba(0,0,0,0.35); border-radius:2px; position:relative; overflow:hidden; }
+.nuke-bar-total, .nuke-bar-dep { position:absolute; left:0; top:0; height:100%; border-radius:2px; }
+.nuke-bar-dep { z-index:1; }
+.nuke-count { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--text); min-width:36px; text-align:right; flex-shrink:0; }
+.nuke-legend { display:flex; gap:10px; padding:4px 8px 2px; font-family:'Share Tech Mono',monospace; font-size:8px; color:var(--dim2); border-top:1px solid rgba(255,255,255,0.04); margin-top:1px; }
+.nuke-ldot { width:8px; height:4px; border-radius:1px; display:inline-block; margin-right:3px; vertical-align:middle; }
+
+/* ── CYBER THREAT SECTION ── */
+.cyber-bar-row { display:flex; gap:3px; margin:6px 0 4px; }
+.cyber-seg { flex:1; height:7px; border-radius:1px; opacity:0.2; transition:opacity 0.3s, box-shadow 0.3s; }
+.cyber-seg.active { opacity:1; }
+.cyber-seg[data-lv="1"] { background:#4caf50; }
+.cyber-seg[data-lv="2"] { background:#2196f3; }
+.cyber-seg[data-lv="3"] { background:#ffeb3b; }
+.cyber-seg[data-lv="4"] { background:#ff9800; }
+.cyber-seg[data-lv="5"] { background:#f44336; }
+.cyber-seg.active[data-lv="4"] { box-shadow:0 0 6px rgba(255,152,0,0.5); }
+.cyber-label { font-family:'Orbitron',sans-serif; font-size:10px; font-weight:700; color:#ff9800; letter-spacing:0.5px; }
+.cyber-items { display:flex; flex-direction:column; gap:2px; margin-top:4px; }
+.cyber-item { display:flex; gap:5px; align-items:baseline; font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--dim2); padding:1px 0; line-height:1.4; }
+.cyber-bullet { color:var(--orange); flex-shrink:0; }
+
+/* ── FEED ITEMS ── */
+.feed-item {
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(22,53,80,0.7);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--text);
+  line-height: 1.5;
+  border-left: 2px solid transparent;
+  transition: background 0.15s;
+}
+.feed-item:hover { background: rgba(0,200,240,0.03); }
+.feed-item.flash { border-left-color: var(--red); }
+.feed-item.conflict { border-left-color: var(--orange); }
+.feed-item.intel { border-left-color: var(--yellow); }
+.feed-item.cleared { border-left-color: var(--green); }
+.feed-item.diplomatic { border-left-color: var(--accent2); }
+.feed-time { color:var(--dim3); margin-right:5px; font-size:9px; }
+
+/* ── CAM HEADER (updated) ── */
+.cam-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  background: linear-gradient(90deg, rgba(0,200,240,0.07) 0%, rgba(0,0,0,0) 70%);
+  border-bottom: 1px solid var(--border);
+  height: 28px;
+  flex-shrink: 0;
+}
+.cam-loc {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 8.5px;
+  font-weight: 700;
+  color: var(--text2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: 0.8px;
+}
+
+/* ── STATUS BAR (enhanced) ── */
+.status-seg { display:flex; align-items:center; gap:5px; }
+.status-divider { color: var(--border2); }
+.s-dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+.s-dot.live { background:var(--green); animation:pulse 1.8s infinite; }
+.s-dot.warn { background:var(--yellow); }
+#status-left { display:flex; align-items:center; gap:10px; }
+#status-right { display:flex; align-items:center; gap:10px; }
+
 </style>
 </head>
 <body>
@@ -1359,6 +1669,9 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
 <!-- WRAPPER -->
 <div id="wrapper">
 
+  <!-- CLASSIFICATION BANNER -->
+  <div id="class-banner">UNCLASSIFIED &nbsp;// &nbsp;OPEN-SOURCE INTELLIGENCE &nbsp;// &nbsp;NOT AFFILIATED WITH ANY GOVERNMENT OR INTELLIGENCE AGENCY</div>
+
   <!-- HEADER -->
   <header>
     <div id="logo-block">
@@ -1368,23 +1681,40 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
 
     <div id="ticker">
       <div class="ticker-inner">
-        <span>UKRAINE: Heavy fighting reported near Kharkiv — Russian forces attempt renewed push ◆ </span>
-        <span>SOUTH CHINA SEA: USS Theodore Roosevelt CSG conducts freedom of navigation operation ◆ </span>
-        <span>IRAN: Ballistic missile test detected by satellite imagery — Pentagon monitoring ◆ </span>
-        <span>TAIWAN STRAIT: PLA Navy increases patrols — 12 warships tracked ◆ </span>
-        <span>NORTH KOREA: Multiple missile launches detected off eastern coast ◆ </span>
-        <span>GAZA: Ceasefire negotiations ongoing — humanitarian corridor opened ◆ </span>
-        <span>NATO: Emergency consultations following Baltic Sea cable incident ◆ </span>
-        <span>RED SEA: Houthi drone attack on commercial vessel — USN responds ◆ </span>
+        <span>UKRAINE: Russian forces launch MLRS barrage on Zaporizhzhia Oblast — 3rd Assault Brigade holds line ◆ </span>
+        <span>SOUTH CHINA SEA: USS Theodore Roosevelt (CVN-71) CSG conducts FONOP within 12nm of Spratly Islands ◆ </span>
+        <span>IRAN: Fordow centrifuge enrichment at 60% — IAEA inspectors denied access, UN Security Council convened ◆ </span>
+        <span>TAIWAN STRAIT: PLAN destroyer LUYANG-III crosses median line — ROCN shadow operation ongoing ◆ </span>
+        <span>NORTH KOREA: KN-23 SRBM launched from Sunchon — range 690km, splashdown in EEZ ◆ </span>
+        <span>RED SEA: Houthi C-802 anti-ship cruise missile intercepted by SM-2 from USS Gravely (DDG-107) ◆ </span>
+        <span>BALTIC SEA: Russian SSN Severodvinsk tracked departing Murmansk — NATO ASW assets tasked ◆ </span>
+        <span>CYBER: CISA issues emergency directive for critical infrastructure following APT41 intrusion campaign ◆ </span>
+        <span>ARCTIC: Russian strategic bomber TU-95 Bear intercepted by F-22 in Alaska ADIZ — 2nd intercept this week ◆ </span>
+        <span>NATO: Article 4 consultations requested by Poland following incursion of unidentified drone ◆ </span>
+        <span>SPACE: PLA-SSF conducts maneuver near US Keyhole constellation — potential co-orbital ASAT test ◆ </span>
+        <span>AFRICA: Wagner PMC successor Africa Corps expands footprint in Mali — 3,000 personnel estimated ◆ </span>
         <!-- DUPLICATE for seamless loop -->
-        <span>UKRAINE: Heavy fighting reported near Kharkiv — Russian forces attempt renewed push ◆ </span>
-        <span>SOUTH CHINA SEA: USS Theodore Roosevelt CSG conducts freedom of navigation operation ◆ </span>
-        <span>IRAN: Ballistic missile test detected by satellite imagery — Pentagon monitoring ◆ </span>
-        <span>TAIWAN STRAIT: PLA Navy increases patrols — 12 warships tracked ◆ </span>
-        <span>NORTH KOREA: Multiple missile launches detected off eastern coast ◆ </span>
-        <span>GAZA: Ceasefire negotiations ongoing — humanitarian corridor opened ◆ </span>
-        <span>NATO: Emergency consultations following Baltic Sea cable incident ◆ </span>
-        <span>RED SEA: Houthi drone attack on commercial vessel — USN responds ◆ </span>
+        <span>UKRAINE: Russian forces launch MLRS barrage on Zaporizhzhia Oblast — 3rd Assault Brigade holds line ◆ </span>
+        <span>SOUTH CHINA SEA: USS Theodore Roosevelt (CVN-71) CSG conducts FONOP within 12nm of Spratly Islands ◆ </span>
+        <span>IRAN: Fordow centrifuge enrichment at 60% — IAEA inspectors denied access, UN Security Council convened ◆ </span>
+        <span>TAIWAN STRAIT: PLAN destroyer LUYANG-III crosses median line — ROCN shadow operation ongoing ◆ </span>
+        <span>NORTH KOREA: KN-23 SRBM launched from Sunchon — range 690km, splashdown in EEZ ◆ </span>
+        <span>RED SEA: Houthi C-802 anti-ship cruise missile intercepted by SM-2 from USS Gravely (DDG-107) ◆ </span>
+        <span>BALTIC SEA: Russian SSN Severodvinsk tracked departing Murmansk — NATO ASW assets tasked ◆ </span>
+        <span>CYBER: CISA issues emergency directive for critical infrastructure following APT41 intrusion campaign ◆ </span>
+        <span>ARCTIC: Russian strategic bomber TU-95 Bear intercepted by F-22 in Alaska ADIZ — 2nd intercept this week ◆ </span>
+        <span>NATO: Article 4 consultations requested by Poland following incursion of unidentified drone ◆ </span>
+        <span>SPACE: PLA-SSF conducts maneuver near US Keyhole constellation — potential co-orbital ASAT test ◆ </span>
+        <span>AFRICA: Wagner PMC successor Africa Corps expands footprint in Mali — 3,000 personnel estimated ◆ </span>
+      </div>
+    </div>
+
+    <!-- DEFCON BADGE -->
+    <div id="header-defcon" title="Defense Condition — Open Source Estimate">
+      <div id="hd-number">4</div>
+      <div id="hd-labels">
+        <div id="hd-title">DEFCON 4</div>
+        <div id="hd-sub">DOUBLE TAKE</div>
       </div>
     </div>
 
@@ -1415,95 +1745,151 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
     <!-- LEFT SIDEBAR -->
     <div id="left">
 
+      <!-- DEFCON Widget -->
+      <div class="sb-section">
+        <div class="sb-header">DEFENSE CONDITION</div>
+        <div class="defcon-levels">
+          <div class="defcon-lv" data-lv="5"><span class="dl-n">5</span><span class="dl-name">FADE OUT</span></div>
+          <div class="defcon-lv current" data-lv="4"><span class="dl-n">4</span><span class="dl-name">DBL TAKE</span></div>
+          <div class="defcon-lv" data-lv="3"><span class="dl-n">3</span><span class="dl-name">RND HOUSE</span></div>
+          <div class="defcon-lv" data-lv="2"><span class="dl-n">2</span><span class="dl-name">FAST PACE</span></div>
+          <div class="defcon-lv" data-lv="1"><span class="dl-n">1</span><span class="dl-name">CKD PISTOL</span></div>
+        </div>
+        <div class="defcon-status-note">Est. Current: DEFCON 4 · Open-Source Assessment</div>
+      </div>
+
+      <!-- Adversary Threat Matrix -->
+      <div class="sb-section">
+        <div class="sb-header">ADVERSARY THREAT MATRIX</div>
+        <div class="threat-matrix">
+          <div class="threat-row">
+            <span class="threat-flag">🇷🇺</span>
+            <span class="threat-name">RUSSIA</span>
+            <div class="threat-bar-outer"><div class="threat-bar-inner" style="width:90%;background:#f44336;"></div></div>
+            <span class="threat-tag critical">CRITICAL</span>
+          </div>
+          <div class="threat-row">
+            <span class="threat-flag">🇨🇳</span>
+            <span class="threat-name">CHINA (PRC)</span>
+            <div class="threat-bar-outer"><div class="threat-bar-inner" style="width:82%;background:#ff9800;"></div></div>
+            <span class="threat-tag high">HIGH</span>
+          </div>
+          <div class="threat-row">
+            <span class="threat-flag">🇰🇵</span>
+            <span class="threat-name">NORTH KOREA</span>
+            <div class="threat-bar-outer"><div class="threat-bar-inner" style="width:68%;background:#ff9800;"></div></div>
+            <span class="threat-tag high">HIGH</span>
+          </div>
+          <div class="threat-row">
+            <span class="threat-flag">🇮🇷</span>
+            <span class="threat-name">IRAN + PROXIES</span>
+            <div class="threat-bar-outer"><div class="threat-bar-inner" style="width:62%;background:#ffeb3b;"></div></div>
+            <span class="threat-tag elevated">ELEVATED</span>
+          </div>
+          <div class="threat-row">
+            <span class="threat-flag">☠</span>
+            <span class="threat-name">NON-STATE</span>
+            <div class="threat-bar-outer"><div class="threat-bar-inner" style="width:48%;background:#2196f3;"></div></div>
+            <span class="threat-tag guarded">GUARDED</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Naval Assets -->
       <div class="sb-section">
-        <div class="sb-header">NAVAL ASSETS</div>
+        <div class="sb-header">CARRIER STRIKE GROUPS</div>
         <div class="asset-item" onclick="selectAsset(this)">
           <span class="asset-name">CVN-68 USS Nimitz</span>
-          <span class="asset-loc">WESTPAC</span>
+          <span class="asset-loc">WESTPAC · 7th Fleet AOR</span>
         </div>
         <div class="asset-item" onclick="selectAsset(this)">
-          <span class="asset-name">CVN-69 USS Dwight D. Eisenhower</span>
-          <span class="asset-loc">5TH FLEET</span>
+          <span class="asset-name">CVN-69 USS Eisenhower</span>
+          <span class="asset-loc">5TH FLEET · Persian Gulf</span>
         </div>
         <div class="asset-item" onclick="selectAsset(this)">
           <span class="asset-name">CVN-70 USS Carl Vinson</span>
-          <span class="asset-loc">PACIFIC</span>
+          <span class="asset-loc">INDO-PACIFIC · RIMPAC</span>
         </div>
         <div class="asset-item" onclick="selectAsset(this)">
           <span class="asset-name">CVN-71 USS Theodore Roosevelt</span>
-          <span class="asset-loc">7TH FLEET</span>
+          <span class="asset-loc">SOUTH CHINA SEA · FONOP</span>
         </div>
         <div class="asset-item" onclick="selectAsset(this)">
           <span class="asset-name">CVN-72 USS Abraham Lincoln</span>
-          <span class="asset-loc">INDO-PACIFIC</span>
+          <span class="asset-loc">HOMEPORT · Overhaul</span>
         </div>
         <div class="asset-item" onclick="selectAsset(this)">
           <span class="asset-name">CVN-73 USS George Washington</span>
-          <span class="asset-loc">TRAINING</span>
+          <span class="asset-loc">YOKOSUKA · Forward Deployed</span>
+        </div>
+      </div>
+
+      <!-- Strategic Air Power -->
+      <div class="sb-section">
+        <div class="sb-header">STRATEGIC AIR ASSETS</div>
+        <div class="readiness-grid">
+          <div class="readiness-item">
+            <span class="readiness-dot" style="background:#00c8f0"></span>
+            <span class="readiness-label">B-21 Raider</span>
+            <span class="readiness-val" style="color:#00c8f0">IOC</span>
+          </div>
+          <div class="readiness-item">
+            <span class="readiness-dot" style="background:#00e890"></span>
+            <span class="readiness-label">B-2 Spirit</span>
+            <span class="readiness-val" style="color:#00e890">20 AC</span>
+          </div>
+          <div class="readiness-item">
+            <span class="readiness-dot" style="background:#00e890"></span>
+            <span class="readiness-label">B-52H</span>
+            <span class="readiness-val" style="color:#00e890">76 AC</span>
+          </div>
+          <div class="readiness-item">
+            <span class="readiness-dot" style="background:#f5c518"></span>
+            <span class="readiness-label">F-22A</span>
+            <span class="readiness-val" style="color:#f5c518">183 AC</span>
+          </div>
+          <div class="readiness-item">
+            <span class="readiness-dot" style="background:#00e890"></span>
+            <span class="readiness-label">F-35A/B/C</span>
+            <span class="readiness-val" style="color:#00e890">400+</span>
+          </div>
+          <div class="readiness-item">
+            <span class="readiness-dot" style="background:#f08030"></span>
+            <span class="readiness-label">RQ-4 Global Hawk</span>
+            <span class="readiness-val" style="color:#f08030">33 AC</span>
+          </div>
         </div>
       </div>
 
       <!-- Active Fleets -->
       <div class="sb-section">
-        <div class="sb-header">ACTIVE FLEETS</div>
+        <div class="sb-header">ACTIVE FLEET AREAS OF RESPONSIBILITY</div>
         <div class="fleet-item">
           <span class="fleet-name">2nd Fleet</span>
-          <span class="fleet-zone">North Atlantic</span>
+          <span class="fleet-zone">North Atlantic / Arctic</span>
         </div>
         <div class="fleet-item">
           <span class="fleet-name">5th Fleet</span>
-          <span class="fleet-zone">Persian Gulf / Indian Ocean</span>
+          <span class="fleet-zone">Persian Gulf / Arabian Sea</span>
         </div>
         <div class="fleet-item">
           <span class="fleet-name">6th Fleet</span>
-          <span class="fleet-zone">Mediterranean</span>
+          <span class="fleet-zone">Mediterranean / Black Sea</span>
         </div>
         <div class="fleet-item">
           <span class="fleet-name">7th Fleet</span>
-          <span class="fleet-zone">W. Pacific (largest)</span>
+          <span class="fleet-zone">W. Pacific / Indian Ocean</span>
+        </div>
+        <div class="fleet-item">
+          <span class="fleet-name">10th Fleet</span>
+          <span class="fleet-zone">Cyber Command / Global</span>
         </div>
       </div>
 
       <!-- Civilian Casualties -->
       <div class="sb-section">
-        <div class="sb-header">CIV. CASUALTIES (ACTIVE CONFLICTS)</div>
+        <div class="sb-header">CIV. CASUALTIES — ACTIVE CONFLICTS</div>
         <div id="cas-summary"></div>
-      </div>
-
-      <!-- Iran / Clerical Leadership -->
-      <div class="sb-section">
-        <div class="sb-header">IRAN CLERICAL LEADERSHIP</div>
-        <div class="mullah-item">
-          <div class="mullah-name">Ayatollah Ali Khamenei</div>
-          <div class="mullah-role">Supreme Leader (Vali-ye Faqih)</div>
-          <span class="mullah-status elevated">⬆ ELEVATED ACTIVITY</span>
-        </div>
-        <div class="mullah-item">
-          <div class="mullah-name">Masoud Pezeshkian</div>
-          <div class="mullah-role">President (since Aug 2024)</div>
-          <span class="mullah-status active">● ACTIVE</span>
-        </div>
-        <div class="mullah-item">
-          <div class="mullah-name">Gen. Hossein Salami</div>
-          <div class="mullah-role">IRGC Commander-in-Chief</div>
-          <span class="mullah-status elevated">⬆ IRGC OPS ELEVATED</span>
-        </div>
-        <div class="mullah-item">
-          <div class="mullah-name">Gen. Esmail Qaani</div>
-          <div class="mullah-role">Quds Force Commander</div>
-          <span class="mullah-status active">● PROXY NET ACTIVE</span>
-        </div>
-        <div class="mullah-item">
-          <div class="mullah-name">Abbas Araghchi</div>
-          <div class="mullah-role">Foreign Minister</div>
-          <span class="mullah-status active">● ACTIVE — Nuclear talks</span>
-        </div>
-        <div class="mullah-item">
-          <div class="mullah-name">Ebrahim Raisi</div>
-          <div class="mullah-role">Former President</div>
-          <span class="mullah-status deceased">✕ KIA — Helo crash May 2024</span>
-        </div>
       </div>
 
       <!-- Intelligence Sources -->
@@ -1514,12 +1900,16 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
           <span class="src-tag">AP</span>
           <span class="src-tag">BBC</span>
           <span class="src-tag">Al Jazeera</span>
-          <span class="src-tag">Pentagon</span>
-          <span class="src-tag">OSINT Community</span>
+          <span class="src-tag">ISW</span>
+          <span class="src-tag">ACLED</span>
+          <span class="src-tag">Bellingcat</span>
+          <span class="src-tag">USGS</span>
+          <span class="src-tag">NOAA SWPC</span>
+          <span class="src-tag">CelesTrak</span>
           <span class="src-tag">MarineTraffic</span>
           <span class="src-tag">FlightRadar24</span>
-          <span class="src-tag">Bellingcat</span>
-          <span class="src-tag">ISW</span>
+          <span class="src-tag">SIPRI</span>
+          <span class="src-tag">FAS</span>
         </div>
       </div>
 
@@ -1536,42 +1926,81 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
         <div id="tab-cameras" class="tab-pane active">
           <div class="intel-grid">
 
-            <!-- WTI Crude Oil -->
+            <!-- US Defense Spending Counter -->
             <div class="intel-cell">
-              <div class="cam-header"><span class="cam-loc">WTI CRUDE OIL · USOIL</span><span class="intel-src">TradingView</span></div>
-              <div class="intel-body" style="padding:0">
-                <div class="tradingview-widget-container" style="height:100%;width:100%">
-                  <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
-                  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-                  {"symbol":"TVC:USOIL","width":"100%","height":"100%","locale":"en","dateRange":"1D","colorTheme":"dark","trendLineColor":"#00ff88","underLineColor":"rgba(0,255,136,0.08)","isTransparent":true,"autosize":true}
-                  </script>
+              <div class="cam-header"><span class="cam-loc">US DEFENSE SPENDING · FY2025</span><span class="intel-src intel-live">&#9679; LIVE</span></div>
+              <div class="intel-body" style="overflow:hidden">
+                <div class="def-wrap">
+                  <div class="def-label">APPROVED BUDGET — FISCAL YEAR 2025</div>
+                  <div class="def-val" id="def-counter-val">$0.00B</div>
+                  <div class="def-sub">of <strong style="color:var(--text2)">$849.8B</strong> total appropriated</div>
+                  <div class="def-bar-outer"><div class="def-bar-fill" id="def-bar-fill"></div></div>
+                  <div class="def-rate-row">
+                    <span>OCT 1 2024</span>
+                    <span id="def-per-sec" style="color:var(--yellow)">$0/s</span>
+                    <span>SEP 30 2025</span>
+                  </div>
+                  <div class="def-compare-grid">
+                    <div class="def-compare-row">
+                      <span class="def-cname">🇨🇳 CHINA</span>
+                      <div class="def-cbar-o"><div class="def-cbar-i" style="width:26.5%;background:#f44336;"></div></div>
+                      <span class="def-camt" style="color:#f44336">$225B</span>
+                    </div>
+                    <div class="def-compare-row">
+                      <span class="def-cname">🇷🇺 RUSSIA</span>
+                      <div class="def-cbar-o"><div class="def-cbar-i" style="width:12.8%;background:#ff9800;"></div></div>
+                      <span class="def-camt" style="color:#ff9800">$109B</span>
+                    </div>
+                    <div class="def-compare-row">
+                      <span class="def-cname">🇬🇧 UK</span>
+                      <div class="def-cbar-o"><div class="def-cbar-i" style="width:8.1%;background:#2196f3;"></div></div>
+                      <span class="def-camt" style="color:#2196f3">$68.5B</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- Gold -->
+            <!-- DEFCON / Readiness Condition -->
             <div class="intel-cell">
-              <div class="cam-header"><span class="cam-loc">GOLD · XAU/USD</span><span class="intel-src">TradingView</span></div>
-              <div class="intel-body" style="padding:0">
-                <div class="tradingview-widget-container" style="height:100%;width:100%">
-                  <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
-                  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-                  {"symbol":"TVC:GOLD","width":"100%","height":"100%","locale":"en","dateRange":"1D","colorTheme":"dark","trendLineColor":"#ffcc00","underLineColor":"rgba(255,204,0,0.08)","isTransparent":true,"autosize":true}
-                  </script>
+              <div class="cam-header"><span class="cam-loc">READINESS CONDITION · DEFCON</span><span class="intel-src">OPEN-SOURCE EST.</span></div>
+              <div class="intel-body" style="overflow:hidden">
+                <div class="dc-wrap">
+                  <div class="dc-row" data-lv="5">
+                    <span class="dc-n">DEFCON 5</span>
+                    <span class="dc-desc">FADE OUT · Normal peacetime</span>
+                    <span class="dc-ind"></span>
+                  </div>
+                  <div class="dc-row active" data-lv="4">
+                    <span class="dc-n">DEFCON 4</span>
+                    <span class="dc-desc">DOUBLE TAKE · Increased intel watch</span>
+                    <span class="dc-ind"></span>
+                  </div>
+                  <div class="dc-row" data-lv="3">
+                    <span class="dc-n">DEFCON 3</span>
+                    <span class="dc-desc">ROUND HOUSE · Force readiness raised</span>
+                    <span class="dc-ind"></span>
+                  </div>
+                  <div class="dc-row" data-lv="2">
+                    <span class="dc-n">DEFCON 2</span>
+                    <span class="dc-desc">FAST PACE · Step before nuclear war</span>
+                    <span class="dc-ind"></span>
+                  </div>
+                  <div class="dc-row" data-lv="1">
+                    <span class="dc-n">DEFCON 1</span>
+                    <span class="dc-desc">COCKED PISTOL · Nuclear war imminent</span>
+                    <span class="dc-ind"></span>
+                  </div>
+                  <div class="dc-note">Open-source assessment only // Not official USG</div>
                 </div>
               </div>
             </div>
 
-            <!-- USD Index -->
+            <!-- Nuclear Arsenal -->
             <div class="intel-cell">
-              <div class="cam-header"><span class="cam-loc">USD INDEX · DXY</span><span class="intel-src">TradingView</span></div>
-              <div class="intel-body" style="padding:0">
-                <div class="tradingview-widget-container" style="height:100%;width:100%">
-                  <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
-                  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-                  {"symbol":"TVC:DXY","width":"100%","height":"100%","locale":"en","dateRange":"1D","colorTheme":"dark","trendLineColor":"#00aaff","underLineColor":"rgba(0,170,255,0.08)","isTransparent":true,"autosize":true}
-                  </script>
-                </div>
+              <div class="cam-header"><span class="cam-loc">NUCLEAR ARSENAL · SIPRI 2024</span><span class="intel-src">SIPRI / FAS</span></div>
+              <div class="intel-body intel-data-body" id="nuke-grid-cell" style="padding:0">
+                <!-- Populated by JS -->
               </div>
             </div>
 
@@ -1763,17 +2192,23 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
 
       <!-- Status Bar -->
       <div id="status-bar">
-        <div id="status-left">SENTINEL OSINT v2.0 // All data open-source // Not affiliated with any government</div>
-        <div id="status-center">
-          <span class="pulse-dot"></span>
-          <span>LIVE</span>
-          <span style="color:var(--dim2)">|</span>
-          <span>CONNECTED</span>
+        <div id="status-left">
+          <div class="status-seg"><span class="s-dot live"></span><span style="color:var(--green)">LIVE</span></div>
+          <span class="status-divider">|</span>
+          <div class="status-seg">SENTINEL OSINT v3.0</div>
+          <span class="status-divider">|</span>
+          <div class="status-seg">DEFCON <span id="sb-defcon" style="color:#2196f3;font-weight:700;">4</span></div>
+          <span class="status-divider">|</span>
+          <div class="status-seg">THREATCON: <span id="sb-threatcon" style="color:#ff9800;">ELEVATED</span></div>
+          <span class="status-divider">|</span>
+          <div class="status-seg" style="color:var(--dim2)">All data open-source // Not affiliated with any government</div>
         </div>
         <div id="status-right">
-          <span>GRID: 3×2</span>
-          <span id="status-tab">CAMERAS</span>
-          <span id="status-utc">--:--:--</span>
+          <span>TAB: <span id="status-tab" style="color:var(--accent)">INTEL</span></span>
+          <span class="status-divider">|</span>
+          <span id="status-sat-count" style="color:var(--dim2)">SATS: 0</span>
+          <span class="status-divider">|</span>
+          <span id="status-utc" style="color:var(--accent)">--:--:-- UTC</span>
         </div>
       </div>
 
@@ -1786,22 +2221,45 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
       <div class="sb-section" style="padding:0">
         <div class="sb-header" style="padding:12px 12px 4px; margin-bottom:0;">SITUATION FEED</div>
         <div id="situation-feed">
-          <div class="feed-item"><span class="feed-time">[03:47 UTC]</span> ⚡ FLASH — Missile launch detected DPRK East Coast</div>
-          <div class="feed-item"><span class="feed-time">[03:31 UTC]</span> 🔴 CONFLICT — Artillery exchange Zaporizhzhia front</div>
-          <div class="feed-item"><span class="feed-time">[03:15 UTC]</span> ⚠️ ALERT — PLA warships cross Taiwan median line</div>
-          <div class="feed-item"><span class="feed-time">[02:58 UTC]</span> 🟡 INTEL — Submarine activity Baltic elevated</div>
-          <div class="feed-item"><span class="feed-time">[02:44 UTC]</span> ✅ CLEARED — False alarm Strait of Hormuz incident</div>
-          <div class="feed-item"><span class="feed-time">[02:30 UTC]</span> 🌐 DIPLOMATIC — NATO emergency consultation ongoing</div>
-          <div class="feed-item"><span class="feed-time">[02:17 UTC]</span> ⚡ FLASH — Houthi drone launch detected Red Sea</div>
-          <div class="feed-item"><span class="feed-time">[01:55 UTC]</span> 🔴 CONFLICT — Kharkiv shelling reported by ISW</div>
-          <div class="feed-item"><span class="feed-time">[01:33 UTC]</span> 🟡 INTEL — Iranian IRGCN vessels trailing USN ship</div>
-          <div class="feed-item"><span class="feed-time">[01:12 UTC]</span> ✅ STATUS — 7th Fleet CSG position updated</div>
+          <div class="feed-item flash"><span class="feed-time">[04:12 UTC]</span> ⚡ FLASH — KN-23 SRBM launched Sunchon — range 690km</div>
+          <div class="feed-item conflict"><span class="feed-time">[03:58 UTC]</span> 🔴 CONFLICT — Zaporizhzhia front — MLRS exchange, ISW confirms</div>
+          <div class="feed-item intel"><span class="feed-time">[03:41 UTC]</span> 🟡 INTEL — PLAN LUYANG-III crosses Taiwan median line x2</div>
+          <div class="feed-item conflict"><span class="feed-time">[03:28 UTC]</span> 🔴 CONFLICT — Houthi C-802 ASCM intercepted, USS Gravely (DDG-107)</div>
+          <div class="feed-item intel"><span class="feed-time">[03:10 UTC]</span> 🟡 INTEL — Russian SSN departs Murmansk — NATO ASW tasked</div>
+          <div class="feed-item cleared"><span class="feed-time">[02:54 UTC]</span> ✅ CLEARED — Hormuz incident resolved, tanker proceeds</div>
+          <div class="feed-item diplomatic"><span class="feed-time">[02:33 UTC]</span> 🌐 DIPLOMATIC — NATO Art.4 consultation: Poland drone incursion</div>
+          <div class="feed-item flash"><span class="feed-time">[02:17 UTC]</span> ⚡ FLASH — TU-95 Bear intercepted Alaska ADIZ by F-22 alert</div>
+          <div class="feed-item conflict"><span class="feed-time">[01:59 UTC]</span> 🔴 CONFLICT — Kharkiv Oblast: Shahed-136 swarm, 3 impacts</div>
+          <div class="feed-item intel"><span class="feed-time">[01:42 UTC]</span> 🟡 INTEL — PLA-SSF maneuver near US KH-13 — ASAT concern</div>
+          <div class="feed-item intel"><span class="feed-time">[01:21 UTC]</span> 🟡 INTEL — IRGCN vessels trailing USS Paul Hamilton (DDG-60)</div>
+          <div class="feed-item cleared"><span class="feed-time">[01:04 UTC]</span> ✅ STATUS — CVN-71 CSG position confirmed: Bashi Channel</div>
+          <div class="feed-item diplomatic"><span class="feed-time">[00:48 UTC]</span> 🌐 DIPLOMATIC — G7 coordination call on Russia sanctions package</div>
+          <div class="feed-item intel"><span class="feed-time">[00:30 UTC]</span> 🟡 INTEL — Fordow IAEA remote monitoring feed cut for 3rd time</div>
+        </div>
+      </div>
+
+      <!-- Cyber Threat -->
+      <div class="sb-section">
+        <div class="sb-header">CYBER THREAT — CISA ASSESSMENT</div>
+        <div class="cyber-bar-row">
+          <div class="cyber-seg" data-lv="1"></div>
+          <div class="cyber-seg" data-lv="2"></div>
+          <div class="cyber-seg" data-lv="3"></div>
+          <div class="cyber-seg active" data-lv="4"></div>
+          <div class="cyber-seg" data-lv="5"></div>
+        </div>
+        <div class="cyber-label">SUBSTANTIAL RISK</div>
+        <div class="cyber-items">
+          <div class="cyber-item"><span class="cyber-bullet">▶</span><span>APT41 (PRC) — Active intrusion campaign, critical infrastructure targeting</span></div>
+          <div class="cyber-item"><span class="cyber-bullet">▶</span><span>Sandworm (RUS) — ICS/SCADA attacks, energy sector elevated</span></div>
+          <div class="cyber-item"><span class="cyber-bullet">▶</span><span>Lazarus Group (DPRK) — Financial & defense contractor exfiltration</span></div>
+          <div class="cyber-item"><span class="cyber-bullet">▶</span><span>CISA ED-25-02 active — Patch mandate for 38 CVEs, deadline pending</span></div>
         </div>
       </div>
 
       <!-- World News -->
       <div class="sb-section" id="news-feed-section" style="padding:0">
-        <div class="sb-header" style="padding:12px 12px 4px; margin-bottom:0;">WORLD NEWS</div>
+        <div class="sb-header" style="padding:12px 12px 4px; margin-bottom:0;">WORLD NEWS FEED</div>
         <div id="news-feed-list"><div id="news-loading">Loading news...</div></div>
       </div>
 
@@ -1866,11 +2324,14 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
 // ── DATA ──────────────────────────────────────────────────────────────────
 
 var BREAKING = [
-  "UKRAINE: Russian forces launch largest missile barrage in months — Kyiv air defenses engaged",
-  "TAIWAN: PLA conducts surprise naval exercise — US 7th Fleet on heightened alert",
-  "IRAN NUCLEAR: IAEA inspectors denied access to Fordow facility — Security Council emergency session called",
-  "RED SEA: Three Houthi anti-ship missiles intercepted by USS Gravely — commercial shipping diverted",
-  "NORTH KOREA: Kim Jong Un oversees ICBM engine test — analysts warn of imminent launch"
+  "UKRAINE: Russian Tu-22M3 Backfire bombers launch Kh-22 cruise missile salvo — Kyiv layer defense engaged, 8 of 12 intercepted",
+  "TAIWAN STRAIT: PLAN conducts unannounced 72-hour naval blockade drill — USS Ronald Reagan CSG repositions",
+  "IRAN NUCLEAR: IAEA confirms 60% enrichment at Fordow — breakout timeline now estimated at 12 days per IAEA Board",
+  "RED SEA: Multi-axis Houthi attack — USS Gravely intercepts C-802 + 3 UAVs; MV Galaxy Leader crew still held",
+  "NORTH KOREA: Hwasong-18 ICBM launched from mobile TEL — 69-min flight time, 1,000km altitude, fell in Japan EEZ",
+  "CYBER: CISA emergency directive — APT41 campaign targeting power grid SCADA systems in 11 US states",
+  "ARCTIC: Russia activates Northern Fleet — 15 vessels depart Murmansk including Oscar-II SSGN Oryol",
+  "SPACE: China destroys own defunct weather satellite — debris field threatens US NRO constellation"
 ];
 
 // src: 'hls' = HLS M3U8 live stream (played via HLS.js directly in <video> — no iframe, no X-Frame-Options issues)
@@ -2178,7 +2639,7 @@ function updateClock() {
                 now.getUTCFullYear() + ' UTC';
   document.getElementById('clock-time').textContent = time;
   document.getElementById('clock-date').textContent = dateStr;
-  document.getElementById('status-utc').textContent = time;
+  document.getElementById('status-utc').textContent = time + ' UTC';
 }
 updateClock();
 setInterval(updateClock, 1000);
@@ -3489,6 +3950,93 @@ function updateHistFeed(events) {
 function histFocus(lat, lng) {
   if (histMap) histMap.setView([lat, lng], 5, { animate:true });
 }
+
+// ── DEFENSE SPENDING COUNTER ───────────────────────────────────────────────
+(function initDefenseCounter() {
+  var FY_BUDGET   = 849.8e9;                           // FY2025 enacted
+  var FY_START    = new Date('2024-10-01T00:00:00Z');  // Oct 1, 2024
+  var PER_SEC     = FY_BUDGET / (365.25 * 24 * 3600); // ~$26,929/s
+
+  function fmt(n) {
+    // Always show X.XXB format
+    var b = n / 1e9;
+    if (b >= 100) return '$' + b.toFixed(1) + 'B';
+    return '$' + b.toFixed(2) + 'B';
+  }
+
+  function update() {
+    var elapsed = (Date.now() - FY_START.getTime()) / 1000;
+    if (elapsed < 0) elapsed = 0;
+    var spent   = Math.min(elapsed * PER_SEC, FY_BUDGET);
+    var pct     = (spent / FY_BUDGET * 100);
+
+    var el = document.getElementById('def-counter-val');
+    if (el) el.textContent = fmt(spent);
+
+    var bar = document.getElementById('def-bar-fill');
+    if (bar) bar.style.width = Math.min(pct, 100) + '%';
+
+    var rate = document.getElementById('def-per-sec');
+    if (rate) rate.textContent = '$' + Math.round(PER_SEC).toLocaleString() + '/sec';
+  }
+
+  update();
+  setInterval(update, 100); // update 10x/sec for smooth counter
+})();
+
+// ── NUCLEAR ARSENAL GRID ──────────────────────────────────────────────────
+(function initNukeGrid() {
+  var NUKES = [
+    { flag:'🇷🇺', name:'RUSSIA',   total:6257, deployed:1558, color:'#f44336' },
+    { flag:'🇺🇸', name:'USA',      total:5550, deployed:1670, color:'#00c8f0' },
+    { flag:'🇨🇳', name:'CHINA',    total:410,  deployed:0,    color:'#ff9800' },
+    { flag:'🇫🇷', name:'FRANCE',   total:290,  deployed:280,  color:'#f5c518' },
+    { flag:'🇬🇧', name:'UK',       total:225,  deployed:120,  color:'#f5c518' },
+    { flag:'🇮🇳', name:'INDIA',    total:172,  deployed:0,    color:'#a855f7' },
+    { flag:'🇵🇰', name:'PAKISTAN', total:170,  deployed:0,    color:'#4caf50' },
+    { flag:'🇮🇱', name:'ISRAEL',   total:90,   deployed:0,    color:'#2196f3' },
+    { flag:'🇰🇵', name:'DPRK',     total:50,   deployed:0,    color:'#cc44ff' },
+  ];
+  var MAX = 6257;
+
+  function render() {
+    var el = document.getElementById('nuke-grid-cell');
+    if (!el) return;
+    var html = NUKES.map(function(c) {
+      var wp = (c.total  / MAX * 100).toFixed(1);
+      var dp = (c.deployed / MAX * 100).toFixed(1);
+      return '<div class="nuke-row">' +
+        '<span class="nuke-flag">' + c.flag + '</span>' +
+        '<span class="nuke-name">' + c.name + '</span>' +
+        '<div class="nuke-bar-wrap">' +
+          '<div class="nuke-bar-total" style="width:' + wp + '%;background:' + c.color + '22;"></div>' +
+          (c.deployed > 0
+            ? '<div class="nuke-bar-dep"   style="width:' + dp + '%;background:' + c.color + ';"></div>'
+            : '') +
+        '</div>' +
+        '<span class="nuke-count">' + c.total.toLocaleString() + '</span>' +
+      '</div>';
+    }).join('');
+    html += '<div class="nuke-legend">' +
+      '<span><span class="nuke-ldot" style="background:#888"></span>Total</span>' +
+      '<span><span class="nuke-ldot" style="background:#00c8f0"></span>Deployed</span>' +
+      '<span style="margin-left:auto;color:var(--dim)">SIPRI 2024</span>' +
+    '</div>';
+    el.innerHTML = html;
+  }
+
+  render();
+})();
+
+// ── SATELLITE COUNT IN STATUS BAR ─────────────────────────────────────────
+(function watchSatCount() {
+  setInterval(function() {
+    var el = document.getElementById('status-sat-count');
+    if (!el || typeof satObjects === 'undefined') return;
+    var total = Object.keys(satObjects).reduce(function(n,k){ return n + satObjects[k].length; }, 0);
+    el.textContent = 'SATS: ' + total;
+  }, 3000);
+})();
 
 // ── INIT ──────────────────────────────────────────────────────────────────
 
