@@ -525,6 +525,75 @@ header {
   color: var(--text2);
   line-height: 1.5;
 }
+.intel-section-head {
+  padding: 7px 8px 5px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: var(--accent);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.op-row,
+.src-row {
+  display: grid;
+  gap: 8px;
+  padding: 7px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  align-items: start;
+}
+.op-row {
+  grid-template-columns: 56px 1fr auto;
+}
+.src-row {
+  grid-template-columns: 72px 1fr auto;
+}
+.op-row:last-of-type,
+.src-row:last-of-type { border-bottom: none; }
+.op-city,
+.src-name { color: var(--accent); }
+.op-brief,
+.src-brief {
+  color: var(--text2);
+  line-height: 1.5;
+}
+.op-meta,
+.src-meta {
+  color: var(--dim2);
+  text-align: right;
+  white-space: nowrap;
+  line-height: 1.5;
+}
+.intel-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 18px;
+  padding: 0 6px;
+  border-radius: 2px;
+  border: 1px solid rgba(255,255,255,0.08);
+  font-size: 8px;
+  letter-spacing: 0.5px;
+}
+.intel-pill.critical { color: #ff6a6a; border-color: rgba(255,48,48,0.35); background: rgba(255,48,48,0.08); }
+.intel-pill.degraded { color: #ffb25c; border-color: rgba(255,136,0,0.35); background: rgba(255,136,0,0.08); }
+.intel-pill.partial { color: var(--yellow); border-color: rgba(245,197,24,0.35); background: rgba(245,197,24,0.08); }
+.intel-pill.stable,
+.intel-pill.live { color: var(--green); border-color: rgba(0,232,144,0.35); background: rgba(0,232,144,0.08); }
+.intel-pill.curated { color: var(--accent); border-color: rgba(0,200,240,0.35); background: rgba(0,200,240,0.08); }
+.intel-pill.reference { color: #b9c7d8; border-color: rgba(185,199,216,0.25); background: rgba(185,199,216,0.06); }
+.intel-pill.stale { color: #ff9b55; border-color: rgba(255,128,48,0.35); background: rgba(255,128,48,0.08); }
+
+@media (max-width: 1100px) {
+  .op-row { grid-template-columns: 52px 1fr; }
+  .src-row { grid-template-columns: 64px 1fr; }
+  .op-meta,
+  .src-meta {
+    grid-column: 2;
+    text-align: left;
+    white-space: normal;
+  }
+}
 
 .conflict-view {
   flex: 1;
