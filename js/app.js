@@ -69,12 +69,24 @@ var GRID_STATE = [0, 1, 2, 6, 7, 9];
 
 var NEWS = [
   { cat:'CONFLICT',  color:'#ff4d00', lat:48.5, lng:35.0,
+    slug:'ukraine',
     title:'Ukraine — Russo-Ukrainian War',
     body:'Heavy fighting across eastern front. Russian forces pushing near Kharkiv and Zaporizhzhia.',
     src:'ISW / Reuters', cas: 12654, casNote:'OHCHR verified civilian deaths; est. military total 150,000+',
+    updated:'AS OF 2026-03-22', confidence:'MEDIUM', status:'High-intensity conventional war', risk:'SEVERE', theater:'Eastern and southern Ukraine',
     startDate: 'Feb 24, 2022 (full-scale invasion; conflict since 2014)',
     parties: ['Russia', 'Ukraine (NATO/EU-backed)'],
     battleLines: 'Active front line ~1,200 km from Kharkiv to Kherson. Russia occupies ~18% of Ukrainian territory including Crimea, Donbas, Zaporizhzhia, and Kherson oblasts. Bakhmut–Avdiivka salient heavily contested.',
+    keyPoints: [
+      'Drone and artillery attrition remain the dominant combat dynamic across the line of contact.',
+      'Russian pressure is concentrated on eastern urban approaches and logistics nodes.',
+      'Deep-strike exchanges against energy, air-defense, and Black Sea targets continue to shape escalation risk.'
+    ],
+    watchItems: [
+      'Front-line movement around Pokrovsk, Kupiansk, and Zaporizhzhia axes.',
+      'Air-defense missile availability and power-grid repair timelines.',
+      'Any Russian strategic aviation or Black Sea Fleet posture change.'
+    ],
     links: [
       { l:'ISW Daily Update', u:'https://www.understandingwar.org/backgrounder/ukraine-conflict-updates' },
       { l:'LiveUAMap', u:'https://liveuamap.com/' },
@@ -83,12 +95,24 @@ var NEWS = [
       { l:'Reuters Ukraine', u:'https://www.reuters.com/world/europe/ukraine/' },
     ]},
   { cat:'CONFLICT',  color:'#ff4d00', lat:31.5, lng:34.5,
+    slug:'gaza',
     title:'Gaza — Israel-Hamas Conflict',
     body:'Ongoing military operations in Gaza Strip. Ceasefire negotiations in Doha.',
     src:'Reuters / Al Jazeera', cas: 46899, casNote:'Gaza Ministry of Health / UNOCHA; ~70% women & children',
+    updated:'AS OF 2026-03-22', confidence:'MEDIUM', status:'Urban warfare with extreme civilian harm', risk:'SEVERE', theater:'Gaza Strip / southern Israel / regional spillover',
     startDate: 'Oct 7, 2023',
     parties: ['Israel (IDF)', 'Hamas / Palestinian Islamic Jihad'],
     battleLines: 'IDF ground operations throughout Gaza Strip. Northern Gaza largely destroyed. Rafah crossing contested. Tunnel network targeted. Civilian displacement exceeds 1.7 million.',
+    keyPoints: [
+      'The conflict combines hostage dynamics, urban combat, and severe access constraints for civilians.',
+      'Border crossings, fuel access, and aid inspection tempo drive humanitarian conditions day to day.',
+      'Regional escalation risk persists through Lebanon, Red Sea, and direct Iran-Israel signaling.'
+    ],
+    watchItems: [
+      'Ceasefire and hostage-negotiation movement in Doha or Cairo.',
+      'Changes to Rafah and Kerem Shalom crossing throughput.',
+      'Any shift from Gaza operations toward wider Israel-Lebanon or Iran-linked escalation.'
+    ],
     links: [
       { l:'UN OCHA oPt', u:'https://www.unocha.org/occupied-palestinian-territory' },
       { l:'Al Jazeera Live', u:'https://www.aljazeera.com/where/israel/' },
@@ -172,12 +196,24 @@ var NEWS = [
       { l:'Wikipedia', u:'https://en.wikipedia.org/wiki/Russian_invasion_of_Ukraine' },
     ]},
   { cat:'POLITICAL', color:'#ffcc00', lat:35.7, lng:51.4,
+    slug:'iran',
     title:'Iran — Tehran',
     body:'Nuclear negotiations stalled. IRGC conducts regional proxy operations.',
     src:'Reuters / IAEA',
+    updated:'AS OF 2026-03-22', confidence:'MEDIUM', status:'Regional escalation and nuclear-threshold crisis', risk:'HIGH', theater:'Iran / Iraq / Syria / Gulf / Red Sea / Levant',
     startDate: 'Ongoing (nuclear tensions since ~2002)',
     parties: ['Iran (IRGC / proxies)', 'USA / Israel / Gulf states'],
     battleLines: 'No direct conventional war. Iran enriching uranium to 60% purity. IRGC proxies active in Iraq, Syria, Yemen (Houthis), Lebanon (Hezbollah), Gaza (Hamas support).',
+    keyPoints: [
+      'Iran is best tracked as a multi-theater escalation problem, not a single front line.',
+      'Nuclear monitoring access, proxy strike tempo, and Gulf shipping threats are the main decision drivers.',
+      'A direct Iran-Israel exchange would quickly spill into energy markets, maritime security, and regional bases.'
+    ],
+    watchItems: [
+      'IAEA reporting on stockpile growth and inspection access.',
+      'Proxy-linked launches in Iraq, Syria, Yemen, or Lebanon.',
+      'IRGCN signaling around Hormuz and commercial shipping.'
+    ],
     links: [
       { l:'IAEA Iran Reports', u:'https://www.iaea.org/newscenter/focus/iran' },
       { l:'Crisis Group Iran', u:'https://www.crisisgroup.org/middle-east-north-africa/gulf-and-arabian-peninsula/iran' },
@@ -302,6 +338,40 @@ function newsCasualtyLabel(ev) {
   return 'REPORTED CASUALTIES';
 }
 
+function toFiniteNumber(value) {
+  var num = parseFloat(value);
+  return Number.isFinite(num) ? num : null;
+}
+
+function renderIntelLinks(links, className) {
+  return (links || []).map(function(link) {
+    return '<a class="' + className + '" href="' + escapeHtml(link.u) + '" target="_blank" rel="noopener noreferrer">'
+      + escapeHtml(link.l) + '</a>';
+  }).join('');
+}
+
+function weatherCodeLabel(code) {
+  var value = toFiniteNumber(code);
+  var labels = {
+    0: 'Clear', 1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
+    45: 'Fog', 48: 'Rime fog', 51: 'Light drizzle', 53: 'Drizzle', 55: 'Dense drizzle',
+    61: 'Light rain', 63: 'Rain', 65: 'Heavy rain', 66: 'Freezing rain', 67: 'Heavy freezing rain',
+    71: 'Light snow', 73: 'Snow', 75: 'Heavy snow', 77: 'Snow grains',
+    80: 'Rain showers', 81: 'Heavy showers', 82: 'Violent showers',
+    85: 'Snow showers', 86: 'Heavy snow showers', 95: 'Thunderstorm',
+    96: 'Thunderstorm hail', 99: 'Severe hail'
+  };
+  return value !== null && labels[value] ? labels[value] : 'Mixed conditions';
+}
+
+function conflictChipClass(level) {
+  var normalized = String(level || '').toLowerCase();
+  if (normalized === 'severe') return 'severe';
+  if (normalized === 'high') return 'high';
+  if (normalized === 'moderate' || normalized === 'medium') return 'mod';
+  return 'quiet';
+}
+
 function syncMobilePanelButtons() {
   var leftBtn = document.querySelector('.mobile-panel-btn[onclick="togglePanel(\'left\')"]');
   var rightBtn = document.querySelector('.mobile-panel-btn[onclick="togglePanel(\'right\')"]');
@@ -370,6 +440,80 @@ function renderSituationFeed() {
 
 renderSituationFeed();
 syncMobilePanelButtons();
+
+function renderConflictTab(slug) {
+  var item = NEWS.find(function(entry) { return entry.slug === slug; });
+  var container = document.getElementById('conflict-pane-' + slug);
+  if (!item || !container) return;
+
+  var parties = (item.parties || []).map(function(party) {
+    return '<span class="conflict-party">' + escapeHtml(party) + '</span>';
+  }).join('');
+  var keyPoints = (item.keyPoints || []).map(function(point) {
+    return '<div class="conflict-list-item">' + escapeHtml(point) + '</div>';
+  }).join('');
+  var watchItems = (item.watchItems || []).map(function(point) {
+    return '<div class="conflict-list-item">' + escapeHtml(point) + '</div>';
+  }).join('');
+  var casualtyValue = item.cas ? item.cas.toLocaleString() : 'VARIES';
+  var casualtyMeta = item.casNote ? escapeHtml(item.casNote) : 'No stable single-source casualty total.';
+
+  container.innerHTML = ''
+    + '<div class="conflict-hero">'
+    +   '<div class="conflict-overline">ACTIVE CONFLICT DOSSIER</div>'
+    +   '<div class="conflict-title-row">'
+    +     '<div>'
+    +       '<h2 class="conflict-title">' + escapeHtml(item.title) + '</h2>'
+    +       '<div class="conflict-summary">' + escapeHtml(item.body) + '</div>'
+    +     '</div>'
+    +     '<div class="conflict-badges">'
+    +       '<span class="conflict-chip ' + conflictChipClass(item.risk) + '">' + escapeHtml(item.risk || 'WATCH') + '</span>'
+    +       '<span class="conflict-chip mod">' + escapeHtml(item.status || 'ACTIVE') + '</span>'
+    +       '<span class="conflict-chip quiet">' + escapeHtml(newsConfidence(item)) + ' CONF.</span>'
+    +     '</div>'
+    +   '</div>'
+    +   '<div class="conflict-kpis">'
+    +     '<div class="conflict-kpi"><div class="conflict-kpi-label">THEATER</div><div class="conflict-kpi-value">' + escapeHtml(item.theater || 'Regional') + '</div></div>'
+    +     '<div class="conflict-kpi"><div class="conflict-kpi-label">START DATE</div><div class="conflict-kpi-value">' + escapeHtml(item.startDate || 'Ongoing') + '</div></div>'
+    +     '<div class="conflict-kpi"><div class="conflict-kpi-label">SOURCE BASE</div><div class="conflict-kpi-value">' + escapeHtml(item.src || 'Curated') + '</div></div>'
+    +     '<div class="conflict-kpi"><div class="conflict-kpi-label">' + escapeHtml(newsCasualtyLabel(item) || 'REPORTED IMPACT') + '</div><div class="conflict-kpi-value">' + casualtyValue + '</div></div>'
+    +   '</div>'
+    + '</div>'
+    + '<div class="conflict-grid">'
+    +   '<section class="conflict-card">'
+    +     '<h3 class="conflict-card-title">BATTLE LINES</h3>'
+    +     '<div class="conflict-card-copy">' + escapeHtml(item.battleLines || item.body || 'No battle-line summary yet.') + '</div>'
+    +     '<div class="conflict-meta-line">UPDATED: ' + escapeHtml(newsUpdated(item)) + '</div>'
+    +   '</section>'
+    +   '<section class="conflict-card">'
+    +     '<h3 class="conflict-card-title">PRIMARY ACTORS</h3>'
+    +     '<div class="conflict-party-list">' + parties + '</div>'
+    +     '<div class="conflict-meta-line">CASUALTY NOTE: ' + casualtyMeta + '</div>'
+    +   '</section>'
+    +   '<section class="conflict-card">'
+    +     '<h3 class="conflict-card-title">KEY POINTS</h3>'
+    +     '<div class="conflict-list">' + keyPoints + '</div>'
+    +   '</section>'
+    +   '<section class="conflict-card">'
+    +     '<h3 class="conflict-card-title">WATCH LIST</h3>'
+    +     '<div class="conflict-list">' + watchItems + '</div>'
+    +   '</section>'
+    +   '<section class="conflict-card">'
+    +     '<h3 class="conflict-card-title">SOURCES</h3>'
+    +     '<div class="conflict-link-list">' + renderIntelLinks(item.links || [], 'conflict-link') + '</div>'
+    +   '</section>'
+    +   '<section class="conflict-card">'
+    +     '<h3 class="conflict-card-title">ANALYST NOTE</h3>'
+    +     '<div class="conflict-card-copy">This tab is curated from open reporting, not a live battlefield feed. Use it as an operational context page and validate key claims against the linked source set before treating any movement or casualty figure as current.</div>'
+    +   '</section>'
+    + '</div>';
+}
+
+function renderConflictTabs() {
+  ['ukraine', 'gaza', 'iran'].forEach(renderConflictTab);
+}
+
+renderConflictTabs();
 
 // ── CLOCK ─────────────────────────────────────────────────────────────────
 
@@ -1409,6 +1553,71 @@ function setShipRegion(key) {
     .catch(function() { body.innerHTML = '<div class="intel-loading">Seismic feed unavailable.</div>'; });
 })();
 
+// ── THEATER WEATHER (OPEN-METEO) ─────────────────────────────────────────
+(function loadGlobalWeather() {
+  var body = document.getElementById('globalwx-body');
+  if (!body) return;
+
+  var fallbackLinks = [
+    { l:'Zoom Earth Layers', u:'https://zoom.earth/maps/temperature/' },
+    { l:'NASA Worldview Clouds', u:'https://worldview.earthdata.nasa.gov/' }
+  ];
+  var theaters = [
+    { name:'Kyiv', lat:50.45, lon:30.52 },
+    { name:'Gaza', lat:31.50, lon:34.47 },
+    { name:'Tehran', lat:35.69, lon:51.39 },
+    { name:'Taipei', lat:25.03, lon:121.56 },
+    { name:'Seoul', lat:37.57, lon:126.98 }
+  ];
+
+  function renderFallback(message) {
+    body.innerHTML = '<div class="intel-note">' + escapeHtml(message) + '</div>'
+      + '<div class="intel-note">Replacement ideas: switch this panel to a visual globe via Zoom Earth, or use NASA Worldview/GIBS for a global cloud layer that is more stable than the old embed.</div>'
+      + '<div class="intel-link-list">' + renderIntelLinks(fallbackLinks, 'intel-link') + '</div>';
+  }
+
+  Promise.allSettled(theaters.map(function(theater) {
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + theater.lat + '&longitude=' + theater.lon
+      + '&current=temperature_2m,apparent_temperature,wind_speed_10m,weather_code&forecast_days=1&timezone=GMT';
+    return fetch(url).then(function(response) {
+      if (!response.ok) throw new Error('weather ' + response.status);
+      return response.json();
+    }).then(function(payload) {
+      return { theater: theater, payload: payload };
+    });
+  })).then(function(results) {
+    var rows = results.filter(function(result) {
+      return result.status === 'fulfilled' && result.value && result.value.payload && result.value.payload.current;
+    }).map(function(result) {
+      var theater = result.value.theater;
+      var current = result.value.payload.current;
+      var temp = toFiniteNumber(current.temperature_2m);
+      var feels = toFiniteNumber(current.apparent_temperature);
+      var wind = toFiniteNumber(current.wind_speed_10m);
+      return '<div class="wx-row">'
+        + '<span class="wx-city">' + escapeHtml(theater.name) + '</span>'
+        + '<span class="wx-brief">' + escapeHtml(weatherCodeLabel(current.weather_code)) + '</span>'
+        + '<span class="wx-meta">'
+        + (temp !== null ? temp.toFixed(0) + '&deg;C' : 'N/A')
+        + (feels !== null ? ' / feels ' + feels.toFixed(0) + '&deg;C' : '')
+        + (wind !== null ? '<br>wind ' + wind.toFixed(0) + ' km/h' : '')
+        + '</span>'
+        + '</div>';
+    });
+
+    if (!rows.length) {
+      renderFallback('Theater weather feed unavailable.');
+      return;
+    }
+
+    body.innerHTML = rows.join('')
+      + '<div class="intel-note">Replacement ideas: keep this fast theater snapshot, or swap back to a visual layer using Zoom Earth or NASA Worldview if you want a map again.</div>'
+      + '<div class="intel-link-list">' + renderIntelLinks(fallbackLinks, 'intel-link') + '</div>';
+  }).catch(function() {
+    renderFallback('Theater weather feed unavailable.');
+  });
+})();
+
 // ── SPACE WEATHER (NOAA SWPC) ─────────────────────────────────────────────
 (function loadSpaceWeather() {
   var body = document.getElementById('spacewx-body');
@@ -1424,40 +1633,78 @@ function setShipRegion(key) {
     if (kp < 9)  return ['G4 Severe Storm',    'severe'];
     return            ['G5 Extreme Storm',     'severe'];
   }
-  Promise.all([
-    fetch('https://services.swpc.noaa.gov/json/planetary_k_index_1m.json').then(function(r){ return r.json(); }),
-    fetch('https://services.swpc.noaa.gov/json/solar_wind/mag_1_day.json').then(function(r){ return r.json(); }),
-    fetch('https://services.swpc.noaa.gov/json/goes/primary/xrays-1-day.json').then(function(r){ return r.json(); }),
-  ]).then(function(res) {
-    var kpArr   = res[0] || [];
-    var magArr  = res[1] || [];
-    var xrayArr = res[2] || [];
-
-    var kp    = kpArr.length   ? kpArr[kpArr.length - 1].kp_index   : null;
-    var mag   = magArr.length  ? magArr[magArr.length - 1]           : null;
-    var xray  = xrayArr.length ? xrayArr[xrayArr.length - 1]         : null;
-
-    var ki = kpInfo(kp);
-    var kpStr  = kp !== null ? parseFloat(kp).toFixed(1) : 'N/A';
-    var bzRaw  = mag ? (mag.bz_gsm !== undefined ? mag.bz_gsm : (mag.bz !== undefined ? mag.bz : null)) : null;
-    var bzStr  = bzRaw !== null ? parseFloat(bzRaw).toFixed(1) + ' nT' : 'N/A';
-    var bzDir  = bzRaw !== null && bzRaw < 0 ? ['Southward', 'high'] : ['Northward', 'quiet'];
-    var flux   = xray ? (xray.flux || xray.observed_flux || null) : null;
-    var fluxStr = flux ? flux.toExponential(2) + ' W/m\xb2' : 'N/A';
-
-    var rows = [
-      ['Kp Index',    kpStr,   '<span class="sw-status ' + ki[1]     + '">' + ki[0]      + '</span>'],
-      ['Bz (GSM)',    bzStr,   '<span class="sw-status ' + bzDir[1]   + '">' + bzDir[0]   + '</span>'],
-      ['X-Ray Flux',  fluxStr, ''],
+  function renderSpaceFallback() {
+    var backupLinks = [
+      { l:'NOAA 3-Day Forecast', u:'https://services.swpc.noaa.gov/text/3-day-forecast.txt' },
+      { l:'SpaceWeatherLive', u:'https://www.spaceweatherlive.com/' }
     ];
-    body.innerHTML = rows.map(function(r) {
-      return '<div class="sw-row"><span class="sw-label">' + r[0] + '</span>'
-        + '<span class="sw-val">' + r[1] + '</span>' + (r[2] || '') + '</div>';
+    fetch('https://services.swpc.noaa.gov/text/3-day-forecast.txt').then(function(response) {
+      if (!response.ok) throw new Error('space ' + response.status);
+      return response.text();
+    }).then(function(text) {
+      var lines = text.split(/\r?\n/).map(function(line) { return line.trim(); }).filter(Boolean)
+        .filter(function(line) { return /geomagnetic|solar radiation|radio blackout|G[1-5]|R[1-5]|S[1-5]/i.test(line); })
+        .slice(0, 4);
+      body.innerHTML = (lines.length ? lines.map(function(line) {
+        return '<div class="sw-forecast-line">' + escapeHtml(line) + '</div>';
+      }).join('') : '<div class="intel-note">Primary NOAA JSON values unavailable. Backup text forecast loaded instead.</div>')
+        + '<div class="intel-note">Replacement ideas: keep NOAA 3-day text as a stable fallback, or swap this cell to SpaceWeatherLive for a more visual overview.</div>'
+        + '<div class="intel-link-list">' + renderIntelLinks(backupLinks, 'intel-link') + '</div>';
+    }).catch(function() {
+      body.innerHTML = '<div class="intel-note">Space weather feed unavailable.</div>'
+        + '<div class="intel-note">Replacement ideas: use NOAA 3-day forecast text for reliability, or SpaceWeatherLive for a richer visual dashboard.</div>'
+        + '<div class="intel-link-list">' + renderIntelLinks(backupLinks, 'intel-link') + '</div>';
+    });
+  }
+
+  Promise.allSettled([
+    fetch('https://services.swpc.noaa.gov/json/planetary_k_index_1m.json').then(function(r){ if (!r.ok) throw new Error('kp'); return r.json(); }),
+    fetch('https://services.swpc.noaa.gov/json/solar_wind/mag_1_day.json').then(function(r){ if (!r.ok) throw new Error('mag'); return r.json(); }),
+    fetch('https://services.swpc.noaa.gov/json/goes/primary/xrays-1-day.json').then(function(r){ if (!r.ok) throw new Error('xray'); return r.json(); }),
+  ]).then(function(res) {
+    var kpArr   = res[0].status === 'fulfilled' ? (res[0].value || []) : [];
+    var magArr  = res[1].status === 'fulfilled' ? (res[1].value || []) : [];
+    var xrayArr = res[2].status === 'fulfilled' ? (res[2].value || []) : [];
+
+    var kp = kpArr.length ? toFiniteNumber(kpArr[kpArr.length - 1].kp_index) : null;
+    var mag = magArr.length ? magArr[magArr.length - 1] : null;
+    var xray = xrayArr.length ? xrayArr[xrayArr.length - 1] : null;
+    var bzRaw = mag ? toFiniteNumber(mag.bz_gsm !== undefined ? mag.bz_gsm : mag.bz) : null;
+    var windSpeed = mag ? toFiniteNumber(mag.speed) : null;
+    var flux = xray ? toFiniteNumber(xray.flux || xray.observed_flux) : null;
+
+    if (kp === null && bzRaw === null && windSpeed === null && flux === null) {
+      renderSpaceFallback();
+      return;
+    }
+
+    var rows = [];
+    if (kp !== null) {
+      var ki = kpInfo(kp);
+      rows.push(['Kp Index', kp.toFixed(1), '<span class="sw-status ' + ki[1] + '">' + ki[0] + '</span>']);
+    }
+    if (bzRaw !== null) {
+      var bzDir = bzRaw < 0 ? ['Southward', 'high'] : ['Northward', 'quiet'];
+      rows.push(['Bz (GSM)', bzRaw.toFixed(1) + ' nT', '<span class="sw-status ' + bzDir[1] + '">' + bzDir[0] + '</span>']);
+    }
+    if (windSpeed !== null) {
+      rows.push(['Solar Wind', windSpeed.toFixed(0) + ' km/s', '']);
+    }
+    if (flux !== null) {
+      rows.push(['X-Ray Flux', flux.toExponential(2) + ' W/m\xb2', '']);
+    }
+
+    body.innerHTML = rows.map(function(row) {
+      return '<div class="sw-row"><span class="sw-label">' + row[0] + '</span><span class="sw-val">' + row[1] + '</span>' + (row[2] || '') + '</div>';
     }).join('')
-    + '<div class="sw-row" style="border-top:1px solid rgba(255,255,255,0.06);margin-top:4px">'
-    + '<span class="sw-label" style="font-size:9px;color:var(--dim)">NOAA SWPC &mdash; updates ~1 min</span></div>';
-  })
-  .catch(function() { body.innerHTML = '<div class="intel-loading">Space weather feed unavailable.</div>'; });
+      + '<div class="intel-note">Replacement ideas: if this JSON feed flakes again, NOAA 3-day forecast text and SpaceWeatherLive are the cleanest fallbacks.</div>'
+      + '<div class="intel-link-list">' + renderIntelLinks([
+        { l:'NOAA 3-Day Forecast', u:'https://services.swpc.noaa.gov/text/3-day-forecast.txt' },
+        { l:'SpaceWeatherLive', u:'https://www.spaceweatherlive.com/' }
+      ], 'intel-link') + '</div>';
+  }).catch(function() {
+    renderSpaceFallback();
+  });
 })();
 
 // ── HISTORY / TIME MACHINE ───────────────────────────────────────────────
