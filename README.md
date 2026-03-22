@@ -1,6 +1,6 @@
 # SENTINEL // OSINT Global Monitor
 
-A single-file intelligence dashboard with live camera streams, a breaking news bar, a major news events map, and a military/naval asset map. No build tools, no dependencies to install, no backend required.
+A static intelligence dashboard with live camera streams, a breaking news bar, a major news events map, and a military/naval asset map. No build tools, no backend required.
 
 ---
 
@@ -8,11 +8,15 @@ A single-file intelligence dashboard with live camera streams, a breaking news b
 
 ```
 OSI-Map/
-├── index.html   ← The entire application
+├── index.html   ← HTML shell
+├── css/
+│   └── app.css  ← Application styles
+├── js/
+│   └── app.js   ← Application logic and datasets
 └── README.md
 ```
 
-That's it. The whole app is one self-contained HTML file.
+The app remains static-host friendly, but the HTML, CSS, and JavaScript are now split into maintainable files.
 
 ---
 
@@ -21,9 +25,12 @@ That's it. The whole app is one self-contained HTML file.
 | Feature              | How                                                         |
 |----------------------|-------------------------------------------------------------|
 | Breaking news bar    | Sticky top bar, cycles 5 urgent items every 5 seconds       |
+| Alert attribution    | Breaking alerts show source and freshness metadata inline   |
 | Live cameras         | YouTube embeds via `<iframe>` inside a CSS grid             |
 | News map             | Leaflet.js markers on a CartoDB dark tile layer             |
 | Military map         | Leaflet.js layer groups (bases, fleets, hotspots)           |
+| Situation feed       | Curated OSINT snapshots rendered with source tags           |
+| Mobile panel toggles | Left and right sidebars can be expanded on small screens    |
 | Fonts                | Google Fonts CDN (Orbitron, Share Tech Mono, Rajdhani)      |
 | Map tiles            | CartoDB dark_all via unpkg/cdnjs                            |
 | Mobile responsive    | Sidebars stack vertically, 2-col camera grid, scroll tabs   |
@@ -63,7 +70,7 @@ The CSS grid controlling this is:
 
 On screens ≤ 768px:
 - Breaking news bar stays at the very top (sticky)
-- Sidebars stack vertically (order: left → center → right)
+- Sidebars stack vertically and can be expanded with mobile panel buttons
 - Tab bar scrolls horizontally
 - Camera grid shows 2 columns
 
@@ -132,6 +139,18 @@ var NEWS = [
 ];
 ```
 
+Conflict detail modals now expose each event's `src` value so users can inspect the source attribution directly from the UI.
+
+---
+
+## Trust Model
+
+- **Live data**: satellite, seismic, space weather, and any explicitly marked live feeds
+- **Curated snapshots**: breaking alerts and situation feed items that summarize open-source reporting
+- **Reference data**: manually maintained conflict, base, and history datasets
+
+The status bar now indicates that the dashboard is a **live + curated** mix rather than a fully live wire service.
+
 ---
 
 ## Deployment
@@ -154,6 +173,7 @@ Upload `index.html` to your web root. Works on nginx, Apache, or any file server
 - **YouTube embedding**: Some streams block iframe embedding. Swap via ✏ CHANGE.
 - **Camera changes are session-only**: Edit `CAMS` array for permanent changes.
 - **News data is static**: Update `NEWS` array manually or connect a CORS-enabled API.
+- **Breaking alerts and sitrep items are curated**: Treat them as sourced summaries, not confirmed real-time telemetry.
 - **No authentication**: Public-facing page — do not add sensitive data.
 
 ---
