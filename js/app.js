@@ -327,6 +327,48 @@ function newsUpdated(ev) {
   return ev.updated || DEFAULT_CURATED_DATE;
 }
 
+// ── DATA FRESHNESS ────────────────────────────────────────────────────────
+// Parses curated date strings ('AS OF 2026-03-22', '2026-03-22') or Date
+// objects and renders honest relative-age chips so users can tell live data
+// from stale curated snapshots at a glance.
+
+var STALE_AFTER_DAYS = 14;
+
+function parseUpdatedDate(value) {
+  if (value instanceof Date) return isNaN(value) ? null : value;
+  if (typeof value !== 'string') return null;
+  var m = value.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if (m) return new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+  var d = new Date(value);
+  return isNaN(d) ? null : d;
+}
+
+function relativeAge(value) {
+  var d = parseUpdatedDate(value);
+  if (!d) return escapeHtml(String(value || 'UNKNOWN'));
+  var mins = Math.floor((Date.now() - d.getTime()) / 60000);
+  if (mins < 1) return 'JUST NOW';
+  if (mins < 60) return mins + 'M AGO';
+  var hours = Math.floor(mins / 60);
+  if (hours < 48) return hours + 'H AGO';
+  return Math.floor(hours / 24) + 'D AGO';
+}
+
+function isStale(value) {
+  var d = parseUpdatedDate(value);
+  if (!d) return false;
+  return (Date.now() - d.getTime()) > STALE_AFTER_DAYS * 86400000;
+}
+
+function freshnessBadge(value) {
+  var d = parseUpdatedDate(value);
+  if (!d) return '<span class="fresh-chip unknown">' + escapeHtml(String(value || 'UNDATED')) + '</span>';
+  var age = relativeAge(d);
+  if (isStale(d)) return '<span class="fresh-chip stale">STALE · ' + age + '</span>';
+  if ((Date.now() - d.getTime()) < 86400000) return '<span class="fresh-chip fresh">' + age + '</span>';
+  return '<span class="fresh-chip recent">' + age + '</span>';
+}
+
 function newsConfidence(ev) {
   if (ev.confidence) return ev.confidence;
   if (ev.casNote) return 'Reported figures may be disputed or incomplete';
@@ -505,10 +547,15 @@ var HIST_WINDOW   = 20;  // ±years shown on map around selected year
 // ── BREAKING NEWS ─────────────────────────────────────────────────────────
 
 function cycleBraking() {
+  if (!BREAKING.length) return;
+  breakingIdx = breakingIdx % BREAKING.length;
   var item = BREAKING[breakingIdx];
+  var text = item.link
+    ? '<a class="breaking-link" href="' + escapeHtml(item.link) + '" target="_blank" rel="noopener">' + escapeHtml(item.text) + '</a>'
+    : escapeHtml(item.text);
   document.getElementById('breaking-text').innerHTML =
-    '<span>' + escapeHtml(item.text) + '</span>' +
-    '<span class="breaking-detail">[' + escapeHtml(item.src + ' · ' + item.updated) + ']</span>';
+    '<span>' + text + '</span>' +
+    '<span class="breaking-detail">[' + escapeHtml(item.src) + '] ' + freshnessBadge(item.updated) + '</span>';
   breakingIdx = (breakingIdx + 1) % BREAKING.length;
 }
 cycleBraking();
@@ -520,7 +567,7 @@ function renderSituationFeed() {
   feed.innerHTML = SITREP_FEED.map(function(item) {
     return '<div class="feed-item ' + escapeHtml(item.cls) + '">' +
       '<div class="feed-main"><span class="feed-time">[' + escapeHtml(item.time) + ']</span>' + escapeHtml(item.text) + '</div>' +
-      '<div class="feed-meta">SOURCE: ' + escapeHtml(item.src) + ' · UPDATED: ' + escapeHtml(item.updated) + ' · ' + escapeHtml(item.confidence) + '</div>' +
+      '<div class="feed-meta">SOURCE: ' + escapeHtml(item.src) + ' · ' + freshnessBadge(item.updated) + ' · ' + escapeHtml(item.confidence) + '</div>' +
     '</div>';
   }).join('');
 }
@@ -570,7 +617,7 @@ function renderConflictTab(slug) {
     +   '<section class="conflict-card">'
     +     '<h3 class="conflict-card-title">BATTLE LINES</h3>'
     +     '<div class="conflict-card-copy">' + escapeHtml(item.battleLines || item.body || 'No battle-line summary yet.') + '</div>'
-    +     '<div class="conflict-meta-line">UPDATED: ' + escapeHtml(newsUpdated(item)) + '</div>'
+    +     '<div class="conflict-meta-line">UPDATED: ' + freshnessBadge(newsUpdated(item)) + '</div>'
     +   '</section>'
     +   '<section class="conflict-card">'
     +     '<h3 class="conflict-card-title">PRIMARY ACTORS</h3>'
@@ -709,7 +756,7 @@ function initNewsMap() {
       ? '<div class="popup-cas"><span class="popup-cas-icon">☠</span> ' + newsCasualtyLabel(ev) + ': <strong>' +
         ev.cas.toLocaleString() + '+</strong><span class="popup-cas-note"> ' + (ev.casNote||'') + '</span></div>'
       : '';
-    var metaHtml = '<div class="popup-meta">SRC: ' + escapeHtml(ev.src || 'Open-source compilation') + '<br>UPDATED: ' + escapeHtml(newsUpdated(ev)) + ' · ' + escapeHtml(newsConfidence(ev)) + '</div>';
+    var metaHtml = '<div class="popup-meta">SRC: ' + escapeHtml(ev.src || 'Open-source compilation') + '<br>UPDATED: ' + freshnessBadge(newsUpdated(ev)) + ' · ' + escapeHtml(newsConfidence(ev)) + '</div>';
     var detailBtn = (ev.links && ev.links.length)
       ? '<div style="margin-top:8px;"><button onclick="openConflictModal(' + i + ')" ' +
         'style="font-family:\'Share Tech Mono\',monospace;font-size:11px;color:' + ev.color + ';' +
@@ -1103,7 +1150,9 @@ function openConflictModal(newsIdx) {
   document.getElementById('cm-cat-badge').style.borderColor = ev.color;
   document.getElementById('cm-title-text').textContent = ev.title;
   document.getElementById('cm-date').textContent = ev.startDate || 'Unknown';
-  document.getElementById('cm-source').textContent = (ev.src || 'Open-source compilation') + ' · ' + newsUpdated(ev);
+  document.getElementById('cm-source').textContent = (ev.src || 'Open-source compilation')
+    + ' · UPDATED ' + relativeAge(newsUpdated(ev))
+    + (isStale(newsUpdated(ev)) ? ' · STALE' : '');
   var partiesRow = document.getElementById('cm-parties-row');
   if (ev.parties && ev.parties.length) {
     document.getElementById('cm-parties').textContent = ev.parties.join(' vs. ');
@@ -1486,136 +1535,157 @@ function setShipRegion(key) {
 }
 
 // ── WORLD NEWS FEED ───────────────────────────────────────────────────────
+// Refreshable pipeline: refreshWorldNews() re-fetches all feeds, re-renders the
+// sidebar list, and fires 'sentinel:newsupdated' so live.js can rebuild the
+// ticker and breaking bar from real headlines.
 
-(function loadWorldNews() {
-  var feeds = [
-    { url: 'https://feeds.bbci.co.uk/news/world/rss.xml',            label: 'BBC' },
-    { url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml', label: 'NYT' },
-    { url: 'https://www.aljazeera.com/xml/rss/all.xml',              label: 'AJE' },
-  ];
-  var allItems = [];
-  var pending = feeds.length;
+var WORLD_NEWS = { items: [], lastUpdated: null, refreshing: false };
 
-  // CORS proxy chain — tried in order until one succeeds
-  var PROXIES = [
-    function(u){ return 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u); },
-    function(u){ return 'https://corsproxy.io/?url='          + encodeURIComponent(u); },
-  ];
+var NEWS_FEEDS = [
+  { url: 'https://feeds.bbci.co.uk/news/world/rss.xml',            label: 'BBC' },
+  { url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml', label: 'NYT' },
+  { url: 'https://www.aljazeera.com/xml/rss/all.xml',              label: 'AJE' },
+];
 
-  function fetchWithTimeout(url, ms) {
-    return new Promise(function(resolve, reject) {
-      var t = setTimeout(function(){ reject(new Error('timeout')); }, ms);
-      fetch(url).then(
-        function(r){ clearTimeout(t); resolve(r); },
-        function(e){ clearTimeout(t); reject(e); }
-      );
+// CORS proxy chain — tried in order until one succeeds
+var CORS_PROXIES = [
+  function(u){ return 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u); },
+  function(u){ return 'https://corsproxy.io/?url='          + encodeURIComponent(u); },
+];
+
+function fetchWithTimeout(url, ms) {
+  return new Promise(function(resolve, reject) {
+    var t = setTimeout(function(){ reject(new Error('timeout')); }, ms);
+    fetch(url).then(
+      function(r){ clearTimeout(t); resolve(r); },
+      function(e){ clearTimeout(t); reject(e); }
+    );
+  });
+}
+
+function parseRSSInto(xml, label, out) {
+  try {
+    var doc = new DOMParser().parseFromString(xml, 'application/xml');
+    // Bail on parse error
+    if (doc.querySelector('parsererror')) return;
+    doc.querySelectorAll('item').forEach(function(item) {
+      var title = (item.querySelector('title') || {}).textContent || '';
+      // <link> in RSS is a text node between tags, not an attribute
+      var linkEl = item.querySelector('link');
+      var link = '';
+      if (linkEl) {
+        link = linkEl.textContent.trim() ||
+               (linkEl.nextSibling && linkEl.nextSibling.nodeValue
+                 ? linkEl.nextSibling.nodeValue.trim() : '');
+      }
+      var pub = (item.querySelector('pubDate') || {}).textContent || '';
+      if (title.trim() && link) {
+        out.push({ title: title.trim(), link: link, date: new Date(pub || 0), src: label });
+      }
     });
-  }
+  } catch(e) {}
+}
 
-  function parseRSS(xml, label) {
-    try {
-      var doc = new DOMParser().parseFromString(xml, 'application/xml');
-      // Bail on parse error
-      if (doc.querySelector('parsererror')) return;
-      doc.querySelectorAll('item').forEach(function(item) {
-        var title = (item.querySelector('title') || {}).textContent || '';
-        // <link> in RSS is a text node between tags, not an attribute
-        var linkEl = item.querySelector('link');
-        var link = '';
-        if (linkEl) {
-          link = linkEl.textContent.trim() ||
-                 (linkEl.nextSibling && linkEl.nextSibling.nodeValue
-                   ? linkEl.nextSibling.nodeValue.trim() : '');
-        }
-        var pub = (item.querySelector('pubDate') || {}).textContent || '';
-        if (title.trim() && link) {
-          allItems.push({ title: title.trim(), link: link, date: new Date(pub || 0), src: label });
-        }
-      });
-    } catch(e) {}
+function refreshWorldNews() {
+  if (WORLD_NEWS.refreshing) return;
+  WORLD_NEWS.refreshing = true;
+  var collected = [];
+  var pending = NEWS_FEEDS.length;
+
+  function feedDone() {
+    pending--;
+    if (pending === 0) finishNewsRefresh(collected);
   }
 
   function tryFeed(feed, proxyIdx) {
-    if (proxyIdx >= PROXIES.length) {
-      pending--;
-      if (pending === 0) renderNews();
-      return;
-    }
-    var url = PROXIES[proxyIdx](feed.url);
+    if (proxyIdx >= CORS_PROXIES.length) { feedDone(); return; }
+    var url = CORS_PROXIES[proxyIdx](feed.url);
     fetchWithTimeout(url, 9000)
       .then(function(r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.text();
       })
       .then(function(text) {
-        parseRSS(text, feed.label);
-        pending--;
-        if (pending === 0) renderNews();
+        parseRSSInto(text, feed.label, collected);
+        feedDone();
       })
       .catch(function() {
         tryFeed(feed, proxyIdx + 1);
       });
   }
 
-  feeds.forEach(function(feed) { tryFeed(feed, 0); });
+  NEWS_FEEDS.forEach(function(feed) { tryFeed(feed, 0); });
+}
 
-  function renderNewsList() {
-    var list = document.getElementById('news-feed-list');
-    if (!list) return;
-    if (!allItems.length) {
-      list.innerHTML = '<div id="news-loading">Unable to load news.</div>';
-      return;
-    }
-    allItems.sort(function(a,b){ return b.date - a.date; });
-    list.innerHTML = allItems.slice(0, 18).map(function(item) {
-      var title = item.title.length > 80 ? item.title.slice(0, 78) + '\u2026' : item.title;
-      return '<a class="news-item" href="' + item.link + '" target="_blank" rel="noopener">'
-        + title
-        + '<span class="news-src">' + item.src + ' \xb7 ' + item.date.toUTCString().slice(0,16) + '</span>'
-        + '</a>';
-    }).join('');
+function finishNewsRefresh(collected) {
+  WORLD_NEWS.refreshing = false;
+  if (collected.length) {
+    collected.sort(function(a,b){ return b.date - a.date; });
+    WORLD_NEWS.items = collected;
+    WORLD_NEWS.lastUpdated = new Date();
+    renderNewsList();
+    document.dispatchEvent(new CustomEvent('sentinel:newsupdated'));
+    return;
   }
+  if (WORLD_NEWS.items.length) return; // keep last good data on a failed refresh
 
-  function renderNews() {
-    var list = document.getElementById('news-feed-list');
-    if (!list) return;
-    if (allItems.length) { renderNewsList(); return; }
-
-    // All RSS feeds failed — fall back to HackerNews public API (no key, CORS-enabled)
-    fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
-      .then(function(r){ return r.json(); })
-      .then(function(ids) {
-        var top = (ids || []).slice(0, 10);
-        var done = 0;
-        if (!top.length) { list.innerHTML = '<div id="news-loading">Unable to load news.</div>'; return; }
-        top.forEach(function(id) {
-          fetch('https://hacker-news.firebaseio.com/v0/item/' + id + '.json')
-            .then(function(r){ return r.json(); })
-            .then(function(s) {
-              if (s && s.title) {
-                allItems.push({
-                  title: s.title,
-                  link:  s.url || 'https://news.ycombinator.com/item?id=' + s.id,
-                  date:  new Date((s.time || 0) * 1000),
-                  src:   'HN'
-                });
-              }
-            })
-            .catch(function(){})
-            .finally(function(){
-              done++;
-              if (done === top.length) renderNewsList();
-            });
-        });
-      })
-      .catch(function() {
-        list.innerHTML = '<div id="news-loading">Unable to load news.</div>';
+  // All RSS feeds failed and nothing cached — fall back to HackerNews public API
+  var list = document.getElementById('news-feed-list');
+  fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
+    .then(function(r){ return r.json(); })
+    .then(function(ids) {
+      var top = (ids || []).slice(0, 10);
+      var done = 0;
+      if (!top.length) { if (list) list.innerHTML = '<div id="news-loading">Unable to load news.</div>'; return; }
+      top.forEach(function(id) {
+        fetch('https://hacker-news.firebaseio.com/v0/item/' + id + '.json')
+          .then(function(r){ return r.json(); })
+          .then(function(s) {
+            if (s && s.title) {
+              WORLD_NEWS.items.push({
+                title: s.title,
+                link:  s.url || 'https://news.ycombinator.com/item?id=' + s.id,
+                date:  new Date((s.time || 0) * 1000),
+                src:   'HN'
+              });
+            }
+          })
+          .catch(function(){})
+          .finally(function(){
+            done++;
+            if (done === top.length) {
+              WORLD_NEWS.items.sort(function(a,b){ return b.date - a.date; });
+              WORLD_NEWS.lastUpdated = new Date();
+              renderNewsList();
+            }
+          });
       });
+    })
+    .catch(function() {
+      if (list) list.innerHTML = '<div id="news-loading">Unable to load news.</div>';
+    });
+}
+
+function renderNewsList() {
+  var list = document.getElementById('news-feed-list');
+  if (!list) return;
+  if (!WORLD_NEWS.items.length) {
+    list.innerHTML = '<div id="news-loading">Unable to load news.</div>';
+    return;
   }
-})();
+  list.innerHTML = WORLD_NEWS.items.slice(0, 18).map(function(item) {
+    var title = item.title.length > 80 ? item.title.slice(0, 78) + '…' : item.title;
+    return '<a class="news-item" href="' + escapeHtml(item.link) + '" target="_blank" rel="noopener">'
+      + escapeHtml(title)
+      + '<span class="news-src">' + escapeHtml(item.src) + ' \xb7 ' + relativeAge(item.date) + '</span>'
+      + '</a>';
+  }).join('');
+}
+
+refreshWorldNews();
 
 // ── SEISMIC MONITOR (USGS) ────────────────────────────────────────────────
-(function loadSeismic() {
+function refreshSeismic() {
   var body = document.getElementById('seismic-body');
   if (!body) return;
   // M4.5+ earthquakes in past 7 days — no API key, CORS-enabled
@@ -1629,16 +1699,21 @@ function setShipRegion(key) {
         var color = mag >= 7 ? '#ff3030' : mag >= 6 ? '#ff8800' : mag >= 5 ? '#ffcc00' : 'var(--dim2)';
         var place = (q.properties.place || 'Unknown location');
         var t = new Date(q.properties.time);
-        var ts = t.toUTCString().slice(5, 16);
         return '<div class="intel-quake">'
           + '<span class="quake-mag" style="color:' + color + '">M' + mag + '</span>'
-          + '<span class="quake-place">' + place + '</span>'
-          + '<span class="quake-time">' + ts + '</span>'
+          + '<span class="quake-place">' + escapeHtml(place) + '</span>'
+          + '<span class="quake-time">' + relativeAge(t) + '</span>'
           + '</div>';
       }).join('');
+      document.dispatchEvent(new CustomEvent('sentinel:dataupdated'));
     })
-    .catch(function() { body.innerHTML = '<div class="intel-loading">Seismic feed unavailable.</div>'; });
-})();
+    .catch(function() {
+      if (!body.querySelector('.intel-quake')) {
+        body.innerHTML = '<div class="intel-loading">Seismic feed unavailable.</div>';
+      }
+    });
+}
+refreshSeismic();
 
 // ── THEATER STATUS BOARD ─────────────────────────────────────────────────
 (function renderTheaterStatusBoard() {
@@ -1659,7 +1734,7 @@ function setShipRegion(key) {
           + ' ' + escapeHtml(item.summary)
           + '<br><span style="color:var(--dim2)">' + escapeHtml(item.detail) + '</span>'
         + '</span>'
-        + '<span class="op-meta">' + escapeHtml(item.updated) + '<br>' + escapeHtml(item.source) + '</span>'
+        + '<span class="op-meta">' + freshnessBadge(item.updated) + '<br>' + escapeHtml(item.source) + '</span>'
         + '</div>';
     }).join('')
     + '<div class="intel-note">Curated operational-status board. This replaces brittle live weather embeds with infrastructure and access signals that matter more for conflict tracking.</div>'
@@ -1941,9 +2016,23 @@ function histFocus(lat, lng) {
 
 // ── DEFENSE SPENDING COUNTER ───────────────────────────────────────────────
 (function initDefenseCounter() {
-  var FY_BUDGET   = 849.8e9;                           // FY2025 enacted
-  var FY_START    = new Date('2024-10-01T00:00:00Z');  // Oct 1, 2024
-  var PER_SEC     = FY_BUDGET / (365.25 * 24 * 3600); // ~$26,929/s
+  // US federal fiscal year runs Oct 1 → Sep 30. Compute the current FY from the
+  // clock so the counter never pegs at 100% when a fiscal year rolls over.
+  var FY_BUDGETS = {
+    2025: { total: 849.8e9, label: 'FY2025 enacted' },
+    2026: { total: 892.6e9, label: 'FY2026 est. (NDAA authorization)' },
+  };
+  var LATEST_FY = 2026;
+
+  var now = new Date();
+  var fy = now.getUTCMonth() >= 9 ? now.getUTCFullYear() + 1 : now.getUTCFullYear();
+  var budget = FY_BUDGETS[fy] || FY_BUDGETS[LATEST_FY];
+  if (!FY_BUDGETS[fy]) fy = LATEST_FY;
+
+  var FY_BUDGET = budget.total;
+  var FY_START  = new Date(Date.UTC(fy - 1, 9, 1)); // Oct 1 of prior calendar year
+  var FY_END    = new Date(Date.UTC(fy, 8, 30));
+  var PER_SEC   = FY_BUDGET / (365.25 * 24 * 3600);
 
   function fmt(n) {
     // Always show X.XXB format
@@ -1951,6 +2040,20 @@ function histFocus(lat, lng) {
     if (b >= 100) return '$' + b.toFixed(1) + 'B';
     return '$' + b.toFixed(2) + 'B';
   }
+
+  // Sync the static labels around the counter to the computed fiscal year
+  var lbl = document.getElementById('def-fy-label');
+  if (lbl) lbl.textContent = 'APPROVED BUDGET — FISCAL YEAR ' + fy;
+  var hdr = document.getElementById('def-fy-header');
+  if (hdr) hdr.textContent = 'US DEFENSE SPENDING · FY' + fy;
+  var tot = document.getElementById('def-fy-total');
+  if (tot) tot.textContent = fmt(FY_BUDGET);
+  var st = document.getElementById('def-fy-start');
+  if (st) st.textContent = 'OCT 1 ' + (fy - 1);
+  var en = document.getElementById('def-fy-end');
+  if (en) en.textContent = 'SEP 30 ' + fy;
+  var srcNote = document.getElementById('def-fy-src');
+  if (srcNote) srcNote.textContent = budget.label;
 
   function update() {
     var elapsed = (Date.now() - FY_START.getTime()) / 1000;

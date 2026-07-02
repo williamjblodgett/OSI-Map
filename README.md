@@ -1,6 +1,6 @@
 # SENTINEL // OSINT Global Monitor
 
-A static intelligence dashboard with live camera streams, a breaking news bar, a major news events map, and a military/naval asset map. No build tools, no backend required.
+An installable **PWA** intelligence dashboard with live camera streams, a live breaking news bar and ticker, a major news events map with a live GDELT layer, and a military/naval asset map. No build tools, no backend required.
 
 ---
 
@@ -8,11 +8,16 @@ A static intelligence dashboard with live camera streams, a breaking news bar, a
 
 ```
 OSI-Map/
-├── index.html   ← HTML shell
+├── index.html            ← HTML shell
+├── manifest.webmanifest  ← PWA manifest (install metadata)
+├── sw.js                 ← Service worker (offline + caching)
+├── assets/
+│   └── icons/            ← PWA icons (favicon.svg + generated PNGs)
 ├── css/
-│   └── app.css  ← Application styles
+│   └── app.css           ← Application styles
 ├── js/
-│   └── app.js   ← Application logic and datasets
+│   ├── app.js            ← Application logic and curated datasets
+│   └── live.js           ← Live engine: refresh scheduler, PWA UX, GDELT layer
 └── README.md
 ```
 
@@ -20,11 +25,45 @@ The app remains static-host friendly, but the HTML, CSS, and JavaScript are now 
 
 ---
 
+## PWA
+
+SENTINEL installs as an app (Chrome/Edge: **⬇ INSTALL** button in the header; iOS Safari: Share → *Add to Home Screen*) and works offline.
+
+| Concern | Strategy (see `sw.js`) |
+|---|---|
+| App shell (HTML/CSS/JS/icons) | Precached; network-first with cache fallback |
+| CDN libraries + fonts | Stale-while-revalidate |
+| Map tiles (CartoDB) | Cache-first, capped at ~250 entries |
+| Data APIs (USGS, CelesTrak, RSS proxies, GDELT) | Network-first, last-known-good fallback when offline |
+| Live HLS video | Never cached — passthrough only |
+
+Update flow: a new deploy triggers a pulsing **⟳ UPDATE** pill in the header; clicking it activates the new service worker and reloads. When connectivity drops, an amber **OFFLINE** banner appears and the status bar switches to `OFFLINE — CACHED`.
+
+**Deploy note:** bump `CACHE_VERSION` in `sw.js` whenever shell assets change.
+
+---
+
+## Live Data
+
+`js/live.js` runs a visibility-aware scheduler (paused while the tab is hidden, catch-up on return/reconnect):
+
+- **World news RSS** (BBC / NYT / Al Jazeera via CORS proxy chain) — every 5 min. Live headlines rebuild the header ticker and replace the breaking-bar rotation with real, timestamped items linking to sources. Curated arrays remain the pre-fetch/offline fallback.
+- **USGS seismic** — every 5 min.
+- **GDELT GEO 2.0 live layer** — "● LIVE 24H" toggle on the news map; geolocated conflict/military media coverage from the past 24h, refreshed every 10 min while enabled.
+- **Freshness chips** — every curated item renders a relative-age chip (`3H AGO`, `102D AGO`) and an explicit `STALE` marker after 14 days, so live and curated data can never be confused.
+- The **defense spending counter** computes the current US fiscal year at runtime (budget lookup table in `js/app.js`) instead of hardcoding one.
+
+---
+
 ## Features
 
 | Feature              | How                                                         |
 |----------------------|-------------------------------------------------------------|
-| Breaking news bar    | Sticky top bar, cycles 5 urgent items every 5 seconds       |
+| Installable PWA      | `manifest.webmanifest` + `sw.js`; works offline             |
+| Breaking news bar    | Sticky top bar; live RSS headlines, cycles every 5 seconds  |
+| Live header ticker   | Rebuilt from live world-news headlines (doubled spans)      |
+| Live news map layer  | GDELT GEO 2.0, past-24h geolocated coverage, 10-min refresh |
+| Freshness chips      | Relative-age + STALE badges on all curated content          |
 | Alert attribution    | Breaking alerts show source and freshness metadata inline   |
 | Live cameras         | YouTube embeds via `<iframe>` inside a CSS grid             |
 | News map             | Leaflet.js markers on a CartoDB dark tile layer             |
@@ -145,11 +184,12 @@ Conflict detail modals now expose each event's `src` value so users can inspect 
 
 ## Trust Model
 
-- **Live data**: satellite, seismic, space weather, and any explicitly marked live feeds
-- **Curated snapshots**: breaking alerts and situation feed items that summarize open-source reporting
+- **Live data**: world-news RSS, GDELT map layer, satellite, seismic, and any explicitly marked live feeds
+- **Cached data**: when offline, the service worker serves the last-known-good API responses (status bar shows `OFFLINE — CACHED`)
+- **Curated snapshots**: situation feed items summarizing open-source reporting — each carries a relative-age chip and an automatic `STALE` badge after 14 days
 - **Reference data**: manually maintained conflict, base, and history datasets
 
-The status bar now indicates that the dashboard is a **live + curated** mix rather than a fully live wire service.
+The dashboard is a **live + cached + curated** mix rather than a fully live wire service; the freshness chips make the distinction visible per item.
 
 ---
 
@@ -172,8 +212,9 @@ Upload `index.html` to your web root. Works on nginx, Apache, or any file server
 
 - **YouTube embedding**: Some streams block iframe embedding. Swap via ✏ CHANGE.
 - **Camera changes are session-only**: Edit `CAMS` array for permanent changes.
-- **News data is static**: Update `NEWS` array manually or connect a CORS-enabled API.
-- **Breaking alerts and sitrep items are curated**: Treat them as sourced summaries, not confirmed real-time telemetry.
+- **News map dossiers are curated**: the `NEWS` array is reference data; live geolocated coverage comes from the separate "● LIVE 24H" GDELT layer.
+- **Sitrep items are curated**: Treat them as sourced summaries, not confirmed real-time telemetry (they now carry STALE badges when old).
+- **CORS proxies are third parties**: RSS liveness depends on allorigins/corsproxy availability; the app degrades to curated fallbacks.
 - **No authentication**: Public-facing page — do not add sensitive data.
 
 ---
@@ -188,5 +229,7 @@ Upload `index.html` to your web root. Works on nginx, Apache, or any file server
 6. **`invalidateSize()`** must be called after tab switch — wrap in `setTimeout(..., 200)`
 7. **`GRID_STATE` always has 6 entries**
 8. **Do not change CSS variable names**
-9. **Ticker content must be doubled** — always duplicate new spans in both halves
+9. **Ticker content must be doubled** — always duplicate new spans in both halves (`rebuildTicker()` in `js/live.js` already does this)
 10. **Breaking news bar** cycles via `setInterval` — do not change the `#breaking-bar` structure
+11. **Bump `CACHE_VERSION` in `sw.js`** whenever `index.html`, `css/app.css`, or `js/*.js` change, and keep `?v=` query params in sync
+12. **All PWA paths must stay relative** (`./`) — the site deploys under the `/OSI-Map/` subpath on GitHub Pages
