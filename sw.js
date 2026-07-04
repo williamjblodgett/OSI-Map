@@ -1,6 +1,6 @@
 // SENTINEL service worker — app shell precache + runtime caching.
 // Bump CACHE_VERSION on every deploy that changes shell assets.
-var CACHE_VERSION = 'sentinel-v4.0.0';
+var CACHE_VERSION = 'sentinel-v4.0.1';
 var SHELL_CACHE = CACHE_VERSION + '-shell';
 var CDN_CACHE   = CACHE_VERSION + '-cdn';
 var TILE_CACHE  = CACHE_VERSION + '-tiles';
