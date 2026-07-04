@@ -2005,3 +2005,118 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
 .s-dot.warn { background:var(--yellow); }
 #status-left { display:flex; align-items:center; gap:10px; }
 #status-right { display:flex; align-items:center; gap:10px; }
+
+/* ── PWA: OFFLINE BANNER ── */
+#offline-banner {
+  position: sticky;
+  top: 36px;
+  z-index: 999;
+  background: linear-gradient(90deg, #4a3400 0%, #6b4a00 50%, #4a3400 100%);
+  border-bottom: 1px solid rgba(255,204,0,0.4);
+  color: var(--yellow);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-align: center;
+  padding: 4px 12px;
+}
+#offline-banner[hidden] { display: none; }
+
+/* ── PWA: HEADER ACTIONS (install / update) ── */
+#pwa-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  align-items: center;
+}
+#install-btn, #update-pill {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+#install-btn {
+  background: rgba(0,200,240,0.08);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+#install-btn:hover { background: var(--accent); color: #000; }
+#update-pill {
+  background: rgba(0,255,136,0.08);
+  border: 1px solid var(--green);
+  color: var(--green);
+  animation: pulse-update 2s ease-in-out infinite;
+}
+#update-pill:hover { background: var(--green); color: #000; }
+#install-btn[hidden], #update-pill[hidden] { display: none; }
+@keyframes pulse-update {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,136,0.35); }
+  50%      { box-shadow: 0 0 8px 2px rgba(0,255,136,0.25); }
+}
+
+/* ── DATA FRESHNESS CHIPS ── */
+.fresh-chip {
+  display: inline-block;
+  padding: 0 5px;
+  border-radius: 2px;
+  border: 1px solid rgba(255,255,255,0.08);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  vertical-align: baseline;
+}
+.fresh-chip.fresh   { color: var(--green);  border-color: rgba(0,255,136,0.35); background: rgba(0,255,136,0.08); }
+.fresh-chip.recent  { color: var(--accent); border-color: rgba(0,200,240,0.3);  background: rgba(0,200,240,0.06); }
+.fresh-chip.stale   { color: #ff9b55;       border-color: rgba(255,128,48,0.4); background: rgba(255,128,48,0.1); }
+.fresh-chip.unknown { color: var(--dim2);   border-color: rgba(185,199,216,0.2); background: rgba(185,199,216,0.05); }
+.breaking-detail .fresh-chip { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.85); background: rgba(0,0,0,0.25); }
+.breaking-detail .fresh-chip.stale { color: #ffd9a0; }
+.breaking-link { color: inherit; text-decoration: none; }
+.breaking-link:hover { text-decoration: underline; }
+
+/* ── MINI REFRESH BUTTONS ── */
+.mini-refresh {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--dim2);
+  font-size: 10px;
+  line-height: 1;
+  padding: 1px 5px;
+  margin-left: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  vertical-align: middle;
+}
+.mini-refresh:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── LIVE 24H (GDELT) MAP TOGGLE ── */
+.mf-btn.mf-live { color: var(--green); border-color: rgba(0,255,136,0.35); margin-left: auto; }
+.mf-btn.mf-live:hover { border-color: var(--green); color: var(--green); background: rgba(0,255,136,0.08); }
+.mf-btn.mf-live.active { background: rgba(0,255,136,0.12); color: var(--green); border-color: var(--green); }
+.popup-live-link { margin-top: 4px; font-size: 11px; }
+.popup-live-link a { color: var(--green); text-decoration: none; }
+.popup-live-link a:hover { text-decoration: underline; }
+
+/* ── STANDALONE / NOTCHED-DEVICE SAFE AREAS ── */
+#breaking-bar {
+  padding-top: calc(6px + env(safe-area-inset-top, 0px));
+  padding-left: calc(12px + env(safe-area-inset-left, 0px));
+  padding-right: calc(12px + env(safe-area-inset-right, 0px));
+}
+#status-bar {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  height: calc(32px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Keep freshness chips from widening the theater-board meta column */
+.op-meta {
+  white-space: normal;
+  max-width: 112px;
+}
+.op-meta .fresh-chip { white-space: nowrap; }
