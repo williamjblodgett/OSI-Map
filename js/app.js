@@ -2077,18 +2077,19 @@ function histFocus(lat, lng) {
 
 // ── NUCLEAR ARSENAL GRID ──────────────────────────────────────────────────
 (function initNukeGrid() {
+  // SIPRI Yearbook 2025 estimates (total inventory / deployed warheads)
   var NUKES = [
-    { flag:'🇷🇺', name:'RUSSIA',   total:6257, deployed:1558, color:'#f44336' },
-    { flag:'🇺🇸', name:'USA',      total:5550, deployed:1670, color:'#00c8f0' },
-    { flag:'🇨🇳', name:'CHINA',    total:410,  deployed:0,    color:'#ff9800' },
+    { flag:'🇷🇺', name:'RUSSIA',   total:5459, deployed:1718, color:'#f44336' },
+    { flag:'🇺🇸', name:'USA',      total:5177, deployed:1770, color:'#00c8f0' },
+    { flag:'🇨🇳', name:'CHINA',    total:600,  deployed:24,   color:'#ff9800' },
     { flag:'🇫🇷', name:'FRANCE',   total:290,  deployed:280,  color:'#f5c518' },
     { flag:'🇬🇧', name:'UK',       total:225,  deployed:120,  color:'#f5c518' },
-    { flag:'🇮🇳', name:'INDIA',    total:172,  deployed:0,    color:'#a855f7' },
+    { flag:'🇮🇳', name:'INDIA',    total:180,  deployed:0,    color:'#a855f7' },
     { flag:'🇵🇰', name:'PAKISTAN', total:170,  deployed:0,    color:'#4caf50' },
     { flag:'🇮🇱', name:'ISRAEL',   total:90,   deployed:0,    color:'#2196f3' },
     { flag:'🇰🇵', name:'DPRK',     total:50,   deployed:0,    color:'#cc44ff' },
   ];
-  var MAX = 6257;
+  var MAX = 5459;
 
   function render() {
     var el = document.getElementById('nuke-grid-cell');
@@ -2111,7 +2112,7 @@ function histFocus(lat, lng) {
     html += '<div class="nuke-legend">' +
       '<span><span class="nuke-ldot" style="background:#888"></span>Total</span>' +
       '<span><span class="nuke-ldot" style="background:#00c8f0"></span>Deployed</span>' +
-      '<span style="margin-left:auto;color:var(--dim)">SIPRI 2024</span>' +
+      '<span style="margin-left:auto;color:var(--dim)">SIPRI 2025</span>' +
     '</div>';
     el.innerHTML = html;
   }
@@ -2132,3 +2133,26 @@ function histFocus(lat, lng) {
 // ── INIT ──────────────────────────────────────────────────────────────────
 
 (function(){ var n = document.getElementById('nav-cameras'); if(n) n.classList.add('active'); })();
+
+// ── ACCESSIBILITY: keyboard + screen-reader support for icon controls ─────
+(function initA11y() {
+  document.querySelectorAll('.nav-item, #nav-toggle').forEach(function(el) {
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    if (!el.getAttribute('aria-label')) {
+      var label = el.querySelector('.nav-label');
+      el.setAttribute('aria-label', label ? label.textContent : (el.title || 'Toggle navigation'));
+    }
+    el.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
+    });
+  });
+  document.querySelectorAll('.mini-refresh').forEach(function(btn) {
+    if (!btn.getAttribute('aria-label')) btn.setAttribute('aria-label', btn.title || 'Refresh');
+  });
+  var camClose = document.getElementById('cam-modal-close');
+  if (camClose) camClose.setAttribute('aria-label', 'Close camera modal');
+  document.querySelectorAll('.cm-close-btn').forEach(function(btn) {
+    btn.setAttribute('aria-label', 'Close details modal');
+  });
+})();
