@@ -506,16 +506,106 @@ function conflictChipClass(level) {
 }
 
 function syncMobilePanelButtons() {
-  var leftBtn = document.querySelector('.mobile-panel-btn[onclick="togglePanel(\'left\')"]');
-  var rightBtn = document.querySelector('.mobile-panel-btn[onclick="togglePanel(\'right\')"]');
-  if (leftBtn) leftBtn.classList.toggle('active', document.body.classList.contains('left-panel-open'));
-  if (rightBtn) rightBtn.classList.toggle('active', document.body.classList.contains('right-panel-open'));
+  var compact = window.matchMedia('(max-width: 1499px)').matches;
+  var leftOpen = compact
+    ? document.body.classList.contains('left-panel-open')
+    : !document.body.classList.contains('left-panel-collapsed');
+  var rightOpen = compact
+    ? document.body.classList.contains('right-panel-open')
+    : !document.body.classList.contains('right-panel-collapsed');
+  var leftBtn = document.getElementById('left-panel-btn');
+  var rightBtn = document.getElementById('right-panel-btn');
+  if (leftBtn) {
+    leftBtn.classList.toggle('active', leftOpen);
+    leftBtn.setAttribute('aria-expanded', String(leftOpen));
+  }
+  if (rightBtn) {
+    rightBtn.classList.toggle('active', rightOpen);
+    rightBtn.setAttribute('aria-expanded', String(rightOpen));
+  }
+  var scrim = document.getElementById('panel-scrim');
+  if (scrim) scrim.hidden = !compact || (!document.body.classList.contains('left-panel-open') && !document.body.classList.contains('right-panel-open'));
 }
 
 function togglePanel(side) {
-  document.body.classList.toggle(side + '-panel-open');
+  var compact = window.matchMedia('(max-width: 1499px)').matches;
+  if (compact) {
+    var openClass = side + '-panel-open';
+    var other = side === 'left' ? 'right' : 'left';
+    document.body.classList.remove(other + '-panel-open');
+    document.body.classList.toggle(openClass);
+  } else {
+    document.body.classList.toggle(side + '-panel-collapsed');
+  }
   syncMobilePanelButtons();
 }
+
+function closePanels() {
+  document.body.classList.remove('left-panel-open', 'right-panel-open');
+  syncMobilePanelButtons();
+}
+
+function setDensity(mode) {
+  var analyst = mode === 'analyst';
+  document.body.classList.toggle('density-analyst', analyst);
+  document.body.classList.toggle('density-overview', !analyst);
+  document.querySelectorAll('.density-btn').forEach(function(btn) {
+    var active = btn.dataset.density === mode;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-pressed', String(active));
+  });
+  var hint = document.getElementById('focus-hint');
+  if (hint) {
+    hint.textContent = analyst
+      ? 'ANALYST MODE SHOWS FULL CARD CONTENT AND DENSER DETAIL'
+      : 'OVERVIEW PRIORITIZES SCANNING · EXPAND ANY CARD FOR DETAIL';
+  }
+  if (!analyst) {
+    document.querySelectorAll('.intel-cell.is-expanded').forEach(function(cell) {
+      cell.classList.remove('is-expanded');
+      var button = cell.querySelector('.card-expand-btn');
+      if (button) {
+        button.textContent = 'EXPAND';
+        button.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+}
+
+function toggleIntelCard(button) {
+  var cell = button.closest('.intel-cell');
+  if (!cell) return;
+  var expanded = cell.classList.toggle('is-expanded');
+  button.textContent = expanded ? 'COLLAPSE' : 'EXPAND';
+  button.setAttribute('aria-expanded', String(expanded));
+  if (expanded) cell.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function initFocusLayout() {
+  document.body.classList.add('density-overview');
+  document.querySelectorAll('.intel-cell').forEach(function(cell, index) {
+    var header = cell.querySelector('.cam-header');
+    if (!header || header.querySelector('.card-expand-btn')) return;
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'card-expand-btn';
+    button.textContent = 'EXPAND';
+    button.setAttribute('aria-expanded', 'false');
+    button.setAttribute('aria-label', 'Expand dashboard card ' + (index + 1));
+    button.addEventListener('click', function(event) {
+      event.stopPropagation();
+      toggleIntelCard(button);
+    });
+    header.appendChild(button);
+  });
+  syncMobilePanelButtons();
+}
+
+window.addEventListener('resize', syncMobilePanelButtons);
+document.addEventListener('keydown', function(event) {
+  if (event.key !== 'Escape') return;
+  closePanels();
+});
 
 var SAT_SOURCES = [
   // ISS / crewed stations
@@ -2146,6 +2236,7 @@ function histFocus(lat, lng) {
 // ── INIT ──────────────────────────────────────────────────────────────────
 
 (function(){ var n = document.getElementById('nav-cameras'); if(n) n.classList.add('active'); })();
+initFocusLayout();
 
 // ── ACCESSIBILITY: keyboard + screen-reader support for icon controls ─────
 (function initA11y() {

@@ -113,10 +113,11 @@ Update flow: a new deploy triggers a pulsing **⟳ UPDATE** pill in the header; 
 | News map             | Leaflet.js markers on a CartoDB dark tile layer             |
 | Military map         | Leaflet.js layer groups (bases, fleets, hotspots)           |
 | Situation feed       | Curated OSINT snapshots rendered with source tags           |
-| Mobile panel toggles | Left and right sidebars can be expanded on small screens    |
+| Focus controls       | Overview/Analyst density modes and expandable intel cards   |
+| Responsive drawers   | Context and feed sidebars become drawers below 1500px       |
 | Fonts                | Google Fonts CDN (Orbitron, Share Tech Mono, Rajdhani)      |
 | Map tiles            | CartoDB dark_all via unpkg/cdnjs                            |
-| Mobile responsive    | Sidebars stack vertically, 2-col camera grid, scroll tabs   |
+| Mobile responsive    | Single-column intel cards, overlay drawers, scroll tabs     |
 | No server needed     | Pure client-side HTML/CSS/JS                                |
 
 ---
@@ -140,12 +141,14 @@ Update flow: a new deploy triggers a pulsing **⟳ UPDATE** pill in the header; 
 └──────────────┴─────────────────────────────┴───────────────┘
 ```
 
-The CSS grid controlling this is:
+At 1500px and wider, the CSS grid uses:
 ```css
 #main { display: grid; grid-template-columns: 262px 1fr 262px; }
 ```
 
-**Do not change** the `262px` values without also adjusting sidebar content padding.
+At narrower desktop widths, both sidebars become opt-in drawers so the center
+dashboard retains readable card widths. The focus bar switches between an
+Overview mode for scanning and an Analyst mode for denser, fully expanded data.
 
 ---
 
@@ -153,9 +156,10 @@ The CSS grid controlling this is:
 
 On screens ≤ 768px:
 - Breaking news bar stays at the very top (sticky)
-- Sidebars stack vertically and can be expanded with mobile panel buttons
+- Context and feed sidebars open as overlay drawers
 - Tab bar scrolls horizontally
-- Camera grid shows 2 columns
+- Intel cards use a true single-column layout
+- Every intel card can be expanded independently
 
 ---
 
