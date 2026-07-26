@@ -2022,6 +2022,19 @@ body.nav-expanded .nav-label { opacity: 1; width: auto; }
 }
 #offline-banner[hidden] { display: none; }
 
+#data-warning {
+  background: rgba(112, 66, 0, 0.94);
+  border-bottom: 1px solid rgba(255,204,0,0.45);
+  color: #ffe08a;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.7px;
+  line-height: 1.4;
+  padding: 5px 12px;
+  text-align: center;
+}
+#data-warning[hidden] { display: none; }
+
 /* ── PWA: HEADER ACTIONS (install / update) ── */
 #pwa-actions {
   display: flex;

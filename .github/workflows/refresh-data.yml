@@ -1,0 +1,83 @@
+name: Refresh and publish data
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: refresh-pages
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      RELIEFWEB_APPNAME: ${{ vars.RELIEFWEB_APPNAME }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout Main
+        uses: actions/checkout@v4
+        with:
+          ref: Main
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Refresh official-source snapshots
+        run: npm run refresh
+
+      - name: Validate data and run tests
+        run: npm run check
+
+      - name: Commit validated snapshots
+        id: commit
+        shell: bash
+        run: |
+          if git diff --quiet -- data/generated; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/generated
+          git commit -m "data: refresh validated snapshots"
+          git push origin HEAD:Main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Build curated review report
+        run: node scripts/review-report.mjs > "$RUNNER_TEMP/sentinel-review.md"
+
+      - name: Open or update curated-data review issue
+        shell: bash
+        run: |
+          gh label create data-review --color F9D849 --description "Curated data requires human verification" --force
+          issue_number="$(gh issue list --state open --search '"SENTINEL data review queue" in:title' --json number --jq '.[0].number // empty')"
+          if [ -n "$issue_number" ]; then
+            gh issue edit "$issue_number" --body-file "$RUNNER_TEMP/sentinel-review.md" --add-label data-review
+          else
+            gh issue create --title "SENTINEL data review queue" --body-file "$RUNNER_TEMP/sentinel-review.md" --label data-review
+          fi
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload refreshed site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy refreshed site
+        id: deployment
+        uses: actions/deploy-pages@v4

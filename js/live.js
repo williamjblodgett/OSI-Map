@@ -94,17 +94,137 @@ syncConnectivity();
 
 // ── DATA-AGE STATUS SEGMENT ───────────────────────────────────────────────
 
-function markDataRefreshed() {
+function markDataRefreshed(event) {
   var el = document.getElementById('sb-data-age');
   if (!el) return;
   var now = new Date();
-  el.textContent = 'DATA: '
+  if (el.dataset.publishedAsOf) {
+    el.title = 'Published snapshot: ' + el.dataset.publishedAsOf
+      + ' · latest runtime check: ' + now.toISOString();
+    return;
+  }
+  el.textContent = 'LIVE CHECK: '
     + String(now.getUTCHours()).padStart(2, '0') + ':'
     + String(now.getUTCMinutes()).padStart(2, '0') + ' UTC';
+  el.title = event && event.type ? 'Runtime feed refresh: ' + event.type : 'Runtime feed refreshed';
 }
 
 document.addEventListener('sentinel:newsupdated', markDataRefreshed);
 document.addEventListener('sentinel:dataupdated', markDataRefreshed);
+
+// ── PUBLISHED SNAPSHOTS + SOURCE HEALTH ────────────────────────────────────
+// Scheduled snapshots are same-origin, cacheable fallbacks. Runtime feeds may
+// be newer, but a browser refresh never changes a dataset's published as-of
+// timestamp or makes stale curated content look current.
+
+function fetchPublishedJson(name) {
+  return fetchWithTimeout('./data/generated/' + name + '.json', 10000)
+    .then(function (response) {
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return response.json();
+    });
+}
+
+function sourceSummary(source) {
+  var count = Number(source.recordCount || 0);
+  if (source.status === 'ok') return count + ' validated records in the published snapshot.';
+  if (count) return 'Using ' + count + ' last-known-good records; the latest check failed.';
+  return 'No validated snapshot is currently available.';
+}
+
+function applyHealthManifest(health, review) {
+  if (!health || !Array.isArray(health.sources)) return;
+  SOURCE_RELIABILITY = health.sources.map(function (source) {
+    return {
+      name: source.name,
+      state: source.status === 'ok' ? 'live' : source.status,
+      summary: sourceSummary(source),
+      updated: relativeAge(source.dataAsOf),
+      note: source.error ? 'Latest check: ' + source.error : 'Validated ' + relativeAge(source.checkedAt),
+      url: source.url
+    };
+  });
+  renderSourceReliabilityMatrix();
+
+  var age = document.getElementById('sb-data-age');
+  if (age) {
+    age.textContent = 'SNAPSHOT: ' + relativeAge(health.generatedAt);
+    age.title = 'Published snapshot generated ' + health.generatedAt;
+    age.dataset.publishedAsOf = health.generatedAt;
+    age.style.color = health.overall === 'ok' ? 'var(--green)' : 'var(--yellow)';
+  }
+  var reviewEl = document.getElementById('sb-review-count');
+  if (reviewEl && review) {
+    reviewEl.textContent = 'REVIEW: ' + Number(review.count || 0);
+    reviewEl.style.color = review.count ? 'var(--yellow)' : 'var(--green)';
+    reviewEl.title = review.count
+      ? review.count + ' curated records are past their review deadline'
+      : 'No curated records are overdue';
+  }
+  var warning = document.getElementById('data-warning');
+  if (warning && review) {
+    warning.hidden = !review.count;
+    warning.textContent = review.count
+      ? '⚠ ' + review.count + ' CURATED RECORDS ARE PAST REVIEW DEADLINE — TREAT THEM AS HISTORICAL REFERENCE, NOT CURRENT OPERATIONAL DATA'
+      : '';
+  }
+}
+
+function applyHeadlineSnapshot(dataset) {
+  if (!dataset || !Array.isArray(dataset.items) || !dataset.items.length) return;
+  if (WORLD_NEWS && Array.isArray(WORLD_NEWS.items) && WORLD_NEWS.items.length) return;
+  WORLD_NEWS.items = dataset.items.map(function (item) {
+    return {
+      title: item.title,
+      link: item.url,
+      src: item.source || dataset.source.name,
+      date: item.publishedAt
+    };
+  });
+  WORLD_NEWS.updated = dataset.dataAsOf;
+  rebuildTicker(WORLD_NEWS.items);
+  mergeBreaking(WORLD_NEWS.items);
+  if (typeof renderNewsList === 'function') renderNewsList();
+}
+
+function applyDisasterSnapshot(dataset) {
+  if (!dataset || !Array.isArray(dataset.items)) return;
+  var known = {};
+  NEWS.forEach(function (item) { if (item.dataId) known[item.dataId] = true; });
+  dataset.items.forEach(function (item) {
+    if (known[item.id]) return;
+    NEWS.push({
+      dataId: item.id,
+      cat: 'DISASTER',
+      color: item.alertLevel === 'red' ? '#ff4d00' : '#ff8800',
+      lat: item.lat,
+      lng: item.lng,
+      title: item.title,
+      body: 'Automated GDACS alert. Open the source for the current assessment and impact details.',
+      src: dataset.source.name,
+      updated: item.publishedAt,
+      confidence: 'Authoritative structured alert; impact estimates may change',
+      links: [{ l: 'GDACS event report', u: item.url }]
+    });
+  });
+}
+
+Promise.all([
+  fetchPublishedJson('health'),
+  fetchPublishedJson('review-queue'),
+  fetchPublishedJson('headlines'),
+  fetchPublishedJson('disasters')
+]).then(function (results) {
+  applyHealthManifest(results[0], results[1]);
+  applyHeadlineSnapshot(results[2]);
+  applyDisasterSnapshot(results[3]);
+}).catch(function () {
+  var age = document.getElementById('sb-data-age');
+  if (age) {
+    age.textContent = 'SNAPSHOT: UNAVAILABLE';
+    age.style.color = 'var(--yellow)';
+  }
+});
 
 // ── REFRESH SCHEDULER ─────────────────────────────────────────────────────
 // Visibility-aware: nothing refreshes while the tab is hidden; on return (or

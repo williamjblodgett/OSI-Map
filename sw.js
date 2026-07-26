@@ -1,6 +1,6 @@
 // SENTINEL service worker — app shell precache + runtime caching.
 // Bump CACHE_VERSION on every deploy that changes shell assets.
-var CACHE_VERSION = 'sentinel-v4.0.2';
+var CACHE_VERSION = 'sentinel-v5.0.0';
 var SHELL_CACHE = CACHE_VERSION + '-shell';
 var CDN_CACHE   = CACHE_VERSION + '-cdn';
 var TILE_CACHE  = CACHE_VERSION + '-tiles';
@@ -12,6 +12,13 @@ var SHELL_ASSETS = [
   './css/app.css',
   './js/app.js',
   './js/live.js',
+  './data/generated/health.json',
+  './data/generated/review-queue.json',
+  './data/generated/headlines.json',
+  './data/generated/disasters.json',
+  './data/generated/earthquakes.json',
+  './data/generated/humanitarian.json',
+  './data/generated/satellites.json',
   './manifest.webmanifest',
   './assets/icons/favicon.svg',
   './assets/icons/icon-192.png',

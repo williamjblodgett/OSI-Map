@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://williamjblodgett.github.io/OSI-Map/schemas/dataset.schema.json",
+  "title": "SENTINEL published dataset",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "dataset",
+    "generatedAt",
+    "dataAsOf",
+    "status",
+    "source",
+    "items"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "dataset": { "type": "string", "pattern": "^[a-z][a-z0-9-]+$" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "dataAsOf": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["ok", "degraded", "stale"] },
+    "source": {
+      "type": "object",
+      "required": ["name", "url"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "pattern": "^https://" }
+      },
+      "additionalProperties": false
+    },
+    "items": { "type": "array" }
+  },
+  "additionalProperties": true
+}

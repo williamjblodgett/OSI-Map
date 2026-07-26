@@ -11,6 +11,12 @@ OSI-Map/
 ├── index.html            ← HTML shell
 ├── manifest.webmanifest  ← PWA manifest (install metadata)
 ├── sw.js                 ← Service worker (offline + caching)
+├── data/
+│   ├── curated/          ← human-reviewed records and review deadlines
+│   └── generated/        ← validated, same-origin source snapshots
+├── schemas/              ← published dataset contract
+├── scripts/              ← refresh, validation, and review-report tools
+├── test/                 ← Node test suite for normalization and guardrails
 ├── assets/
 │   └── icons/            ← PWA icons (favicon.svg + generated PNGs)
 ├── css/
@@ -22,6 +28,43 @@ OSI-Map/
 ```
 
 The app remains static-host friendly, but the HTML, CSS, and JavaScript are now split into maintainable files.
+
+---
+
+## Automated Data Refresh
+
+The dashboard has two deliberately separate data lanes:
+
+1. **Automated structured data** — USGS earthquakes, GDACS disaster alerts, BBC/Al Jazeera RSS headlines, CelesTrak catalog data, and optionally ReliefWeb reports. These are normalized into `data/generated/*.json`, validated, committed, and deployed automatically.
+2. **Curated assessments** — conflict narratives, casualty figures, fleet estimates, nuclear inventories, and other interpretive records. Automation never rewrites these. `data/curated/dashboard.json` assigns a review deadline, and overdue records are added to the `data-review` GitHub issue.
+
+The scheduled workflow runs every six hours, which exceeds the daily-refresh requirement. It also supports manual dispatch. If a source fails, the refresh:
+
+- preserves the last-known-good records;
+- retains the original `dataAsOf` value;
+- records the failed `checkedAt` result in `health.json`;
+- displays the source as degraded instead of making old data appear newly updated.
+
+Run the pipeline locally:
+
+```bash
+npm run refresh
+npm run check
+```
+
+ReliefWeb requires a pre-approved app name for API access. After approval, add it as the repository Actions variable `RELIEFWEB_APPNAME`. Until then, only the humanitarian dataset is marked degraded; the other feeds continue to publish.
+
+### Published dataset contract
+
+Every generated dataset contains:
+
+- `schemaVersion`, `dataset`, and `status`;
+- separate `generatedAt` and `dataAsOf` timestamps;
+- an HTTPS source name and URL;
+- stable, unique record IDs;
+- normalized `items`.
+
+The UI shows the age and health of the published snapshot and the number of curated records awaiting review. Runtime browser feeds may be newer, but they do not overwrite the persisted provenance timestamps.
 
 ---
 
@@ -48,6 +91,7 @@ Update flow: a new deploy triggers a pulsing **⟳ UPDATE** pill in the header; 
 `js/live.js` runs a visibility-aware scheduler (paused while the tab is hidden, catch-up on return/reconnect):
 
 - **World news RSS** (BBC / NYT / Al Jazeera via CORS proxy chain) — every 5 min. Live headlines rebuild the header ticker and replace the breaking-bar rotation with real, timestamped items linking to sources. Curated arrays remain the pre-fetch/offline fallback.
+- **Published headline snapshot** (BBC World / Al Jazeera) — refreshed by GitHub Actions every 6 hours and served same-origin when browser-side RSS or its proxy chain is unavailable.
 - **USGS seismic** — every 5 min.
 - **GDELT GEO 2.0 live layer** — "● LIVE 24H" toggle on the news map; geolocated conflict/military media coverage from the past 24h, refreshed every 10 min while enabled.
 - **Freshness chips** — every curated item renders a relative-age chip (`3H AGO`, `102D AGO`) and an explicit `STALE` marker after 14 days, so live and curated data can never be confused.
@@ -201,7 +245,8 @@ The dashboard is a **live + cached + curated** mix rather than a fully live wire
 
 ### GitHub Pages
 1. Push to GitHub
-2. Settings → Pages → source: `main` branch, root `/`
+2. Settings → Pages → source: **GitHub Actions**
+3. The normal deploy workflow validates every push; the refresh workflow validates, commits, and deploys source snapshots on schedule.
 
 ### Any static host
 Upload `index.html` to your web root. Works on nginx, Apache, or any file server.
@@ -215,6 +260,8 @@ Upload `index.html` to your web root. Works on nginx, Apache, or any file server
 - **News map dossiers are curated**: the `NEWS` array is reference data; live geolocated coverage comes from the separate "● LIVE 24H" GDELT layer.
 - **Sitrep items are curated**: Treat them as sourced summaries, not confirmed real-time telemetry (they now carry STALE badges when old).
 - **CORS proxies are third parties**: RSS liveness depends on allorigins/corsproxy availability; the app degrades to curated fallbacks.
+- **ReliefWeb approval**: API access requires a pre-approved `RELIEFWEB_APPNAME`; source health remains degraded until configured.
+- **Automated reporting is not confirmation**: RSS and GDELT represent media or humanitarian reporting. GDACS and USGS records can also be revised after initial publication.
 - **No authentication**: Public-facing page — do not add sensitive data.
 
 ---

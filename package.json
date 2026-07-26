@@ -1,0 +1,16 @@
+{
+  "name": "sentinel-osi-map",
+  "version": "5.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "refresh": "node scripts/refresh-data.mjs",
+    "serve": "node scripts/serve.mjs",
+    "validate": "node scripts/validate-data.mjs",
+    "test": "node --test",
+    "check": "npm run validate && npm test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

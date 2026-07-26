@@ -337,6 +337,10 @@ var STALE_AFTER_DAYS = 14;
 function parseUpdatedDate(value) {
   if (value instanceof Date) return isNaN(value) ? null : value;
   if (typeof value !== 'string') return null;
+  if (/^\d{4}-\d{2}-\d{2}T/.test(value)) {
+    var timestamp = new Date(value);
+    return isNaN(timestamp) ? null : timestamp;
+  }
   var m = value.match(/(\d{4})-(\d{2})-(\d{2})/);
   if (m) return new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
   var d = new Date(value);
@@ -1716,7 +1720,7 @@ function refreshSeismic() {
 refreshSeismic();
 
 // ── THEATER STATUS BOARD ─────────────────────────────────────────────────
-(function renderTheaterStatusBoard() {
+function renderTheaterStatusBoard() {
   var body = document.getElementById('globalwx-body');
   if (!body) return;
 
@@ -1739,16 +1743,24 @@ refreshSeismic();
     }).join('')
     + '<div class="intel-note">Curated operational-status board. This replaces brittle live weather embeds with infrastructure and access signals that matter more for conflict tracking.</div>'
     + '<div class="intel-link-list">' + renderIntelLinks(links, 'intel-link') + '</div>';
-})();
+}
+renderTheaterStatusBoard();
 
 // ── SOURCE RELIABILITY MATRIX ─────────────────────────────────────────────
-(function renderSourceReliabilityMatrix() {
+function renderSourceReliabilityMatrix() {
   var body = document.getElementById('spacewx-body');
   if (!body) return;
-  var links = [
-    { l:'NOAA SWPC', u:'https://www.swpc.noaa.gov/' },
-    { l:'SpaceWeatherLive', u:'https://www.spaceweatherlive.com/' }
-  ];
+  var links = SOURCE_RELIABILITY.filter(function(item) {
+    return item.url;
+  }).map(function(item) {
+    return { l:item.name, u:item.url };
+  });
+  if (!links.length) {
+    links = [
+      { l:'NOAA SWPC', u:'https://www.swpc.noaa.gov/' },
+      { l:'SpaceWeatherLive', u:'https://www.spaceweatherlive.com/' }
+    ];
+  }
 
   body.innerHTML = '<div class="intel-section-head">CURRENT FEED HEALTH</div>'
     + SOURCE_RELIABILITY.map(function(item) {
@@ -1762,9 +1774,10 @@ refreshSeismic();
         + '<span class="src-meta">' + escapeHtml(item.updated) + '</span>'
         + '</div>';
     }).join('')
-    + '<div class="intel-note">This matrix explains which inputs are truly live, which are curated, and which were downgraded because browser-only fetching proved unreliable in static deployment.</div>'
+    + '<div class="intel-note">Health checks never advance a dataset timestamp. A degraded row preserves the last-known-good snapshot and reports the failed check separately.</div>'
     + '<div class="intel-link-list">' + renderIntelLinks(links, 'intel-link') + '</div>';
-})();
+}
+renderSourceReliabilityMatrix();
 
 // ── HISTORY / TIME MACHINE ───────────────────────────────────────────────
 
