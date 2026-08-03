@@ -1,33 +1,33 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-02T18:37:59.429Z",
+  "generatedAt": "2026-08-03T00:58:00.520Z",
   "overall": "degraded",
   "sources": [
     {
       "id": "earthquakes",
       "name": "USGS Earthquake Hazards Program",
       "status": "ok",
-      "checkedAt": "2026-08-02T18:37:59.429Z",
-      "dataAsOf": "2026-08-02T18:37:59.429Z",
-      "recordCount": 51,
+      "checkedAt": "2026-08-03T00:58:00.520Z",
+      "dataAsOf": "2026-08-03T00:58:00.520Z",
+      "recordCount": 44,
       "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson",
       "error": null
     },
     {
       "id": "disasters",
       "name": "Global Disaster Alert and Coordination System (GDACS)",
-      "status": "degraded",
-      "checkedAt": "2026-08-02T18:37:59.429Z",
-      "dataAsOf": "2026-07-31T18:48:10.421Z",
+      "status": "ok",
+      "checkedAt": "2026-08-03T00:58:00.520Z",
+      "dataAsOf": "2026-08-03T00:58:00.520Z",
       "recordCount": 100,
-      "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ;TC;FL;VO;DR;WF&fromdate=2026-07-26&todate=2026-08-02&alertlevel=red;orange;green",
-      "error": "This operation was aborted"
+      "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ;TC;FL;VO;DR;WF&fromdate=2026-07-27&todate=2026-08-03&alertlevel=red;orange;green",
+      "error": null
     },
     {
       "id": "humanitarian",
       "name": "ReliefWeb",
       "status": "degraded",
-      "checkedAt": "2026-08-02T18:37:59.429Z",
+      "checkedAt": "2026-08-03T00:58:00.520Z",
       "dataAsOf": "2026-07-26T00:00:00.000Z",
       "recordCount": 0,
       "url": "https://api.reliefweb.int/v2/reports?appname=APPROVAL_REQUIRED&limit=40&preset=latest&fields[include][]=title&fields[include][]=url_alias&fields[include][]=date.original&fields[include][]=date.created&fields[include][]=source.name&fields[include][]=country.name",
@@ -37,8 +37,8 @@
       "id": "headlines",
       "name": "BBC World / Al Jazeera RSS",
       "status": "ok",
-      "checkedAt": "2026-08-02T18:37:59.429Z",
-      "dataAsOf": "2026-08-02T18:37:59.429Z",
+      "checkedAt": "2026-08-03T00:58:00.520Z",
+      "dataAsOf": "2026-08-03T00:58:00.520Z",
       "recordCount": 40,
       "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
       "error": null
@@ -47,8 +47,8 @@
       "id": "satellites",
       "name": "CelesTrak",
       "status": "ok",
-      "checkedAt": "2026-08-02T18:37:59.429Z",
-      "dataAsOf": "2026-08-02T18:37:59.429Z",
+      "checkedAt": "2026-08-03T00:58:00.520Z",
+      "dataAsOf": "2026-08-03T00:58:00.520Z",
       "recordCount": 22,
       "url": "https://celestrak.org/NORAD/elements/gp.php?GROUP=stations&FORMAT=JSON",
       "error": null
