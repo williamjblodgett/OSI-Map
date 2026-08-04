@@ -1,14 +1,34 @@
 {
   "schemaVersion": 1,
   "dataset": "disasters",
-  "generatedAt": "2026-08-04T12:59:27.482Z",
-  "dataAsOf": "2026-08-04T12:59:27.482Z",
+  "generatedAt": "2026-08-04T18:51:57.860Z",
+  "dataAsOf": "2026-08-04T18:51:57.860Z",
   "status": "ok",
   "source": {
     "name": "Global Disaster Alert and Coordination System (GDACS)",
     "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ;TC;FL;VO;DR;WF&fromdate=2026-07-28&todate=2026-08-04&alertlevel=red;orange;green"
   },
   "items": [
+    {
+      "id": "gdacs-eq-1556116",
+      "title": "Earthquake in South Of Tonga Islands",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -24.6061,
+      "lng": -175.2303,
+      "publishedAt": "2026-08-04T14:56:14.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1556116&episodeid=1722970&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1556106",
+      "title": "Earthquake in Japan",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": 38.3126,
+      "lng": 142.3433,
+      "publishedAt": "2026-08-04T14:00:26.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1556106&episodeid=1722960&eventtype=EQ"
+    },
     {
       "id": "gdacs-dr-1027491",
       "title": "Drought in China, Kazakhstan, Mongolia, Russia",
@@ -130,6 +150,16 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1018545&episodeid=11&eventtype=DR"
     },
     {
+      "id": "gdacs-tc-1001297",
+      "title": "Tropical Cyclone DOLPHIN-26",
+      "category": "TC",
+      "alertLevel": "orange",
+      "lat": 25.2,
+      "lng": 140.6,
+      "publishedAt": "2026-07-27T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001297&episodeid=35&eventtype=TC"
+    },
+    {
       "id": "gdacs-eq-1556068",
       "title": "Earthquake in Mexico",
       "category": "EQ",
@@ -140,14 +170,34 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1556068&episodeid=1722921&eventtype=EQ"
     },
     {
-      "id": "gdacs-tc-1001297",
-      "title": "Tropical Cyclone DOLPHIN-26",
-      "category": "TC",
-      "alertLevel": "orange",
-      "lat": 25.3,
-      "lng": 141.9,
-      "publishedAt": "2026-07-27T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001297&episodeid=34&eventtype=TC"
+      "id": "gdacs-fl-1104071",
+      "title": "Flood in Peru",
+      "category": "FL",
+      "alertLevel": "green",
+      "lat": -12.2169,
+      "lng": -76.9491,
+      "publishedAt": "2026-08-02T01:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1104071&episodeid=1&eventtype=FL"
+    },
+    {
+      "id": "gdacs-fl-1103888",
+      "title": "Flood in United States",
+      "category": "FL",
+      "alertLevel": "green",
+      "lat": 41.2412,
+      "lng": -77.0011,
+      "publishedAt": "2026-05-19T01:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1103888&episodeid=62&eventtype=FL"
+    },
+    {
+      "id": "gdacs-wf-1029650",
+      "title": "Forest fires in Canada",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": 51.124,
+      "lng": -122.7839,
+      "publishedAt": "2026-07-21T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1029650&episodeid=37&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1029815",
@@ -194,20 +244,20 @@
       "title": "Forest fires in United States",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 42.7788,
-      "lng": -116.9152,
+      "lat": 42.7787,
+      "lng": -116.9148,
       "publishedAt": "2026-07-26T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1029806&episodeid=38&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1029806&episodeid=39&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1029807",
       "title": "Forest fires in United States",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 42.5243,
-      "lng": -116.9588,
+      "lat": 42.5238,
+      "lng": -116.9584,
       "publishedAt": "2026-07-25T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1029807&episodeid=42&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1029807&episodeid=43&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1029740",
@@ -245,29 +295,19 @@
       "category": "WF",
       "alertLevel": "green",
       "lat": 44.4151,
-      "lng": -119.8,
+      "lng": -119.7999,
       "publishedAt": "2026-07-24T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1029750&episodeid=38&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1029750&episodeid=39&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1029759",
       "title": "Forest fires in Tanzania",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -7.2458,
-      "lng": 34.5936,
+      "lat": -7.2502,
+      "lng": 34.5912,
       "publishedAt": "2026-07-22T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1029759&episodeid=20&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1029650",
-      "title": "Forest fires in Canada",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": 51.1238,
-      "lng": -122.784,
-      "publishedAt": "2026-07-21T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1029650&episodeid=36&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1029759&episodeid=21&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1029895",
@@ -284,20 +324,20 @@
       "title": "Forest fires in Russian Federation",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 64.2896,
-      "lng": 108.8686,
+      "lat": 64.2897,
+      "lng": 108.8687,
       "publishedAt": "2026-07-21T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1029892&episodeid=32&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1029892&episodeid=33&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1029900",
       "title": "Forest fires in United States",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 48.729,
-      "lng": -119.654,
+      "lat": 48.7291,
+      "lng": -119.6546,
       "publishedAt": "2026-07-27T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1029900&episodeid=31&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1029900&episodeid=32&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1029907",
@@ -324,10 +364,10 @@
       "title": "Forest fires in Russian Federation",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 64.8227,
-      "lng": 110.147,
+      "lat": 64.8229,
+      "lng": 110.1475,
       "publishedAt": "2026-07-20T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1029919&episodeid=31&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1029919&episodeid=32&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1029834",
@@ -354,10 +394,10 @@
       "title": "Forest fires in United States",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 45.2926,
-      "lng": -121.4271,
+      "lat": 45.2941,
+      "lng": -121.4306,
       "publishedAt": "2026-07-24T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1029843&episodeid=35&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1029843&episodeid=36&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1029864",
@@ -365,9 +405,9 @@
       "category": "WF",
       "alertLevel": "green",
       "lat": -17.1453,
-      "lng": 136.4271,
+      "lng": 136.4274,
       "publishedAt": "2026-07-27T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1029864&episodeid=21&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1029864&episodeid=22&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1029868",
@@ -375,9 +415,9 @@
       "category": "WF",
       "alertLevel": "green",
       "lat": 39.6445,
-      "lng": -117.4709,
+      "lng": -117.471,
       "publishedAt": "2026-07-26T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1029868&episodeid=30&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1029868&episodeid=31&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1029877",
@@ -390,14 +430,64 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1029877&episodeid=12&eventtype=WF"
     },
     {
+      "id": "gdacs-wf-1030078",
+      "title": "Forest fires in Russian Federation",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": 66.5215,
+      "lng": 76.4478,
+      "publishedAt": "2026-07-28T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030078&episodeid=1&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1030079",
+      "title": "Forest fires in The Democratic Republic of Congo",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -12.7385,
+      "lng": 28.7254,
+      "publishedAt": "2026-07-27T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030079&episodeid=1&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1030080",
+      "title": "Forest fires in Russian Federation",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": 68.0742,
+      "lng": 83.4198,
+      "publishedAt": "2026-07-27T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030080&episodeid=1&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1030081",
+      "title": "Forest fires in Russian Federation",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": 66.4907,
+      "lng": 74.756,
+      "publishedAt": "2026-07-24T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030081&episodeid=1&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1030082",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -12.8446,
+      "lng": 131.518,
+      "publishedAt": "2026-07-23T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030082&episodeid=1&eventtype=WF"
+    },
+    {
       "id": "gdacs-wf-1030073",
       "title": "Forest fires in Canada",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 54.4065,
+      "lat": 54.4066,
       "lng": -90.0179,
       "publishedAt": "2026-08-01T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030073&episodeid=1&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030073&episodeid=2&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1030074",
@@ -414,30 +504,40 @@
       "title": "Forest fires in Russian Federation",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 63.5394,
-      "lng": 80.7816,
+      "lat": 63.5387,
+      "lng": 80.7787,
       "publishedAt": "2026-07-28T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030075&episodeid=1&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030075&episodeid=2&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1030076",
       "title": "Forest fires in Russian Federation",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 66.4921,
-      "lng": 76.256,
+      "lat": 66.492,
+      "lng": 76.2527,
       "publishedAt": "2026-07-28T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030076&episodeid=1&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030076&episodeid=2&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1030077",
       "title": "Forest fires in Russian Federation",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 67.03,
-      "lng": 81.5929,
+      "lat": 67.0293,
+      "lng": 81.592,
       "publishedAt": "2026-07-26T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030077&episodeid=1&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030077&episodeid=2&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1030064",
+      "title": "Forest fires in Angola",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -11.1006,
+      "lng": 16.6907,
+      "publishedAt": "2026-07-22T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030064&episodeid=3&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1030068",
@@ -454,10 +554,10 @@
       "title": "Forest fires in Russian Federation",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 66.1595,
-      "lng": 94.2878,
+      "lat": 66.1594,
+      "lng": 94.2876,
       "publishedAt": "2026-07-26T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030069&episodeid=3&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030069&episodeid=4&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1030070",
@@ -514,10 +614,30 @@
       "title": "Forest fires in United States",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 39.1338,
-      "lng": -114.8984,
+      "lat": 39.1339,
+      "lng": -114.8986,
       "publishedAt": "2026-08-01T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030046&episodeid=6&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030046&episodeid=7&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1030049",
+      "title": "Forest fires in Tanzania",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.4301,
+      "lng": 34.3858,
+      "publishedAt": "2026-07-30T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030049&episodeid=3&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1030050",
+      "title": "Forest fires in Zambia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -10.8668,
+      "lng": 30.2254,
+      "publishedAt": "2026-07-25T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030050&episodeid=3&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1030053",
@@ -554,20 +674,30 @@
       "title": "Forest fires in The Democratic Republic of Congo",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -7.6918,
-      "lng": 26.1156,
+      "lat": -7.6909,
+      "lng": 26.1184,
       "publishedAt": "2026-07-26T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030061&episodeid=2&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030061&episodeid=3&eventtype=WF"
     },
     {
-      "id": "gdacs-wf-1030064",
-      "title": "Forest fires in Angola",
+      "id": "gdacs-wf-1030012",
+      "title": "Forest fires in Zambia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -11.1006,
-      "lng": 16.6907,
-      "publishedAt": "2026-07-22T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030064&episodeid=3&eventtype=WF"
+      "lat": -9.6237,
+      "lng": 29.122,
+      "publishedAt": "2026-07-27T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030012&episodeid=6&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1030017",
+      "title": "Forest fires in The Democratic Republic of Congo",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -9.7192,
+      "lng": 28.3074,
+      "publishedAt": "2026-07-24T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030017&episodeid=4&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1030023",
@@ -614,20 +744,20 @@
       "title": "Forest fires in United States",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 38.802,
+      "lat": 38.8018,
       "lng": -112.3255,
       "publishedAt": "2026-08-02T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030029&episodeid=13&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030029&episodeid=14&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1030030",
       "title": "Forest fires in United States",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 44.4076,
-      "lng": -117.0652,
+      "lat": 44.4083,
+      "lng": -117.0689,
       "publishedAt": "2026-08-01T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030030&episodeid=13&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030030&episodeid=14&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1030031",
@@ -637,7 +767,7 @@
       "lat": 64.3288,
       "lng": 106.9568,
       "publishedAt": "2026-07-30T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030031&episodeid=7&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030031&episodeid=8&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1030032",
@@ -670,6 +800,16 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1030034&episodeid=9&eventtype=WF"
     },
     {
+      "id": "gdacs-wf-1030036",
+      "title": "Forest fires in Zambia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -12.5914,
+      "lng": 31.8544,
+      "publishedAt": "2026-07-31T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030036&episodeid=5&eventtype=WF"
+    },
+    {
       "id": "gdacs-wf-1030038",
       "title": "Forest fires in Angola",
       "category": "WF",
@@ -680,24 +820,14 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1030038&episodeid=3&eventtype=WF"
     },
     {
-      "id": "gdacs-wf-1030036",
-      "title": "Forest fires in Zambia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -12.5918,
-      "lng": 31.8543,
-      "publishedAt": "2026-07-31T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030036&episodeid=4&eventtype=WF"
-    },
-    {
       "id": "gdacs-wf-1030042",
       "title": "Forest fires in Zambia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -15.4964,
-      "lng": 30.1421,
+      "lat": -15.4962,
+      "lng": 30.142,
       "publishedAt": "2026-07-21T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030042&episodeid=4&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1030042&episodeid=5&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1029926",
@@ -714,10 +844,10 @@
       "title": "Forest fires in United States",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 37.282,
-      "lng": -116.1095,
+      "lat": 37.2819,
+      "lng": -116.1093,
       "publishedAt": "2026-07-29T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1029927&episodeid=28&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1029927&episodeid=29&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1029929",
@@ -738,6 +868,16 @@
       "lng": 127.3852,
       "publishedAt": "2026-07-28T00:00:00.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1029933&episodeid=11&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1029963",
+      "title": "Forest fires in Russian Federation",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": 65.7114,
+      "lng": 107.6502,
+      "publishedAt": "2026-07-29T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1029963&episodeid=13&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1029967",
@@ -780,6 +920,16 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1029976&episodeid=8&eventtype=WF"
     },
     {
+      "id": "gdacs-wf-1029980",
+      "title": "Forest fires in Zambia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -13.0053,
+      "lng": 27.4439,
+      "publishedAt": "2026-07-24T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1029980&episodeid=4&eventtype=WF"
+    },
+    {
       "id": "gdacs-wf-1029981",
       "title": "Forest fires in Angola",
       "category": "WF",
@@ -794,10 +944,10 @@
       "title": "Forest fires in Greece",
       "category": "WF",
       "alertLevel": "orange",
-      "lat": 38.1223,
-      "lng": 23.2584,
+      "lat": 38.1221,
+      "lng": 23.2589,
       "publishedAt": "2026-07-31T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1029987&episodeid=15&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1029987&episodeid=16&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1029990",
@@ -858,156 +1008,6 @@
       "lng": 146.8482,
       "publishedAt": "2026-08-03T14:39:45.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1555934&episodeid=1722781&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-eq-1555915",
-      "title": "Earthquake in Papua New Guinea",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": -7.4962,
-      "lng": 156.087,
-      "publishedAt": "2026-08-03T13:14:01.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1555915&episodeid=1722760&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-eq-1555903",
-      "title": "Earthquake in Russia",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": 49.9188,
-      "lng": 155.9445,
-      "publishedAt": "2026-08-03T11:26:42.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1555903&episodeid=1722746&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-eq-1555894",
-      "title": "Earthquake in Argentina",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": -24.4954,
-      "lng": -67.1352,
-      "publishedAt": "2026-08-03T10:55:35.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1555894&episodeid=1722748&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-eq-1555897",
-      "title": "Earthquake in Fiji Islands Region",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": -17.1228,
-      "lng": -176.6766,
-      "publishedAt": "2026-08-03T10:45:23.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1555897&episodeid=1722736&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-eq-1555889",
-      "title": "Earthquake in Near Coast Of Chiapas, Mexico",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": 14.0138,
-      "lng": -93.6006,
-      "publishedAt": "2026-08-03T09:19:09.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1555889&episodeid=1722740&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-eq-1555885",
-      "title": "Earthquake in Canada",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": 53.837,
-      "lng": -132.974,
-      "publishedAt": "2026-08-03T09:17:46.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1555885&episodeid=1722723&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-eq-1555853",
-      "title": "Earthquake in Dominican Republic",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": 19.2743,
-      "lng": -69.627,
-      "publishedAt": "2026-08-03T05:01:20.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1555853&episodeid=1722691&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-eq-1555854",
-      "title": "Earthquake in China",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": 28.6876,
-      "lng": 104.7633,
-      "publishedAt": "2026-08-03T05:00:48.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1555854&episodeid=1722702&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-eq-1555809",
-      "title": "Earthquake in Peru",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": -8.5724,
-      "lng": -75.7603,
-      "publishedAt": "2026-08-03T01:42:24.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1555809&episodeid=1722644&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-fl-1104065",
-      "title": "Flood in Belarus",
-      "category": "FL",
-      "alertLevel": "green",
-      "lat": 53.6835,
-      "lng": 23.8343,
-      "publishedAt": "2026-08-01T01:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1104065&episodeid=1&eventtype=FL"
-    },
-    {
-      "id": "gdacs-eq-1555797",
-      "title": "Earthquake in Egypt",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": 30.2922,
-      "lng": 32.6273,
-      "publishedAt": "2026-08-03T00:00:33.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1555797&episodeid=1722637&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-wf-1030043",
-      "title": "Forest fires in Australia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -12.0376,
-      "lng": 142.1005,
-      "publishedAt": "2026-07-24T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030043&episodeid=3&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030035",
-      "title": "Forest fires in The Democratic Republic of Congo",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -5.8976,
-      "lng": 26.7771,
-      "publishedAt": "2026-08-01T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030035&episodeid=2&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030039",
-      "title": "Forest fires in Namibia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -19.0215,
-      "lng": 20.2048,
-      "publishedAt": "2026-07-30T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030039&episodeid=2&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030040",
-      "title": "Forest fires in Zambia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -9.7845,
-      "lng": 29.2032,
-      "publishedAt": "2026-07-28T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030040&episodeid=3&eventtype=WF"
     }
   ]
 }
