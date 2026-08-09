@@ -67,6 +67,17 @@ export function assertSafeCount(nextItems, previousItems, name) {
   }
 }
 
+export function dedupeItemsById(items) {
+  const seen = new Set();
+  return items.filter((item) => {
+    const id = item?.id;
+    if (typeof id !== 'string' || !id.trim()) return true;
+    if (seen.has(id)) return false;
+    seen.add(id);
+    return true;
+  });
+}
+
 export async function readJson(path, fallback = null) {
   try {
     return JSON.parse(await readFile(path, 'utf8'));

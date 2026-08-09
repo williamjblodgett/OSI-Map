@@ -4,6 +4,7 @@ import path from 'node:path';
 import {
   DATASET_NAMES,
   assertSafeCount,
+  dedupeItemsById,
   normalizeGdacs,
   normalizeReliefweb,
   normalizeUsqFeature,
@@ -177,7 +178,8 @@ health.push(await publishDataset('headlines', async () => {
     ['Al Jazeera', 'https://www.aljazeera.com/xml/rss/all.xml']
   ];
   const results = await Promise.all(feeds.map(async ([name, url]) => parseRss(await fetchText(url), name)));
-  return results.flat().sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt)).slice(0, 40);
+  const newestFirst = results.flat().sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
+  return dedupeItemsById(newestFirst).slice(0, 40);
 }));
 
 health.push(await publishDataset('satellites', async () => {

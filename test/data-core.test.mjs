@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   assertSafeCount,
+  dedupeItemsById,
   normalizeGdacs,
   normalizeReliefweb,
   normalizeUsqFeature,
@@ -39,6 +40,14 @@ test('validator rejects duplicate ids and unsafe URLs', () => {
 
 test('record-count guard rejects a collapsed feed', () => {
   assert.throws(() => assertSafeCount([1], [1, 2, 3, 4, 5, 6, 7, 8], 'test'), /collapsed/);
+});
+
+test('feed deduplication keeps the first item for each deterministic id', () => {
+  const newest = { id: 'rss-bbc-duplicate', title: 'Newest copy' };
+  const older = { id: 'rss-bbc-duplicate', title: 'Older copy' };
+  const unique = { id: 'rss-bbc-unique', title: 'Unique item' };
+
+  assert.deepEqual(dedupeItemsById([newest, older, unique]), [newest, unique]);
 });
 
 test('USGS normalization preserves provenance fields', () => {
