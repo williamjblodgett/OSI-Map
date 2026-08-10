@@ -1,14 +1,44 @@
 {
   "schemaVersion": 1,
   "dataset": "disasters",
-  "generatedAt": "2026-08-10T00:35:36.082Z",
-  "dataAsOf": "2026-08-10T00:35:36.082Z",
+  "generatedAt": "2026-08-10T06:46:54.641Z",
+  "dataAsOf": "2026-08-10T06:46:54.641Z",
   "status": "ok",
   "source": {
     "name": "Global Disaster Alert and Coordination System (GDACS)",
     "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ;TC;FL;VO;DR;WF&fromdate=2026-08-03&todate=2026-08-10&alertlevel=red;orange;green"
   },
   "items": [
+    {
+      "id": "gdacs-eq-1557201",
+      "title": "Earthquake in East Central Pacific Ocean",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": 0.3112,
+      "lng": -114.648,
+      "publishedAt": "2026-08-10T05:41:44.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1557201&episodeid=1724165&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1557200",
+      "title": "Earthquake in Philippines",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": 8.9207,
+      "lng": 126.0577,
+      "publishedAt": "2026-08-10T05:35:51.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1557200&episodeid=1724169&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1557168",
+      "title": "Earthquake in Tonga",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -15.6002,
+      "lng": -173.0524,
+      "publishedAt": "2026-08-10T01:20:10.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1557168&episodeid=1724126&eventtype=EQ"
+    },
     {
       "id": "gdacs-fl-1104067",
       "title": "Flood in Thailand",
@@ -20,24 +50,54 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1104067&episodeid=8&eventtype=FL"
     },
     {
+      "id": "gdacs-tc-1001298",
+      "title": "Tropical Cyclone PEILOU-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 20.5,
+      "lng": 148.3,
+      "publishedAt": "2026-08-04T18:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001298&episodeid=13&eventtype=TC"
+    },
+    {
+      "id": "gdacs-tc-1001300",
+      "title": "Tropical Cyclone FIFTEEN-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 25.6,
+      "lng": 160.1,
+      "publishedAt": "2026-08-10T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001300&episodeid=1&eventtype=TC"
+    },
+    {
+      "id": "gdacs-tc-1001299",
+      "title": "Tropical Cyclone CHAN-HOM-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 33.7,
+      "lng": 149.7,
+      "publishedAt": "2026-08-07T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001299&episodeid=13&eventtype=TC"
+    },
+    {
       "id": "gdacs-eq-1557139",
       "title": "Earthquake in Indonesia",
       "category": "EQ",
       "alertLevel": "green",
-      "lat": 4.1457,
-      "lng": 126.7399,
+      "lat": 4.1417,
+      "lng": 126.8342,
       "publishedAt": "2026-08-09T22:17:27.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1557139&episodeid=1724097&eventtype=EQ"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1557139&episodeid=1724148&eventtype=EQ"
     },
     {
       "id": "gdacs-eq-1557136",
       "title": "Earthquake in Indonesia",
       "category": "EQ",
       "alertLevel": "green",
-      "lat": 4.1349,
-      "lng": 126.95,
+      "lat": 4.1847,
+      "lng": 126.9362,
       "publishedAt": "2026-08-09T21:42:38.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1557136&episodeid=1724092&eventtype=EQ"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1557136&episodeid=1724138&eventtype=EQ"
     },
     {
       "id": "gdacs-eq-1557124",
@@ -58,26 +118,6 @@
       "lng": 154.4887,
       "publishedAt": "2026-08-09T18:11:29.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1557123&episodeid=1724076&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-tc-1001299",
-      "title": "Tropical Cyclone CHAN-HOM-26",
-      "category": "TC",
-      "alertLevel": "green",
-      "lat": 33.2,
-      "lng": 150.2,
-      "publishedAt": "2026-08-07T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001299&episodeid=12&eventtype=TC"
-    },
-    {
-      "id": "gdacs-tc-1001298",
-      "title": "Tropical Cyclone PEILOU-26",
-      "category": "TC",
-      "alertLevel": "green",
-      "lat": 20.5,
-      "lng": 145.8,
-      "publishedAt": "2026-08-04T18:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001298&episodeid=12&eventtype=TC"
     },
     {
       "id": "gdacs-eq-1557113",
@@ -968,46 +1008,6 @@
       "lng": 30.7445,
       "publishedAt": "2026-08-05T00:00:00.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1030288&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030289",
-      "title": "Forest fires in Australia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -26.2772,
-      "lng": 150.4741,
-      "publishedAt": "2026-08-04T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030289&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030290",
-      "title": "Forest fires in Angola",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -9.8991,
-      "lng": 19.1871,
-      "publishedAt": "2026-08-04T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030290&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030291",
-      "title": "Forest fires in Angola",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -13.7022,
-      "lng": 15.9108,
-      "publishedAt": "2026-08-04T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030291&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030292",
-      "title": "Forest fires in The Democratic Republic of Congo",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -6.4606,
-      "lng": 21.6626,
-      "publishedAt": "2026-08-03T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030292&episodeid=1&eventtype=WF"
     }
   ]
 }
