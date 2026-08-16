@@ -1,14 +1,44 @@
 {
   "schemaVersion": 1,
   "dataset": "disasters",
-  "generatedAt": "2026-08-16T00:31:20.743Z",
-  "dataAsOf": "2026-08-16T00:31:20.743Z",
+  "generatedAt": "2026-08-16T06:29:36.480Z",
+  "dataAsOf": "2026-08-16T06:29:36.480Z",
   "status": "ok",
   "source": {
     "name": "Global Disaster Alert and Coordination System (GDACS)",
     "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ;TC;FL;VO;DR;WF&fromdate=2026-08-09&todate=2026-08-16&alertlevel=red;orange;green"
   },
   "items": [
+    {
+      "id": "gdacs-eq-1558774",
+      "title": "Earthquake in Indonesia",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -8.4615,
+      "lng": 121.5082,
+      "publishedAt": "2026-08-16T03:42:59.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1558774&episodeid=1725894&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1558766",
+      "title": "Earthquake in Vanuatu",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -14.5474,
+      "lng": 167.1934,
+      "publishedAt": "2026-08-16T03:20:24.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1558766&episodeid=1725887&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-tc-1001303",
+      "title": "Tropical Cyclone ONE-C-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 18.7,
+      "lng": -156,
+      "publishedAt": "2026-08-12T15:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001303&episodeid=15&eventtype=TC"
+    },
     {
       "id": "gdacs-eq-1558668",
       "title": "Earthquake in Indonesia",
@@ -30,6 +60,16 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1558658&episodeid=1725775&eventtype=EQ"
     },
     {
+      "id": "gdacs-eq-1558691",
+      "title": "Earthquake in Indonesia",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -7.8284,
+      "lng": 120.5111,
+      "publishedAt": "2026-08-15T21:08:32.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1558691&episodeid=1725807&eventtype=EQ"
+    },
+    {
       "id": "gdacs-tc-1001304",
       "title": "Tropical Cyclone HERNAN-26",
       "category": "TC",
@@ -38,16 +78,6 @@
       "lng": -135.9,
       "publishedAt": "2026-08-13T03:00:00.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1001304&episodeid=12&eventtype=TC"
-    },
-    {
-      "id": "gdacs-tc-1001303",
-      "title": "Tropical Cyclone ONE-C-26",
-      "category": "TC",
-      "alertLevel": "green",
-      "lat": 18.2,
-      "lng": -155.2,
-      "publishedAt": "2026-08-12T15:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001303&episodeid=14&eventtype=TC"
     },
     {
       "id": "gdacs-eq-1558601",
@@ -978,36 +1008,6 @@
       "lng": 19.8742,
       "publishedAt": "2026-08-11T00:00:00.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1030562&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030557",
-      "title": "Forest fires in Angola",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -10.0065,
-      "lng": 19.2853,
-      "publishedAt": "2026-08-01T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030557&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030563",
-      "title": "Forest fires in Angola",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -14.4566,
-      "lng": 15.6511,
-      "publishedAt": "2026-08-07T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030563&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030533",
-      "title": "Forest fires in Zambia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -11.8239,
-      "lng": 29.4541,
-      "publishedAt": "2026-08-13T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030533&episodeid=2&eventtype=WF"
     }
   ]
 }
