@@ -1,14 +1,84 @@
 {
   "schemaVersion": 1,
   "dataset": "disasters",
-  "generatedAt": "2026-08-19T00:31:07.459Z",
-  "dataAsOf": "2026-08-19T00:31:07.459Z",
+  "generatedAt": "2026-08-19T06:30:00.335Z",
+  "dataAsOf": "2026-08-19T06:30:00.335Z",
   "status": "ok",
   "source": {
     "name": "Global Disaster Alert and Coordination System (GDACS)",
     "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ;TC;FL;VO;DR;WF&fromdate=2026-08-12&todate=2026-08-19&alertlevel=red;orange;green"
   },
   "items": [
+    {
+      "id": "gdacs-eq-1560133",
+      "title": "Earthquake in China",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": 37.8621,
+      "lng": 95.5097,
+      "publishedAt": "2026-08-19T05:22:24.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1560133&episodeid=1727356&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1560112",
+      "title": "Earthquake in Philippines",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": 19.1513,
+      "lng": 121.324,
+      "publishedAt": "2026-08-19T04:22:54.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1560112&episodeid=1727331&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1560094",
+      "title": "Earthquake in Indonesia",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -8.2837,
+      "lng": 121.4389,
+      "publishedAt": "2026-08-19T03:13:29.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1560094&episodeid=1727313&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-tc-1001303",
+      "title": "Tropical Cyclone LALA-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 20.7,
+      "lng": -168.9,
+      "publishedAt": "2026-08-12T15:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001303&episodeid=27&eventtype=TC"
+    },
+    {
+      "id": "gdacs-eq-1560087",
+      "title": "Earthquake in Tonga",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -15.3235,
+      "lng": -174.8659,
+      "publishedAt": "2026-08-19T02:20:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1560087&episodeid=1727299&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-fl-1104102",
+      "title": "Flood in Poland",
+      "category": "FL",
+      "alertLevel": "green",
+      "lat": 51.593,
+      "lng": 19.1335,
+      "publishedAt": "2026-08-17T01:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1104102&episodeid=1&eventtype=FL"
+    },
+    {
+      "id": "gdacs-eq-1560123",
+      "title": "Earthquake in Indonesia",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -8.264,
+      "lng": 121.4067,
+      "publishedAt": "2026-08-19T00:11:39.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1560123&episodeid=1727345&eventtype=EQ"
+    },
     {
       "id": "gdacs-eq-1560036",
       "title": "Earthquake in Russian Federation",
@@ -20,24 +90,64 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1560036&episodeid=1727247&eventtype=EQ"
     },
     {
+      "id": "gdacs-tc-1001305",
+      "title": "Tropical Cyclone SEVENTEEN-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 8,
+      "lng": 154.2,
+      "publishedAt": "2026-08-18T12:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001305&episodeid=3&eventtype=TC"
+    },
+    {
+      "id": "gdacs-eq-1560116",
+      "title": "Earthquake in Indonesia",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -8.3232,
+      "lng": 121.279,
+      "publishedAt": "2026-08-18T23:59:16.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1560116&episodeid=1727336&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1560010",
+      "title": "Earthquake in Indonesia",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -8.179,
+      "lng": 120.4458,
+      "publishedAt": "2026-08-18T22:26:55.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1560010&episodeid=1727327&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1559999",
+      "title": "Earthquake in China",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": 37.758,
+      "lng": 95.4104,
+      "publishedAt": "2026-08-18T21:59:55.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1559999&episodeid=1727325&eventtype=EQ"
+    },
+    {
       "id": "gdacs-eq-1559992",
       "title": "Earthquake in China",
       "category": "EQ",
       "alertLevel": "green",
-      "lat": 37.8349,
-      "lng": 95.538,
+      "lat": 37.8208,
+      "lng": 95.6095,
       "publishedAt": "2026-08-18T21:36:29.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1559992&episodeid=1727204&eventtype=EQ"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1559992&episodeid=1727322&eventtype=EQ"
     },
     {
-      "id": "gdacs-tc-1001303",
-      "title": "Tropical Cyclone ONE-C-26",
-      "category": "TC",
+      "id": "gdacs-eq-1559986",
+      "title": "Earthquake in Indonesia",
+      "category": "EQ",
       "alertLevel": "green",
-      "lat": 20.4,
-      "lng": -168.1,
-      "publishedAt": "2026-08-12T15:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001303&episodeid=26&eventtype=TC"
+      "lat": -8.1867,
+      "lng": 121.4255,
+      "publishedAt": "2026-08-18T21:11:40.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1559986&episodeid=1727305&eventtype=EQ"
     },
     {
       "id": "gdacs-eq-1559970",
@@ -68,16 +178,6 @@
       "lng": 121.2432,
       "publishedAt": "2026-08-18T19:03:07.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1559949&episodeid=1727161&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-tc-1001305",
-      "title": "Tropical Cyclone SEVENTEEN-26",
-      "category": "TC",
-      "alertLevel": "green",
-      "lat": 8.3,
-      "lng": 154.6,
-      "publishedAt": "2026-08-18T12:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001305&episodeid=2&eventtype=TC"
     },
     {
       "id": "gdacs-eq-1559855",
@@ -908,106 +1008,6 @@
       "lng": 20.8763,
       "publishedAt": "2026-08-11T00:00:00.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1030592&episodeid=5&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030593",
-      "title": "Forest fires in Zambia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -11.6001,
-      "lng": 29.5708,
-      "publishedAt": "2026-08-11T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030593&episodeid=3&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030595",
-      "title": "Forest fires in Angola",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -10.3038,
-      "lng": 19.106,
-      "publishedAt": "2026-08-10T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030595&episodeid=4&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030600",
-      "title": "Forest fires in Zambia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -8.3003,
-      "lng": 30.4906,
-      "publishedAt": "2026-08-08T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030600&episodeid=4&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030601",
-      "title": "Forest fires in The Democratic Republic of Congo",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -6.4097,
-      "lng": 21.0939,
-      "publishedAt": "2026-08-08T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030601&episodeid=3&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030602",
-      "title": "Forest fires in The Democratic Republic of Congo",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -6.3092,
-      "lng": 21.4103,
-      "publishedAt": "2026-08-08T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030602&episodeid=3&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030597",
-      "title": "Forest fires in Zambia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -10.1129,
-      "lng": 29.639,
-      "publishedAt": "2026-08-10T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030597&episodeid=3&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030598",
-      "title": "Forest fires in Angola",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -9.034,
-      "lng": 16.3203,
-      "publishedAt": "2026-08-10T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030598&episodeid=2&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030603",
-      "title": "Forest fires in The Democratic Republic of Congo",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -4.181,
-      "lng": 18.1043,
-      "publishedAt": "2026-08-05T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030603&episodeid=3&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030604",
-      "title": "Forest fires in Russian Federation",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": 64.8387,
-      "lng": 103.4251,
-      "publishedAt": "2026-08-05T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030604&episodeid=6&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1030476",
-      "title": "Forest fires in Angola",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -10.5786,
-      "lng": 16.3845,
-      "publishedAt": "2026-08-05T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1030476&episodeid=12&eventtype=WF"
     }
   ]
 }
