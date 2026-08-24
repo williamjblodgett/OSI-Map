@@ -1,33 +1,33 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-24T12:30:17.360Z",
+  "generatedAt": "2026-08-24T18:30:03.556Z",
   "overall": "degraded",
   "sources": [
     {
       "id": "earthquakes",
       "name": "USGS Earthquake Hazards Program",
       "status": "ok",
-      "checkedAt": "2026-08-24T12:30:17.360Z",
-      "dataAsOf": "2026-08-24T12:30:17.360Z",
-      "recordCount": 40,
+      "checkedAt": "2026-08-24T18:30:03.556Z",
+      "dataAsOf": "2026-08-24T18:30:03.556Z",
+      "recordCount": 42,
       "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson",
       "error": null
     },
     {
       "id": "disasters",
       "name": "Global Disaster Alert and Coordination System (GDACS)",
-      "status": "ok",
-      "checkedAt": "2026-08-24T12:30:17.360Z",
+      "status": "degraded",
+      "checkedAt": "2026-08-24T18:30:03.556Z",
       "dataAsOf": "2026-08-24T12:30:17.360Z",
       "recordCount": 100,
       "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ;TC;FL;VO;DR;WF&fromdate=2026-08-17&todate=2026-08-24&alertlevel=red;orange;green",
-      "error": null
+      "error": "This operation was aborted"
     },
     {
       "id": "humanitarian",
       "name": "ReliefWeb",
       "status": "degraded",
-      "checkedAt": "2026-08-24T12:30:17.360Z",
+      "checkedAt": "2026-08-24T18:30:03.556Z",
       "dataAsOf": "2026-07-26T00:00:00.000Z",
       "recordCount": 0,
       "url": "https://api.reliefweb.int/v2/reports?appname=APPROVAL_REQUIRED&limit=40&preset=latest&fields[include][]=title&fields[include][]=url_alias&fields[include][]=date.original&fields[include][]=date.created&fields[include][]=source.name&fields[include][]=country.name",
@@ -37,8 +37,8 @@
       "id": "headlines",
       "name": "BBC World / Al Jazeera RSS",
       "status": "ok",
-      "checkedAt": "2026-08-24T12:30:17.360Z",
-      "dataAsOf": "2026-08-24T12:30:17.360Z",
+      "checkedAt": "2026-08-24T18:30:03.556Z",
+      "dataAsOf": "2026-08-24T18:30:03.556Z",
       "recordCount": 40,
       "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
       "error": null
@@ -47,8 +47,8 @@
       "id": "satellites",
       "name": "CelesTrak",
       "status": "ok",
-      "checkedAt": "2026-08-24T12:30:17.360Z",
-      "dataAsOf": "2026-08-24T12:30:17.360Z",
+      "checkedAt": "2026-08-24T18:30:03.556Z",
+      "dataAsOf": "2026-08-24T18:30:03.556Z",
       "recordCount": 22,
       "url": "https://celestrak.org/NORAD/elements/gp.php?GROUP=stations&FORMAT=JSON",
       "error": null
