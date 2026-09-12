@@ -1,14 +1,34 @@
 {
   "schemaVersion": 1,
   "dataset": "disasters",
-  "generatedAt": "2026-09-12T15:35:09.407Z",
-  "dataAsOf": "2026-09-12T15:35:09.407Z",
+  "generatedAt": "2026-09-12T20:37:30.208Z",
+  "dataAsOf": "2026-09-12T20:37:30.208Z",
   "status": "ok",
   "source": {
     "name": "Global Disaster Alert and Coordination System (GDACS)",
     "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ;TC;FL;VO;DR;WF&fromdate=2026-09-05&todate=2026-09-12&alertlevel=red;orange;green"
   },
   "items": [
+    {
+      "id": "gdacs-eq-1564957",
+      "title": "Earthquake in Greece",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": 38.1387,
+      "lng": 20.2555,
+      "publishedAt": "2026-09-12T17:51:45.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1564957&episodeid=1732718&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1564941",
+      "title": "Earthquake in Vanuatu",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -14.6467,
+      "lng": 167.2217,
+      "publishedAt": "2026-09-12T15:56:09.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1564941&episodeid=1732696&eventtype=EQ"
+    },
     {
       "id": "gdacs-tc-1001320",
       "title": "Tropical Cyclone NORBERT-26",
@@ -497,7 +517,7 @@
       "lat": -30.0264,
       "lng": 152.1277,
       "publishedAt": "2026-08-29T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1031860&episodeid=9&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1031860&episodeid=10&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1031871",
@@ -988,26 +1008,6 @@
       "lng": 40.0462,
       "publishedAt": "2026-08-30T00:00:00.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1031843&episodeid=3&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1031571",
-      "title": "Forest fires in Mozambique",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -14.4042,
-      "lng": 36.3529,
-      "publishedAt": "2026-08-29T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1031571&episodeid=11&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1031636",
-      "title": "Forest fires in Zambia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -10.8173,
-      "lng": 31.2825,
-      "publishedAt": "2026-08-29T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1031636&episodeid=11&eventtype=WF"
     }
   ]
 }
