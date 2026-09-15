@@ -1,14 +1,44 @@
 {
   "schemaVersion": 1,
   "dataset": "disasters",
-  "generatedAt": "2026-09-15T17:03:47.893Z",
-  "dataAsOf": "2026-09-15T17:03:47.893Z",
+  "generatedAt": "2026-09-15T21:25:13.671Z",
+  "dataAsOf": "2026-09-15T21:25:13.671Z",
   "status": "ok",
   "source": {
     "name": "Global Disaster Alert and Coordination System (GDACS)",
     "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ;TC;FL;VO;DR;WF&fromdate=2026-09-08&todate=2026-09-15&alertlevel=red;orange;green"
   },
   "items": [
+    {
+      "id": "gdacs-tc-1001321",
+      "title": "Tropical Cyclone FIFTEEN-E-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 15.7,
+      "lng": -125,
+      "publishedAt": "2026-09-13T21:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001321&episodeid=9&eventtype=TC"
+    },
+    {
+      "id": "gdacs-tc-1001322",
+      "title": "Tropical Cyclone TWENTYFOUR-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 14.8,
+      "lng": 148.8,
+      "publishedAt": "2026-09-15T12:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001322&episodeid=2&eventtype=TC"
+    },
+    {
+      "id": "gdacs-eq-1566388",
+      "title": "Earthquake in Argentina",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -25.4555,
+      "lng": -66.4888,
+      "publishedAt": "2026-09-15T17:41:25.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1566388&episodeid=1734196&eventtype=EQ"
+    },
     {
       "id": "gdacs-tc-1001320",
       "title": "Tropical Cyclone NORBERT-26",
@@ -20,24 +50,14 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1001320&episodeid=24&eventtype=TC"
     },
     {
-      "id": "gdacs-tc-1001321",
-      "title": "Tropical Cyclone FIFTEEN-E-26",
-      "category": "TC",
+      "id": "gdacs-eq-1566377",
+      "title": "Earthquake in Indonesia",
+      "category": "EQ",
       "alertLevel": "green",
-      "lat": 16.1,
-      "lng": -123.9,
-      "publishedAt": "2026-09-13T21:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001321&episodeid=8&eventtype=TC"
-    },
-    {
-      "id": "gdacs-tc-1001322",
-      "title": "Tropical Cyclone TWENTYFOUR-26",
-      "category": "TC",
-      "alertLevel": "green",
-      "lat": 14.9,
-      "lng": 148.9,
-      "publishedAt": "2026-09-15T12:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001322&episodeid=1&eventtype=TC"
+      "lat": -8.3244,
+      "lng": 129.2771,
+      "publishedAt": "2026-09-15T14:16:11.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1566377&episodeid=1734193&eventtype=EQ"
     },
     {
       "id": "gdacs-eq-1566355",
@@ -988,26 +1008,6 @@
       "lng": 20.5288,
       "publishedAt": "2026-09-10T00:00:00.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1031920&episodeid=4&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1031941",
-      "title": "Forest fires in Zambia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -10.8608,
-      "lng": 31.9027,
-      "publishedAt": "2026-09-10T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1031941&episodeid=2&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1031942",
-      "title": "Forest fires in Mozambique",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -15.6807,
-      "lng": 39.0539,
-      "publishedAt": "2026-09-10T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1031942&episodeid=3&eventtype=WF"
     }
   ]
 }
