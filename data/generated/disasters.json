@@ -1,14 +1,64 @@
 {
   "schemaVersion": 1,
   "dataset": "disasters",
-  "generatedAt": "2026-09-16T17:03:35.162Z",
-  "dataAsOf": "2026-09-16T17:03:35.162Z",
+  "generatedAt": "2026-09-16T21:21:43.832Z",
+  "dataAsOf": "2026-09-16T21:21:43.832Z",
   "status": "ok",
   "source": {
     "name": "Global Disaster Alert and Coordination System (GDACS)",
     "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ;TC;FL;VO;DR;WF&fromdate=2026-09-09&todate=2026-09-16&alertlevel=red;orange;green"
   },
   "items": [
+    {
+      "id": "gdacs-eq-1566558",
+      "title": "Earthquake in Papua New Guinea",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -6.1072,
+      "lng": 151.7775,
+      "publishedAt": "2026-09-16T20:21:24.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1566558&episodeid=1734380&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1566555",
+      "title": "Earthquake in Colombia",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": 4.5241,
+      "lng": -76.8772,
+      "publishedAt": "2026-09-16T20:12:52.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1566555&episodeid=1734377&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1566557",
+      "title": "Earthquake in Kermadec Islands, New Zealand",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -30.2154,
+      "lng": -177.5927,
+      "publishedAt": "2026-09-16T20:03:35.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1566557&episodeid=1734381&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1566547",
+      "title": "Earthquake in Northern Mariana Is.",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": 14.2866,
+      "lng": 145.4729,
+      "publishedAt": "2026-09-16T18:06:40.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1566547&episodeid=1734372&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-tc-1001322",
+      "title": "Tropical Cyclone DUJUAN-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 17.6,
+      "lng": 149.7,
+      "publishedAt": "2026-09-15T12:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001322&episodeid=6&eventtype=TC"
+    },
     {
       "id": "gdacs-eq-1566529",
       "title": "Earthquake in Japan",
@@ -28,16 +78,6 @@
       "lng": 40.13,
       "publishedAt": "2026-09-16T12:33:23.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1566510&episodeid=1734328&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-tc-1001322",
-      "title": "Tropical Cyclone DUJUAN-26",
-      "category": "TC",
-      "alertLevel": "green",
-      "lat": 16.5,
-      "lng": 149.5,
-      "publishedAt": "2026-09-15T12:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001322&episodeid=5&eventtype=TC"
     },
     {
       "id": "gdacs-eq-1566507",
@@ -968,46 +1008,6 @@
       "lng": 16.6617,
       "publishedAt": "2026-09-04T00:00:00.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1031909&episodeid=5&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1031930",
-      "title": "Forest fires in Mozambique",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -15.4753,
-      "lng": 39.0399,
-      "publishedAt": "2026-09-04T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1031930&episodeid=4&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1031983",
-      "title": "Forest fires in Mozambique",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -15.6676,
-      "lng": 39.9884,
-      "publishedAt": "2026-09-04T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1031983&episodeid=2&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1031831",
-      "title": "Forest fires in Zambia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -11.3274,
-      "lng": 30.9969,
-      "publishedAt": "2026-09-02T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1031831&episodeid=8&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1031874",
-      "title": "Forest fires in The Democratic Republic of Congo",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.7858,
-      "lng": 30.2203,
-      "publishedAt": "2026-09-02T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1031874&episodeid=8&eventtype=WF"
     }
   ]
 }
