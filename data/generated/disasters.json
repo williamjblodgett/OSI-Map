@@ -1,14 +1,74 @@
 {
   "schemaVersion": 1,
   "dataset": "disasters",
-  "generatedAt": "2026-09-24T11:52:59.597Z",
-  "dataAsOf": "2026-09-24T11:52:59.597Z",
+  "generatedAt": "2026-09-24T17:16:28.256Z",
+  "dataAsOf": "2026-09-24T17:16:28.256Z",
   "status": "ok",
   "source": {
     "name": "Global Disaster Alert and Coordination System (GDACS)",
     "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ;TC;FL;VO;DR;WF&fromdate=2026-09-17&todate=2026-09-24&alertlevel=red;orange;green"
   },
   "items": [
+    {
+      "id": "gdacs-tc-1001321",
+      "title": "Tropical Cyclone NOLO-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 14.9,
+      "lng": -156.2,
+      "publishedAt": "2026-09-13T21:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001321&episodeid=16&eventtype=TC"
+    },
+    {
+      "id": "gdacs-tc-1001323",
+      "title": "Tropical Cyclone FAY-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 29.8,
+      "lng": -41.2,
+      "publishedAt": "2026-09-19T15:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001323&episodeid=18&eventtype=TC"
+    },
+    {
+      "id": "gdacs-tc-1001324",
+      "title": "Tropical Cyclone ODALYS-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 16.4,
+      "lng": -125.5,
+      "publishedAt": "2026-09-20T09:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001324&episodeid=18&eventtype=TC"
+    },
+    {
+      "id": "gdacs-tc-1001325",
+      "title": "Tropical Cyclone POLO-26",
+      "category": "TC",
+      "alertLevel": "orange",
+      "lat": 16.8,
+      "lng": -104.4,
+      "publishedAt": "2026-09-21T03:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001325&episodeid=16&eventtype=TC"
+    },
+    {
+      "id": "gdacs-eq-1567834",
+      "title": "Earthquake in Papua New Guinea",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -5.3396,
+      "lng": 151.4915,
+      "publishedAt": "2026-09-24T12:29:58.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1567834&episodeid=1735792&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-tc-1001327",
+      "title": "Tropical Cyclone SURIGAE-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 18.6,
+      "lng": 132.5,
+      "publishedAt": "2026-09-23T06:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001327&episodeid=6&eventtype=TC"
+    },
     {
       "id": "gdacs-eq-1567824",
       "title": "Earthquake in Kermadec Islands, New Zealand",
@@ -20,46 +80,6 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1567824&episodeid=1735781&eventtype=EQ"
     },
     {
-      "id": "gdacs-tc-1001323",
-      "title": "Tropical Cyclone FAY-26",
-      "category": "TC",
-      "alertLevel": "green",
-      "lat": 29.8,
-      "lng": -40.5,
-      "publishedAt": "2026-09-19T15:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001323&episodeid=17&eventtype=TC"
-    },
-    {
-      "id": "gdacs-tc-1001324",
-      "title": "Tropical Cyclone ODALYS-26",
-      "category": "TC",
-      "alertLevel": "green",
-      "lat": 16.1,
-      "lng": -126,
-      "publishedAt": "2026-09-20T09:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001324&episodeid=17&eventtype=TC"
-    },
-    {
-      "id": "gdacs-tc-1001325",
-      "title": "Tropical Cyclone POLO-26",
-      "category": "TC",
-      "alertLevel": "green",
-      "lat": 16.5,
-      "lng": -103.5,
-      "publishedAt": "2026-09-21T03:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001325&episodeid=15&eventtype=TC"
-    },
-    {
-      "id": "gdacs-tc-1001321",
-      "title": "Tropical Cyclone NOLO-26",
-      "category": "TC",
-      "alertLevel": "green",
-      "lat": 14.9,
-      "lng": -156,
-      "publishedAt": "2026-09-13T21:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001321&episodeid=15&eventtype=TC"
-    },
-    {
       "id": "gdacs-eq-1567795",
       "title": "Earthquake in Türkiye",
       "category": "EQ",
@@ -68,16 +88,6 @@
       "lng": 38.8612,
       "publishedAt": "2026-09-24T07:40:58.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1567795&episodeid=1735751&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-tc-1001327",
-      "title": "Tropical Cyclone SURIGAE-26",
-      "category": "TC",
-      "alertLevel": "green",
-      "lat": 18.9,
-      "lng": 133.1,
-      "publishedAt": "2026-09-23T06:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001327&episodeid=5&eventtype=TC"
     },
     {
       "id": "gdacs-eq-1567771",
@@ -144,10 +154,10 @@
       "title": "Forest fires in Australia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -20.2179,
+      "lat": -20.2182,
       "lng": 126.5624,
       "publishedAt": "2026-09-22T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032346&episodeid=4&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032346&episodeid=5&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032371",
@@ -224,10 +234,10 @@
       "title": "Forest fires in Australia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -15.5479,
+      "lat": -15.548,
       "lng": 124.5167,
       "publishedAt": "2026-09-14T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032116&episodeid=23&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032116&episodeid=24&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032220",
@@ -284,20 +294,20 @@
       "title": "Forest fires in Indonesia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -3.0205,
+      "lat": -3.0208,
       "lng": 112.6964,
       "publishedAt": "2026-09-14T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032344&episodeid=5&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032344&episodeid=6&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032345",
       "title": "Forest fires in Indonesia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -3.252,
-      "lng": 112.2341,
+      "lat": -3.2522,
+      "lng": 112.2336,
       "publishedAt": "2026-09-14T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032345&episodeid=8&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032345&episodeid=9&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032367",
@@ -494,10 +504,10 @@
       "title": "Forest fires in Australia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -12.9876,
-      "lng": 131.5972,
+      "lat": -12.9878,
+      "lng": 131.597,
       "publishedAt": "2026-09-17T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032328&episodeid=8&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032328&episodeid=9&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032342",
@@ -595,9 +605,9 @@
       "category": "WF",
       "alertLevel": "green",
       "lat": -2.8379,
-      "lng": 112.6575,
+      "lng": 112.6576,
       "publishedAt": "2026-09-18T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032349&episodeid=5&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032349&episodeid=6&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032372",
@@ -724,10 +734,10 @@
       "title": "Forest fires in Indonesia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -3.7862,
-      "lng": 105.5544,
+      "lat": -3.7863,
+      "lng": 105.5546,
       "publishedAt": "2026-09-09T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032258&episodeid=14&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032258&episodeid=15&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032268",
@@ -894,10 +904,10 @@
       "title": "Forest fires in Indonesia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -2.8419,
+      "lat": -2.8421,
       "lng": 110.3603,
       "publishedAt": "2026-09-10T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032353&episodeid=6&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032353&episodeid=7&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1031959",
@@ -937,7 +947,7 @@
       "lat": -3.4341,
       "lng": 111.9013,
       "publishedAt": "2026-09-11T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032293&episodeid=16&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032293&episodeid=17&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032317",
@@ -998,16 +1008,6 @@
       "lng": 179.2578,
       "publishedAt": "2026-09-23T14:45:35.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1567681&episodeid=1735629&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-eq-1567678",
-      "title": "Earthquake in Tonga",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": -14.9369,
-      "lng": -175.1114,
-      "publishedAt": "2026-09-23T14:41:02.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1567678&episodeid=1735624&eventtype=EQ"
     }
   ]
 }
