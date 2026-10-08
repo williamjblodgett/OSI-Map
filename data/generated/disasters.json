@@ -1,14 +1,114 @@
 {
   "schemaVersion": 1,
   "dataset": "disasters",
-  "generatedAt": "2026-10-08T06:12:04.329Z",
-  "dataAsOf": "2026-10-08T06:12:04.329Z",
+  "generatedAt": "2026-10-08T13:37:20.561Z",
+  "dataAsOf": "2026-10-08T13:37:20.561Z",
   "status": "ok",
   "source": {
     "name": "Global Disaster Alert and Coordination System (GDACS)",
     "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ;TC;FL;VO;DR;WF&fromdate=2026-10-01&todate=2026-10-08&alertlevel=red;orange;green"
   },
   "items": [
+    {
+      "id": "gdacs-vo-1000151",
+      "title": "Eruption  Taal",
+      "category": "VO",
+      "alertLevel": "orange",
+      "lat": 14.0106,
+      "lng": 120.9975,
+      "publishedAt": "2026-10-08T10:29:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1000151&episodeid=1&eventtype=VO"
+    },
+    {
+      "id": "gdacs-eq-1570086",
+      "title": "Earthquake in Fiji",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -18.0147,
+      "lng": -178.4545,
+      "publishedAt": "2026-10-08T10:07:28.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1570086&episodeid=1738395&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1570077",
+      "title": "Earthquake in Vanuatu",
+      "category": "EQ",
+      "alertLevel": "orange",
+      "lat": -15.5411,
+      "lng": 168.1889,
+      "publishedAt": "2026-10-08T09:00:07.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1570077&episodeid=1738390&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-tc-1001335",
+      "title": "Tropical Cyclone SIMON-26",
+      "category": "TC",
+      "alertLevel": "red",
+      "lat": 15.4,
+      "lng": -103.1,
+      "publishedAt": "2026-10-07T15:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001335&episodeid=4&eventtype=TC"
+    },
+    {
+      "id": "gdacs-tc-1001329",
+      "title": "Tropical Cyclone RACHEL-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 21.8,
+      "lng": -123.9,
+      "publishedAt": "2026-09-27T09:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001329&episodeid=45&eventtype=TC"
+    },
+    {
+      "id": "gdacs-tc-1001334",
+      "title": "Tropical Cyclone ISAIAS-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 23.3,
+      "lng": -91.2,
+      "publishedAt": "2026-10-06T21:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001334&episodeid=7&eventtype=TC"
+    },
+    {
+      "id": "gdacs-eq-1570075",
+      "title": "Earthquake in Philippines",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": 5.6006,
+      "lng": 125.1521,
+      "publishedAt": "2026-10-08T08:07:59.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1570075&episodeid=1738382&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1570073",
+      "title": "Earthquake in Indonesia",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": 5.4545,
+      "lng": 94.7814,
+      "publishedAt": "2026-10-08T07:45:12.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1570073&episodeid=1738379&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1570064",
+      "title": "Earthquake in West Of Macquarie Island",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -52.5475,
+      "lng": 140.2121,
+      "publishedAt": "2026-10-08T06:46:47.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1570064&episodeid=1738371&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-tc-1001333",
+      "title": "Tropical Cyclone KOGUMA-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 17.5,
+      "lng": 160.1,
+      "publishedAt": "2026-10-05T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001333&episodeid=14&eventtype=TC"
+    },
     {
       "id": "gdacs-eq-1570052",
       "title": "Earthquake in Chile",
@@ -60,36 +160,6 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1570033&episodeid=1738332&eventtype=EQ"
     },
     {
-      "id": "gdacs-tc-1001335",
-      "title": "Tropical Cyclone SIMON-26",
-      "category": "TC",
-      "alertLevel": "orange",
-      "lat": 15.6,
-      "lng": -102.5,
-      "publishedAt": "2026-10-07T15:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001335&episodeid=3&eventtype=TC"
-    },
-    {
-      "id": "gdacs-tc-1001329",
-      "title": "Tropical Cyclone RACHEL-26",
-      "category": "TC",
-      "alertLevel": "green",
-      "lat": 21.4,
-      "lng": -122.9,
-      "publishedAt": "2026-09-27T09:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001329&episodeid=44&eventtype=TC"
-    },
-    {
-      "id": "gdacs-tc-1001334",
-      "title": "Tropical Cyclone ISAIAS-26",
-      "category": "TC",
-      "alertLevel": "green",
-      "lat": 22.9,
-      "lng": -91.9,
-      "publishedAt": "2026-10-06T21:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001334&episodeid=6&eventtype=TC"
-    },
-    {
       "id": "gdacs-fl-1104202",
       "title": "Flood in France",
       "category": "FL",
@@ -110,14 +180,584 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1104199&episodeid=13&eventtype=FL"
     },
     {
-      "id": "gdacs-tc-1001333",
-      "title": "Tropical Cyclone KOGUMA-26",
-      "category": "TC",
+      "id": "gdacs-wf-1032502",
+      "title": "Forest fires in Indonesia",
+      "category": "WF",
       "alertLevel": "green",
-      "lat": 16.9,
-      "lng": 161.2,
+      "lat": -6.7843,
+      "lng": 140.2348,
+      "publishedAt": "2026-09-25T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032502&episodeid=20&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032497",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -17.0713,
+      "lng": 134.987,
+      "publishedAt": "2026-09-28T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032497&episodeid=23&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032498",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -15.5859,
+      "lng": 144.5813,
+      "publishedAt": "2026-09-28T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032498&episodeid=25&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032481",
+      "title": "Forest fires in Indonesia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -6.5521,
+      "lng": 139.4598,
+      "publishedAt": "2026-09-23T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032481&episodeid=16&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032507",
+      "title": "Forest fires in Brazil",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": 1.7998,
+      "lng": -55.6055,
+      "publishedAt": "2026-09-28T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032507&episodeid=28&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032508",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -15.258,
+      "lng": 133.7765,
+      "publishedAt": "2026-09-28T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032508&episodeid=23&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032517",
+      "title": "Forest fires in Brazil",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -4.2789,
+      "lng": -50.7775,
+      "publishedAt": "2026-09-30T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032517&episodeid=15&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032518",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -16.0597,
+      "lng": 134.2636,
+      "publishedAt": "2026-09-27T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032518&episodeid=22&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032524",
+      "title": "Forest fires in Brazil",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -11.2151,
+      "lng": -45.1902,
+      "publishedAt": "2026-09-27T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032524&episodeid=11&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032525",
+      "title": "Forest fires in Brazil",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -9.8225,
+      "lng": -44.8184,
+      "publishedAt": "2026-09-26T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032525&episodeid=14&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032526",
+      "title": "Forest fires in Indonesia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.8226,
+      "lng": 140.59,
+      "publishedAt": "2026-09-23T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032526&episodeid=17&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032528",
+      "title": "Forest fires in Indonesia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.6491,
+      "lng": 140.6408,
+      "publishedAt": "2026-09-23T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032528&episodeid=15&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032564",
+      "title": "Forest fires in Angola",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -8.5973,
+      "lng": 14.1702,
+      "publishedAt": "2026-09-30T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032564&episodeid=4&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032565",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -13.1291,
+      "lng": 131.9093,
+      "publishedAt": "2026-10-03T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032565&episodeid=8&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032556",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -15.0027,
+      "lng": 133.9347,
+      "publishedAt": "2026-10-02T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032556&episodeid=11&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032559",
+      "title": "Forest fires in Papua New Guinea",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -9.8095,
+      "lng": 149.3152,
+      "publishedAt": "2026-09-26T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032559&episodeid=12&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032560",
+      "title": "Forest fires in Indonesia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -8.2218,
+      "lng": 140.7224,
+      "publishedAt": "2026-09-25T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032560&episodeid=10&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032546",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -15.1593,
+      "lng": 134.3069,
+      "publishedAt": "2026-09-29T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032546&episodeid=13&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032547",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -11.0653,
+      "lng": 142.2508,
+      "publishedAt": "2026-09-27T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032547&episodeid=7&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032548",
+      "title": "Forest fires in Papua New Guinea",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -9.0365,
+      "lng": 141.9668,
+      "publishedAt": "2026-09-26T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032548&episodeid=10&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032595",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -16.4759,
+      "lng": 145.092,
+      "publishedAt": "2026-09-26T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032595&episodeid=6&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032596",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -14.731,
+      "lng": 143.8443,
+      "publishedAt": "2026-10-03T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032596&episodeid=4&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032598",
+      "title": "Forest fires in Indonesia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.659,
+      "lng": 126.4965,
+      "publishedAt": "2026-09-29T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032598&episodeid=5&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032601",
+      "title": "Forest fires in Indonesia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.7277,
+      "lng": 140.3677,
+      "publishedAt": "2026-09-25T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032601&episodeid=4&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032591",
+      "title": "Forest fires in Angola",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -16.0128,
+      "lng": 18.1728,
       "publishedAt": "2026-10-05T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001333&episodeid=13&eventtype=TC"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032591&episodeid=3&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032592",
+      "title": "Forest fires in Angola",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -16.4213,
+      "lng": 18.6422,
+      "publishedAt": "2026-10-04T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032592&episodeid=3&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032567",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -15.6487,
+      "lng": 134.5998,
+      "publishedAt": "2026-09-28T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032567&episodeid=5&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032574",
+      "title": "Forest fires in Bolivia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -13.0353,
+      "lng": -63.1284,
+      "publishedAt": "2026-10-02T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032574&episodeid=6&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032575",
+      "title": "Forest fires in Brazil",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -3.1178,
+      "lng": -53.7397,
+      "publishedAt": "2026-09-30T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032575&episodeid=9&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032577",
+      "title": "Forest fires in Indonesia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.0177,
+      "lng": 140.1741,
+      "publishedAt": "2026-09-25T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032577&episodeid=6&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032580",
+      "title": "Forest fires in China",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": 37.2584,
+      "lng": 111.944,
+      "publishedAt": "2026-09-26T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032580&episodeid=5&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032581",
+      "title": "Forest fires in Papua New Guinea",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.613,
+      "lng": 141.6848,
+      "publishedAt": "2026-09-25T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032581&episodeid=5&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032582",
+      "title": "Forest fires in Papua New Guinea",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.6246,
+      "lng": 141.4478,
+      "publishedAt": "2026-09-25T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032582&episodeid=6&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032583",
+      "title": "Forest fires in Indonesia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.433,
+      "lng": 139.1108,
+      "publishedAt": "2026-09-24T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032583&episodeid=6&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032584",
+      "title": "Forest fires in Papua New Guinea, Indonesia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -6.7141,
+      "lng": 140.8757,
+      "publishedAt": "2026-09-24T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032584&episodeid=5&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032631",
+      "title": "Forest fires in Indonesia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -3.1514,
+      "lng": 112.2258,
+      "publishedAt": "2026-10-01T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032631&episodeid=1&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032632",
+      "title": "Forest fires in ",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -13.4408,
+      "lng": 136.149,
+      "publishedAt": "2026-10-04T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032632&episodeid=1&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032633",
+      "title": "Forest fires in Brazil",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -6.2267,
+      "lng": -52.8311,
+      "publishedAt": "2026-10-01T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032633&episodeid=1&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032634",
+      "title": "Forest fires in Brazil",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -3.2841,
+      "lng": -54.0415,
+      "publishedAt": "2026-09-27T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032634&episodeid=1&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032635",
+      "title": "Forest fires in Papua New Guinea",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.3804,
+      "lng": 141.6395,
+      "publishedAt": "2026-09-25T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032635&episodeid=1&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032620",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -16.2266,
+      "lng": 136.7113,
+      "publishedAt": "2026-10-04T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032620&episodeid=2&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032621",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -21.0678,
+      "lng": 132.7396,
+      "publishedAt": "2026-10-04T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032621&episodeid=2&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032622",
+      "title": "Forest fires in Brazil",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -3.5165,
+      "lng": -54.6416,
+      "publishedAt": "2026-10-03T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032622&episodeid=2&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032623",
+      "title": "Forest fires in Brazil",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.8702,
+      "lng": -44.1908,
+      "publishedAt": "2026-10-02T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032623&episodeid=2&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032625",
+      "title": "Forest fires in Brazil",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -3.0344,
+      "lng": -53.9048,
+      "publishedAt": "2026-09-28T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032625&episodeid=2&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032626",
+      "title": "Forest fires in Papua New Guinea",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.9653,
+      "lng": 142.172,
+      "publishedAt": "2026-09-26T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032626&episodeid=2&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032627",
+      "title": "Forest fires in Papua New Guinea",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.2532,
+      "lng": 141.6075,
+      "publishedAt": "2026-09-25T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032627&episodeid=2&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032628",
+      "title": "Forest fires in Papua New Guinea",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.6528,
+      "lng": 141.1472,
+      "publishedAt": "2026-09-25T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032628&episodeid=2&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032629",
+      "title": "Forest fires in Papua New Guinea",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.3312,
+      "lng": 141.2975,
+      "publishedAt": "2026-09-25T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032629&episodeid=2&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032630",
+      "title": "Forest fires in Papua New Guinea",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.8784,
+      "lng": 141.0995,
+      "publishedAt": "2026-09-25T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032630&episodeid=2&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032606",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -16.1171,
+      "lng": 136.7787,
+      "publishedAt": "2026-10-04T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032606&episodeid=3&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032607",
+      "title": "Forest fires in Brazil",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -3.0684,
+      "lng": -54.2542,
+      "publishedAt": "2026-10-03T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032607&episodeid=4&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032608",
+      "title": "Forest fires in Papua New Guinea",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -8.6178,
+      "lng": 141.8073,
+      "publishedAt": "2026-09-29T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032608&episodeid=3&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032609",
+      "title": "Forest fires in Papua New Guinea",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -9.1092,
+      "lng": 141.2178,
+      "publishedAt": "2026-09-27T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032609&episodeid=2&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032611",
+      "title": "Forest fires in Papua New Guinea",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -8.548,
+      "lng": 141.9163,
+      "publishedAt": "2026-09-26T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032611&episodeid=3&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032612",
+      "title": "Forest fires in Indonesia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.4136,
+      "lng": 140.6635,
+      "publishedAt": "2026-09-24T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032612&episodeid=3&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032613",
+      "title": "Forest fires in Indonesia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -7.9469,
+      "lng": 140.6991,
+      "publishedAt": "2026-09-24T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032613&episodeid=3&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032614",
+      "title": "Forest fires in Papua New Guinea",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -9.097,
+      "lng": 141.8107,
+      "publishedAt": "2026-09-23T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032614&episodeid=2&eventtype=WF"
     },
     {
       "id": "gdacs-eq-1569989",
@@ -320,426 +960,6 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1569842&episodeid=1738160&eventtype=EQ"
     },
     {
-      "id": "gdacs-wf-1032615",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -3.0538,
-      "lng": 113.709,
-      "publishedAt": "2026-10-01T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032615&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032616",
-      "title": "Forest fires in Australia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -16.2097,
-      "lng": 134.0673,
-      "publishedAt": "2026-10-07T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032616&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032617",
-      "title": "Forest fires in Australia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -22.4681,
-      "lng": 130.9613,
-      "publishedAt": "2026-10-07T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032617&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032618",
-      "title": "Forest fires in Angola",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -16.5316,
-      "lng": 18.0099,
-      "publishedAt": "2026-10-05T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032618&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032619",
-      "title": "Forest fires in Angola",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -17.4644,
-      "lng": 19.1957,
-      "publishedAt": "2026-10-05T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032619&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032620",
-      "title": "Forest fires in Australia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -16.2279,
-      "lng": 136.7109,
-      "publishedAt": "2026-10-04T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032620&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032621",
-      "title": "Forest fires in Australia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -21.0667,
-      "lng": 132.7375,
-      "publishedAt": "2026-10-04T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032621&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032622",
-      "title": "Forest fires in Brazil",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -3.5131,
-      "lng": -54.6379,
-      "publishedAt": "2026-10-03T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032622&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032623",
-      "title": "Forest fires in Brazil",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.8704,
-      "lng": -44.189,
-      "publishedAt": "2026-10-02T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032623&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032624",
-      "title": "Forest fires in Sudan",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": 7.2476,
-      "lng": 32.7141,
-      "publishedAt": "2026-10-02T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032624&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032625",
-      "title": "Forest fires in Brazil",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -3.0337,
-      "lng": -53.8964,
-      "publishedAt": "2026-09-28T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032625&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032626",
-      "title": "Forest fires in Papua New Guinea",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.9655,
-      "lng": 142.1724,
-      "publishedAt": "2026-09-26T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032626&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032627",
-      "title": "Forest fires in Papua New Guinea",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.2534,
-      "lng": 141.6072,
-      "publishedAt": "2026-09-25T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032627&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032628",
-      "title": "Forest fires in Papua New Guinea",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.6528,
-      "lng": 141.1479,
-      "publishedAt": "2026-09-25T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032628&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032629",
-      "title": "Forest fires in Papua New Guinea",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.3315,
-      "lng": 141.2973,
-      "publishedAt": "2026-09-25T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032629&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032630",
-      "title": "Forest fires in Papua New Guinea",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.8786,
-      "lng": 141.0995,
-      "publishedAt": "2026-09-25T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032630&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032385",
-      "title": "Forest fires in Australia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -18.7283,
-      "lng": 138.4144,
-      "publishedAt": "2026-09-22T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032385&episodeid=32&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032502",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -6.7845,
-      "lng": 140.235,
-      "publishedAt": "2026-09-25T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032502&episodeid=19&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032497",
-      "title": "Forest fires in Australia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -17.0713,
-      "lng": 134.9868,
-      "publishedAt": "2026-09-28T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032497&episodeid=22&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032498",
-      "title": "Forest fires in Australia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -15.5855,
-      "lng": 144.5796,
-      "publishedAt": "2026-09-28T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032498&episodeid=24&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032481",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -6.5522,
-      "lng": 139.4597,
-      "publishedAt": "2026-09-23T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032481&episodeid=15&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032445",
-      "title": "Forest fires in Brazil",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -12.6828,
-      "lng": -47.298,
-      "publishedAt": "2026-09-25T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032445&episodeid=19&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032457",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -6.4403,
-      "lng": 139.5474,
-      "publishedAt": "2026-09-22T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032457&episodeid=12&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032478",
-      "title": "Forest fires in Australia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -16.7219,
-      "lng": 130.0958,
-      "publishedAt": "2026-09-28T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032478&episodeid=24&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032507",
-      "title": "Forest fires in Brazil",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": 1.8033,
-      "lng": -55.6051,
-      "publishedAt": "2026-09-28T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032507&episodeid=27&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032508",
-      "title": "Forest fires in Australia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -15.2581,
-      "lng": 133.7761,
-      "publishedAt": "2026-09-28T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032508&episodeid=22&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032517",
-      "title": "Forest fires in Brazil",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -4.2788,
-      "lng": -50.7775,
-      "publishedAt": "2026-09-30T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032517&episodeid=14&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032518",
-      "title": "Forest fires in Australia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -16.0084,
-      "lng": 134.2962,
-      "publishedAt": "2026-09-27T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032518&episodeid=21&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032520",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.7866,
-      "lng": 139.4012,
-      "publishedAt": "2026-09-24T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032520&episodeid=8&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032521",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -3.0586,
-      "lng": 105.0633,
-      "publishedAt": "2026-09-25T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032521&episodeid=20&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032524",
-      "title": "Forest fires in Brazil",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -11.215,
-      "lng": -45.1895,
-      "publishedAt": "2026-09-27T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032524&episodeid=10&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032525",
-      "title": "Forest fires in Brazil",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -9.8219,
-      "lng": -44.8192,
-      "publishedAt": "2026-09-26T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032525&episodeid=13&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032526",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.8226,
-      "lng": 140.59,
-      "publishedAt": "2026-09-23T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032526&episodeid=16&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032527",
-      "title": "Forest fires in Papua New Guinea, Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -6.5051,
-      "lng": 140.9779,
-      "publishedAt": "2026-09-23T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032527&episodeid=12&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032528",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.6492,
-      "lng": 140.641,
-      "publishedAt": "2026-09-23T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032528&episodeid=14&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032529",
-      "title": "Forest fires in Papua New Guinea",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.9258,
-      "lng": 141.8251,
-      "publishedAt": "2026-09-22T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032529&episodeid=10&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032534",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.0978,
-      "lng": 140.0136,
-      "publishedAt": "2026-09-23T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032534&episodeid=13&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032604",
-      "title": "Forest fires in Angola",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -15.8708,
-      "lng": 14.9172,
-      "publishedAt": "2026-10-05T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032604&episodeid=2&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032600",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -2.7942,
-      "lng": 110.4545,
-      "publishedAt": "2026-09-28T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032600&episodeid=2&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032601",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.7279,
-      "lng": 140.3681,
-      "publishedAt": "2026-09-25T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032601&episodeid=3&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032602",
-      "title": "Forest fires in Papua New Guinea",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.4528,
-      "lng": 141.4172,
-      "publishedAt": "2026-09-22T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032602&episodeid=2&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032603",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -6.7368,
-      "lng": 139.4289,
-      "publishedAt": "2026-09-22T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032603&episodeid=2&eventtype=WF"
-    },
-    {
       "id": "gdacs-wf-1032605",
       "title": "Forest fires in Australia",
       "category": "WF",
@@ -750,44 +970,14 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1032605&episodeid=1&eventtype=WF"
     },
     {
-      "id": "gdacs-wf-1032606",
-      "title": "Forest fires in Australia",
+      "id": "gdacs-wf-1032615",
+      "title": "Forest fires in Indonesia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -16.1139,
-      "lng": 136.7785,
-      "publishedAt": "2026-10-04T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032606&episodeid=2&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032607",
-      "title": "Forest fires in Brazil",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -3.0681,
-      "lng": -54.2535,
-      "publishedAt": "2026-10-03T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032607&episodeid=3&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032608",
-      "title": "Forest fires in Papua New Guinea",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -8.6121,
-      "lng": 141.8116,
-      "publishedAt": "2026-09-29T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032608&episodeid=2&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032609",
-      "title": "Forest fires in Papua New Guinea",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -9.1092,
-      "lng": 141.2178,
-      "publishedAt": "2026-09-27T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032609&episodeid=1&eventtype=WF"
+      "lat": -3.0538,
+      "lng": 113.709,
+      "publishedAt": "2026-10-01T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032615&episodeid=1&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032610",
@@ -800,214 +990,24 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1032610&episodeid=1&eventtype=WF"
     },
     {
-      "id": "gdacs-wf-1032611",
-      "title": "Forest fires in Papua New Guinea",
+      "id": "gdacs-wf-1032624",
+      "title": "Forest fires in Sudan",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -8.5473,
-      "lng": 141.9152,
-      "publishedAt": "2026-09-26T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032611&episodeid=2&eventtype=WF"
+      "lat": 7.2476,
+      "lng": 32.7141,
+      "publishedAt": "2026-10-02T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032624&episodeid=1&eventtype=WF"
     },
     {
-      "id": "gdacs-wf-1032612",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.4135,
-      "lng": 140.6635,
-      "publishedAt": "2026-09-24T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032612&episodeid=2&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032613",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.9471,
-      "lng": 140.6998,
-      "publishedAt": "2026-09-24T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032613&episodeid=2&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032614",
-      "title": "Forest fires in Papua New Guinea",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -9.0982,
-      "lng": 141.8109,
-      "publishedAt": "2026-09-23T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032614&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032594",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -2.6557,
-      "lng": 105.5637,
-      "publishedAt": "2026-09-28T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032594&episodeid=5&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032595",
+      "id": "gdacs-wf-1032616",
       "title": "Forest fires in Australia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -16.476,
-      "lng": 145.093,
-      "publishedAt": "2026-09-26T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032595&episodeid=4&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032596",
-      "title": "Forest fires in Australia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -14.73,
-      "lng": 143.8437,
-      "publishedAt": "2026-10-03T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032596&episodeid=3&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032597",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -6.3647,
-      "lng": 139.5627,
-      "publishedAt": "2026-10-02T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032597&episodeid=3&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032598",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.6595,
-      "lng": 126.4966,
-      "publishedAt": "2026-09-29T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032598&episodeid=4&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032591",
-      "title": "Forest fires in Angola",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -16.0126,
-      "lng": 18.1729,
-      "publishedAt": "2026-10-05T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032591&episodeid=2&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032592",
-      "title": "Forest fires in Angola",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -16.4218,
-      "lng": 18.6434,
-      "publishedAt": "2026-10-04T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032592&episodeid=2&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032572",
-      "title": "Forest fires in Brazil",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -2.8026,
-      "lng": -54.1161,
-      "publishedAt": "2026-10-03T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032572&episodeid=8&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032573",
-      "title": "Forest fires in Brazil",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": 1.901,
-      "lng": -55.7666,
-      "publishedAt": "2026-10-02T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032573&episodeid=6&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032574",
-      "title": "Forest fires in Bolivia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -13.0392,
-      "lng": -63.1277,
-      "publishedAt": "2026-10-02T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032574&episodeid=5&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032575",
-      "title": "Forest fires in Brazil",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -3.1179,
-      "lng": -53.7371,
-      "publishedAt": "2026-09-30T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032575&episodeid=8&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032577",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.0175,
-      "lng": 140.1743,
-      "publishedAt": "2026-09-25T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032577&episodeid=5&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032578",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -3.6107,
-      "lng": 105.7693,
-      "publishedAt": "2026-09-29T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032578&episodeid=5&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032579",
-      "title": "Forest fires in Indonesia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -2.8787,
-      "lng": 110.7198,
-      "publishedAt": "2026-09-28T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032579&episodeid=4&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032580",
-      "title": "Forest fires in China",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": 37.2589,
-      "lng": 111.9437,
-      "publishedAt": "2026-09-26T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032580&episodeid=4&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032581",
-      "title": "Forest fires in Papua New Guinea",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.6118,
-      "lng": 141.6837,
-      "publishedAt": "2026-09-25T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032581&episodeid=4&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032582",
-      "title": "Forest fires in Papua New Guinea",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -7.6244,
-      "lng": 141.448,
-      "publishedAt": "2026-09-25T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032582&episodeid=5&eventtype=WF"
+      "lat": -16.2097,
+      "lng": 134.0673,
+      "publishedAt": "2026-10-07T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032616&episodeid=1&eventtype=WF"
     }
   ]
 }
