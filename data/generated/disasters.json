@@ -1,14 +1,124 @@
 {
   "schemaVersion": 1,
   "dataset": "disasters",
-  "generatedAt": "2026-10-19T13:27:10.436Z",
-  "dataAsOf": "2026-10-19T13:27:10.436Z",
+  "generatedAt": "2026-10-19T22:24:35.966Z",
+  "dataAsOf": "2026-10-19T22:24:35.966Z",
   "status": "ok",
   "source": {
     "name": "Global Disaster Alert and Coordination System (GDACS)",
     "url": "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=EQ;TC;FL;VO;DR;WF&fromdate=2026-10-12&todate=2026-10-19&alertlevel=red;orange;green"
   },
   "items": [
+    {
+      "id": "gdacs-tc-1001337",
+      "title": "Tropical Cyclone TRUDY-26",
+      "category": "TC",
+      "alertLevel": "green",
+      "lat": 19.3,
+      "lng": -107.9,
+      "publishedAt": "2026-10-13T15:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001337&episodeid=26&eventtype=TC"
+    },
+    {
+      "id": "gdacs-eq-1572622",
+      "title": "Earthquake in Vanuatu Islands",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -14.0266,
+      "lng": 165.4974,
+      "publishedAt": "2026-10-19T18:55:37.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1572622&episodeid=1741236&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1572618",
+      "title": "Earthquake in Vanuatu Islands",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -14.0371,
+      "lng": 165.5508,
+      "publishedAt": "2026-10-19T18:52:36.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1572618&episodeid=1741234&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1572616",
+      "title": "Earthquake in Tonga",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -15.6727,
+      "lng": -174.5697,
+      "publishedAt": "2026-10-19T18:27:46.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1572616&episodeid=1741228&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-tc-1001338",
+      "title": "Tropical Cyclone CHAMPI-26",
+      "category": "TC",
+      "alertLevel": "red",
+      "lat": 15.4,
+      "lng": 136.7,
+      "publishedAt": "2026-10-14T12:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1001338&episodeid=22&eventtype=TC"
+    },
+    {
+      "id": "gdacs-eq-1572612",
+      "title": "Earthquake in South Sandwich Islands Region",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -56.3542,
+      "lng": -27.0851,
+      "publishedAt": "2026-10-19T17:45:50.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1572612&episodeid=1741224&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1572598",
+      "title": "Earthquake in Rat Islands, Aleutian Islands",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": 51.354,
+      "lng": 178.218,
+      "publishedAt": "2026-10-19T16:27:44.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1572598&episodeid=1741206&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1572590",
+      "title": "Earthquake in South Of Fiji Islands",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": -23.5497,
+      "lng": 179.8713,
+      "publishedAt": "2026-10-19T16:13:53.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1572590&episodeid=1741198&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1572579",
+      "title": "Earthquake in Tajikistan",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": 37.838,
+      "lng": 73.1842,
+      "publishedAt": "2026-10-19T15:35:36.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1572579&episodeid=1741186&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1572582",
+      "title": "Earthquake in Guatemala",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": 14.4536,
+      "lng": -91.373,
+      "publishedAt": "2026-10-19T14:47:45.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1572582&episodeid=1741189&eventtype=EQ"
+    },
+    {
+      "id": "gdacs-eq-1572569",
+      "title": "Earthquake in Iceland",
+      "category": "EQ",
+      "alertLevel": "green",
+      "lat": 64.5774,
+      "lng": -17.5136,
+      "publishedAt": "2026-10-19T14:44:24.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1572569&episodeid=1741177&eventtype=EQ"
+    },
     {
       "id": "gdacs-eq-1572542",
       "title": "Earthquake in Indonesia",
@@ -88,16 +198,6 @@
       "lng": 126.7168,
       "publishedAt": "2026-10-19T09:00:39.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1572520&episodeid=1741125&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-tc-1001337",
-      "title": "Tropical Cyclone TRUDY-26",
-      "category": "TC",
-      "alertLevel": "green",
-      "lat": 19.7,
-      "lng": -108,
-      "publishedAt": "2026-10-13T15:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001337&episodeid=24&eventtype=TC"
     },
     {
       "id": "gdacs-eq-1572527",
@@ -200,16 +300,6 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1001339&episodeid=7&eventtype=TC"
     },
     {
-      "id": "gdacs-tc-1001338",
-      "title": "Tropical Cyclone CHAMPI-26",
-      "category": "TC",
-      "alertLevel": "red",
-      "lat": 14.3,
-      "lng": 138.4,
-      "publishedAt": "2026-10-14T12:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1001338&episodeid=20&eventtype=TC"
-    },
-    {
       "id": "gdacs-eq-1572487",
       "title": "Earthquake in Nicaragua",
       "category": "EQ",
@@ -234,20 +324,20 @@
       "title": "Forest fires in Australia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -16.3058,
-      "lng": 129.3952,
+      "lat": -16.3057,
+      "lng": 129.3958,
       "publishedAt": "2026-10-17T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032891&episodeid=3&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032891&episodeid=4&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032892",
       "title": "Forest fires in Australia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -16.4816,
-      "lng": 125.153,
+      "lat": -16.4821,
+      "lng": 125.1517,
       "publishedAt": "2026-10-17T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032892&episodeid=4&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032892&episodeid=5&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032915",
@@ -258,6 +348,16 @@
       "lng": 142.5751,
       "publishedAt": "2026-10-17T00:00:00.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1032915&episodeid=1&eventtype=WF"
+    },
+    {
+      "id": "gdacs-wf-1032925",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -17.7101,
+      "lng": 131.3626,
+      "publishedAt": "2026-10-17T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032925&episodeid=1&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032914",
@@ -275,9 +375,9 @@
       "category": "WF",
       "alertLevel": "green",
       "lat": -17.9572,
-      "lng": 128.8608,
+      "lng": 128.8607,
       "publishedAt": "2026-10-18T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032908&episodeid=2&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032908&episodeid=3&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032851",
@@ -285,9 +385,9 @@
       "category": "WF",
       "alertLevel": "green",
       "lat": -19.4068,
-      "lng": 134.6245,
+      "lng": 134.6246,
       "publishedAt": "2026-10-14T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032851&episodeid=9&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032851&episodeid=10&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032858",
@@ -334,10 +434,10 @@
       "title": "Forest fires in Australia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -17.589,
-      "lng": 133.1448,
+      "lat": -17.5891,
+      "lng": 133.1459,
       "publishedAt": "2026-10-14T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032919&episodeid=1&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032919&episodeid=2&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032920",
@@ -347,7 +447,7 @@
       "lat": -17.0471,
       "lng": 133.6407,
       "publishedAt": "2026-10-14T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032920&episodeid=1&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032920&episodeid=2&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032857",
@@ -404,10 +504,10 @@
       "title": "Forest fires in Australia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -15.8891,
-      "lng": 135.1699,
+      "lat": -15.8889,
+      "lng": 135.17,
       "publishedAt": "2026-10-16T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032862&episodeid=8&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032862&episodeid=9&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032865",
@@ -460,6 +560,16 @@
       "url": "https://www.gdacs.org/report.aspx?eventid=1032916&episodeid=1&eventtype=WF"
     },
     {
+      "id": "gdacs-wf-1032926",
+      "title": "Forest fires in Australia",
+      "category": "WF",
+      "alertLevel": "green",
+      "lat": -17.2217,
+      "lng": 131.8003,
+      "publishedAt": "2026-10-16T00:00:00.000Z",
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032926&episodeid=1&eventtype=WF"
+    },
+    {
       "id": "gdacs-wf-1032664",
       "title": "Forest fires in Australia",
       "category": "WF",
@@ -495,19 +605,19 @@
       "category": "WF",
       "alertLevel": "green",
       "lat": -1.7069,
-      "lng": 104.3574,
+      "lng": 104.3575,
       "publishedAt": "2026-10-04T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032747&episodeid=20&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032747&episodeid=21&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032819",
-      "title": "Forest fires in Nigeria",
+      "title": "Forest fires in Nigeria, Cameroon",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 12.7871,
+      "lat": 12.7872,
       "lng": 13.9133,
       "publishedAt": "2026-10-04T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032819&episodeid=12&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032819&episodeid=13&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032889",
@@ -524,14 +634,14 @@
       "title": "Forest fires in Mozambique",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -16.3839,
-      "lng": 36.4825,
+      "lat": -16.3837,
+      "lng": 36.4824,
       "publishedAt": "2026-10-05T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032672&episodeid=16&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032672&episodeid=17&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032828",
-      "title": "Forest fires in Papua New Guinea",
+      "title": "Forest fires in Papua New Guinea, Australia",
       "category": "WF",
       "alertLevel": "green",
       "lat": -8.9783,
@@ -564,10 +674,10 @@
       "title": "Forest fires in Peru",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -13.6207,
-      "lng": -72.469,
+      "lat": -13.6214,
+      "lng": -72.4686,
       "publishedAt": "2026-10-06T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032724&episodeid=24&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032724&episodeid=25&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032743",
@@ -611,13 +721,13 @@
     },
     {
       "id": "gdacs-wf-1032906",
-      "title": "Forest fires in Nigeria",
+      "title": "Forest fires in Chad, Nigeria, Cameroon",
       "category": "WF",
       "alertLevel": "green",
-      "lat": 12.948,
-      "lng": 13.8955,
+      "lat": 12.9481,
+      "lng": 13.8968,
       "publishedAt": "2026-10-07T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032906&episodeid=4&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032906&episodeid=5&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032653",
@@ -694,10 +804,10 @@
       "title": "Forest fires in Australia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -22.6118,
-      "lng": 129.2091,
+      "lat": -22.6121,
+      "lng": 129.2089,
       "publishedAt": "2026-10-10T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032848&episodeid=10&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032848&episodeid=11&eventtype=WF"
     },
     {
       "id": "gdacs-wf-1032853",
@@ -721,7 +831,7 @@
     },
     {
       "id": "gdacs-wf-1032897",
-      "title": "Forest fires in Botswana",
+      "title": "Forest fires in Botswana, Zimbabwe",
       "category": "WF",
       "alertLevel": "green",
       "lat": -19.8898,
@@ -731,7 +841,7 @@
     },
     {
       "id": "gdacs-wf-1032785",
-      "title": "Forest fires in Botswana",
+      "title": "Forest fires in Botswana, Zimbabwe",
       "category": "WF",
       "alertLevel": "green",
       "lat": -18.2398,
@@ -854,10 +964,10 @@
       "title": "Forest fires in Indonesia",
       "category": "WF",
       "alertLevel": "green",
-      "lat": -7.9636,
-      "lng": 113.5887,
+      "lat": -7.9637,
+      "lng": 113.5889,
       "publishedAt": "2026-10-13T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032922&episodeid=1&eventtype=WF"
+      "url": "https://www.gdacs.org/report.aspx?eventid=1032922&episodeid=2&eventtype=WF"
     },
     {
       "id": "gdacs-eq-1572434",
@@ -898,116 +1008,6 @@
       "lng": -174.2956,
       "publishedAt": "2026-10-18T19:32:28.000Z",
       "url": "https://www.gdacs.org/report.aspx?eventid=1572408&episodeid=1740989&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-eq-1572386",
-      "title": "Earthquake in Panama",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": 7.7244,
-      "lng": -81.3297,
-      "publishedAt": "2026-10-18T16:12:55.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1572386&episodeid=1740976&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-eq-1572380",
-      "title": "Earthquake in Saint Kitts and Nevis",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": 17.2531,
-      "lng": -63.0065,
-      "publishedAt": "2026-10-18T15:35:47.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1572380&episodeid=1740959&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-eq-1572388",
-      "title": "Earthquake in Carlsberg Ridge",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": 1.452,
-      "lng": 66.9867,
-      "publishedAt": "2026-10-18T14:30:07.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1572388&episodeid=1740973&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-eq-1572353",
-      "title": "Earthquake in Kermadec Islands, New Zealand",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": -30.1265,
-      "lng": -177.3838,
-      "publishedAt": "2026-10-18T12:42:22.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1572353&episodeid=1740928&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-eq-1572327",
-      "title": "Earthquake in Indonesia",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": -8.1449,
-      "lng": 120.2734,
-      "publishedAt": "2026-10-18T08:00:06.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1572327&episodeid=1740903&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-fl-1104237",
-      "title": "Flood in Nicaragua",
-      "category": "FL",
-      "alertLevel": "green",
-      "lat": 14.0282,
-      "lng": -83.3806,
-      "publishedAt": "2026-10-16T01:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1104237&episodeid=1&eventtype=FL"
-    },
-    {
-      "id": "gdacs-fl-1104216",
-      "title": "Flood in Brazil",
-      "category": "FL",
-      "alertLevel": "green",
-      "lat": -22.1168,
-      "lng": -43.2087,
-      "publishedAt": "2026-10-01T01:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1104216&episodeid=5&eventtype=FL"
-    },
-    {
-      "id": "gdacs-eq-1572269",
-      "title": "Earthquake in Papua New Guinea",
-      "category": "EQ",
-      "alertLevel": "green",
-      "lat": -6.5103,
-      "lng": 146.0489,
-      "publishedAt": "2026-10-18T00:28:29.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1572269&episodeid=1740843&eventtype=EQ"
-    },
-    {
-      "id": "gdacs-wf-1032909",
-      "title": "Forest fires in Australia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -17.5918,
-      "lng": 133.1519,
-      "publishedAt": "2026-10-17T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032909&episodeid=1&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032870",
-      "title": "Forest fires in Australia",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -17.0635,
-      "lng": 133.6333,
-      "publishedAt": "2026-10-16T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032870&episodeid=4&eventtype=WF"
-    },
-    {
-      "id": "gdacs-wf-1032900",
-      "title": "Forest fires in Mozambique",
-      "category": "WF",
-      "alertLevel": "green",
-      "lat": -22.7185,
-      "lng": 32.5238,
-      "publishedAt": "2026-10-15T00:00:00.000Z",
-      "url": "https://www.gdacs.org/report.aspx?eventid=1032900&episodeid=1&eventtype=WF"
     }
   ]
 }
